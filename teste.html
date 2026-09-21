@@ -1,22 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Carteira de Investimentos</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -27,1470 +19,1416 @@
 :root{
     --bg-main:#000510;
     --bg-card:#0a1629;
-    --blue:#2570e8;
-    --orange:#f28c28;
-    --green:#34c759;
-    --yellow:#ffcc00;
-    --red:#ff3b30;
-    --gray-text:#94a3b8;
-    --border:#1e3050;
-    --editable-bg:#0f2040;
+    --bg-card2:#0d1b30;
+    --border:#183250;
+    --blue:#2196f3;
+    --blue2:#00aaff;
+    --green:#00d084;
+    --yellow:#ffc107;
+    --orange:#ff9800;
+    --red:#ff5252;
+    --purple:#9c6cff;
+    --text:#f4f7fb;
+    --muted:#8da2bb;
 }
 
-html{
+html,body{
+    width:100%;
+    min-height:100%;
     background:var(--bg-main);
-    scroll-behavior:smooth;
+    color:var(--text);
 }
 
 body{
-    background:var(--bg-main);
-    color:#fff;
-    min-height:100vh;
-    width:100%;
     overflow-x:hidden;
 }
 
 .page{
     width:100%;
-    max-width:1500px;
-    margin:0 auto;
-    padding:clamp(10px,2vw,24px);
-}
-
-/* =====================================================
-   TÍTULO
-===================================================== */
-
-.main-title{
-    text-align:center;
-    margin-bottom:clamp(12px,2vw,20px);
-}
-
-.main-title h1{
-    font-size:clamp(21px,4vw,34px);
-    font-weight:900;
-    letter-spacing:1px;
-    line-height:1.15;
-}
-
-.main-title h1 span{
-    color:var(--green);
-}
-
-.main-title p{
-    color:var(--gray-text);
-    font-size:clamp(11px,1.5vw,13px);
-    margin-top:5px;
-}
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status-bar{
-    display:none;
-    text-align:center;
-    padding:9px 12px;
-    margin-bottom:12px;
-    border-radius:8px;
-    font-size:13px;
-}
-
-.status-bar.show{
-    display:block;
-}
-
-.status-bar.success{
-    background:rgba(52,199,89,.2);
-    color:var(--green);
-    border:1px solid var(--green);
-}
-
-.status-bar.error{
-    background:rgba(255,59,48,.2);
-    color:var(--red);
-    border:1px solid var(--red);
-}
-
-/* =====================================================
-   RESUMO
-===================================================== */
-
-.summary-bar{
-    display:grid;
-    grid-template-columns:repeat(5,minmax(0,1fr));
-    gap:10px;
-    margin-bottom:16px;
-}
-
-.sum-card{
-    background:var(--bg-card);
-    border-radius:10px;
+    max-width:1800px;
+    margin:auto;
     padding:12px;
-    min-width:0;
+}
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.header{
     display:flex;
     align-items:center;
-    gap:9px;
-    border:1px solid var(--border);
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:10px;
 }
 
-.sum-card.green{
-    border-color:var(--green);
+.title-area h1{
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:.5px;
 }
 
-.sum-card.blue{
-    border-color:var(--blue);
+.title-area p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:2px;
 }
 
-.sum-card.orange{
-    border-color:var(--orange);
-}
-
-.sum-card.yellow{
-    border-color:var(--yellow);
-}
-
-.sum-icon{
-    font-size:clamp(19px,2.5vw,24px);
-    flex-shrink:0;
-}
-
-.sum-label{
-    font-size:clamp(9px,1vw,11px);
-    color:var(--gray-text);
-    text-transform:uppercase;
+.status{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#79e6ae;
+    font-size:11px;
     white-space:nowrap;
 }
 
-.sum-value{
-    font-size:clamp(13px,1.8vw,18px);
-    font-weight:800;
-    margin-top:2px;
+.status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 8px var(--green);
+}
+
+/* =========================================================
+   RESUMO
+========================================================= */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.summary-card{
+    background:linear-gradient(145deg,var(--bg-card),var(--bg-card2));
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px;
+    min-width:0;
+    position:relative;
+    overflow:hidden;
+}
+
+.summary-card::after{
+    content:"";
+    position:absolute;
+    width:50px;
+    height:50px;
+    right:-20px;
+    bottom:-20px;
+    border-radius:50%;
+    background:rgba(33,150,243,.06);
+}
+
+/* ÍCONE DO RESUMO */
+
+.summary-icon{
+    width:28px;
+    height:28px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    margin-bottom:5px;
+    background:#102944;
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.summary-card:nth-child(1) .summary-icon{
+    background:rgba(0,170,255,.12);
+}
+
+.summary-card:nth-child(2) .summary-icon{
+    background:rgba(0,208,132,.12);
+}
+
+.summary-card:nth-child(3) .summary-icon{
+    background:rgba(255,193,7,.12);
+}
+
+.summary-card:nth-child(4) .summary-icon{
+    background:rgba(255,152,0,.12);
+}
+
+.summary-card:nth-child(5) .summary-icon{
+    background:rgba(156,108,255,.12);
+}
+
+.summary-label{
+    color:var(--muted);
+    font-size:10px;
+    text-transform:uppercase;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
 
-/* =====================================================
-   TABELAS
-===================================================== */
-
-.tables-wrap{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:14px;
-    margin-bottom:18px;
-}
-
-.table-block{
-    background:var(--bg-card);
-    border-radius:12px;
-    overflow:hidden;
-    border:1px solid var(--border);
-    min-width:0;
-}
-
-.table-head{
-    padding:12px 10px;
-    font-size:clamp(16px,2vw,22px);
-    font-weight:900;
-    text-align:center;
-}
-
-.table-head.blue{
-    background:var(--blue);
-}
-
-.table-head.orange{
-    background:var(--orange);
-}
-
-.table-actions{
-    display:flex;
-    justify-content:center;
-    padding:9px;
-    background:#081225;
-    border-bottom:1px solid var(--border);
-}
-
-.add-btn{
-    border:none;
-    border-radius:6px;
-    padding:8px 14px;
-    min-height:36px;
-    color:#fff;
+.summary-value{
+    font-size:18px;
     font-weight:800;
-    cursor:pointer;
-    font-size:12px;
-    transition:.2s;
+    margin-top:4px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.add-btn.blue{
-    background:var(--blue);
+.summary-card:nth-child(1) .summary-value{
+    color:var(--blue2);
 }
 
-.add-btn.orange{
-    background:var(--orange);
+.summary-card:nth-child(2) .summary-value{
+    color:var(--green);
 }
 
-.add-btn:hover{
-    opacity:.85;
-    transform:translateY(-1px);
+.summary-card:nth-child(3) .summary-value{
+    color:var(--yellow);
 }
 
-.table-body{
+.summary-card:nth-child(4) .summary-value{
+    color:var(--orange);
+}
+
+.summary-card:nth-child(5) .summary-value{
+    color:var(--purple);
+}
+
+/* =========================================================
+   TABELAS
+========================================================= */
+
+.tables-container{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:8px;
     width:100%;
-    max-height:480px;
-    overflow:auto;
-    -webkit-overflow-scrolling:touch;
+}
+
+.table-card{
+    background:linear-gradient(145deg,#091426,#07101e);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    min-width:0;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.table-card.fii-card .table-title{
+    background:linear-gradient(90deg,#3b2108,#0a1629);
+    border-bottom:1px solid #ff9800;
+}
+
+.table-card.fii-card .table-title strong{
+    color:#ff9800;
+    font-size:13px;
+    font-weight:800;
+}
+
+.table-card.acao-card .table-title{
+    background:linear-gradient(90deg,#082c4d,#0a1629);
+    border-bottom:1px solid #2196f3;
+}
+
+.table-card.acao-card .table-title strong{
+    color:#2196f3;
+    font-size:13px;
+    font-weight:800;
+}
+
+.table-title{
+    padding:8px 10px;
+    background:linear-gradient(90deg,#0d213c,#0a1629);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.table-title span{
+    font-size:10px;
+    color:var(--muted);
+}
+
+.table-wrapper{
+    width:100%;
+    overflow:hidden;
 }
 
 table{
     width:100%;
-    min-width:850px;
     border-collapse:collapse;
+    table-layout:fixed;
+}
+
+thead{
+    background:#081222;
 }
 
 th{
-    position:sticky;
-    top:0;
-    z-index:2;
-    background:#0a1629;
-    color:var(--gray-text);
+    color:#7890aa;
+    font-size:9px;
+    font-weight:600;
+    text-transform:uppercase;
+    padding:6px 5px;
     text-align:left;
-    font-size:11px;
-    padding:8px 5px;
     border-bottom:1px solid var(--border);
-    white-space:nowrap;
 }
 
 td{
-    font-size:clamp(12px,1.3vw,14px);
-    padding:8px 5px;
-    border-bottom:1px solid var(--border);
-    vertical-align:middle;
+    padding:6px 5px;
+    font-size:10px;
+    border-bottom:1px solid rgba(24,50,80,.55);
+    overflow:hidden;
+    text-overflow:ellipsis;
     white-space:nowrap;
 }
 
-tbody tr:hover{
-    background:rgba(37,112,232,.06);
+tbody tr{
+    transition:.15s;
 }
 
-/* =====================================================
-   ATIVO
-===================================================== */
+tbody tr:hover{
+    background:rgba(33,150,243,.06);
+}
+
+tbody tr:last-child td{
+    border-bottom:none;
+}
+
+/* =========================================================
+   ÍCONE DO ATIVO
+========================================================= */
 
 .asset-cell{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:6px;
+    min-width:0;
 }
 
-.asset-badge{
+.asset-icon{
     width:28px;
     height:28px;
-    border-radius:5px;
+    min-width:28px;
+    border-radius:8px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:9px;
+    font-size:8px;
     font-weight:900;
-    flex-shrink:0;
+    color:white;
+    background:linear-gradient(135deg,#1976d2,#00aaff);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+
+.asset-icon.fii{
+    background:linear-gradient(135deg,#f57c00,#ffb300);
+}
+
+.asset-icon.small{
+    font-size:7px;
+}
+
+.asset-info{
+    min-width:0;
 }
 
 .asset-code{
-    font-weight:700;
-    font-size:clamp(12px,1.5vw,15px);
+    font-weight:900;
+    color:#fff;
+    font-size:10px;
 }
 
-/* =====================================================
-   SEGMENTO
-===================================================== */
+.asset-name{
+    color:var(--muted);
+    font-size:7px;
+    margin-top:1px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
 
-.segmento-badge{
+.value{
+    font-weight:700;
+    color:#dce8f7;
+}
+
+.col-ativo{
+    width:19%;
+}
+
+.col-nome{
+    width:20%;
+}
+
+.col-segmento{
+    width:17%;
+}
+
+.col-qtd{
+    width:12%;
+    text-align:right;
+}
+
+.col-pm{
+    width:14%;
+    text-align:right;
+}
+
+.col-total{
+    width:18%;
+    text-align:right;
+}
+
+/* =========================================================
+   BADGE SEGMENTO
+========================================================= */
+
+.segment-badge{
     display:inline-flex;
     align-items:center;
-    padding:4px 7px;
-    border-radius:5px;
-    background:#10233f;
-    border:1px solid #24456f;
-    color:#cbd5e1;
-    font-size:10px;
-    font-weight:700;
+    gap:4px;
+    max-width:100%;
+    padding:3px 6px;
+    border-radius:20px;
+    background:#0d2139;
+    border:1px solid #1b3858;
+    color:#b9c9da;
+    font-size:8px;
+    overflow:hidden;
+    text-overflow:ellipsis;
     white-space:nowrap;
 }
 
-/* =====================================================
-   QUANTIDADE
-===================================================== */
-
-.qtd-wrap{
-    display:flex;
-    align-items:center;
-    gap:4px;
+.segment-icon{
+    font-size:9px;
 }
 
-.qtd-input{
-    width:55px;
-    min-height:30px;
-    padding:4px;
-    background:var(--editable-bg);
-    border:1px solid var(--blue);
-    border-radius:4px;
-    color:#fff;
-    font-size:13px;
-    font-weight:700;
-    text-align:center;
-    outline:none;
-}
-
-.qtd-input:focus{
-    border-color:var(--green);
-    box-shadow:0 0 0 2px rgba(52,199,89,.3);
-}
-
-.qtd-btn{
-    width:26px;
-    height:26px;
-    background:var(--blue);
-    border:none;
-    border-radius:4px;
-    color:#fff;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-}
-
-.qtd-btn:hover{
-    background:var(--green);
-}
-
-.qtd-btn.minus:hover{
-    background:var(--red);
-}
-
-.save-btn,
-.delete-btn{
-    min-height:28px;
-    padding:4px 8px;
-    border:none;
-    border-radius:4px;
-    color:#fff;
-    font-size:10px;
-    font-weight:700;
-    cursor:pointer;
-}
-
-.save-btn{
-    background:var(--green);
-}
-
-.delete-btn{
-    background:var(--red);
-    margin-left:3px;
-}
-
-.row-total{
-    padding:13px;
-    text-align:right;
-    font-size:clamp(15px,2vw,20px);
-    font-weight:900;
-    border-top:2px solid var(--border);
-}
-
-/* =====================================================
+/* =========================================================
    GRÁFICOS
-===================================================== */
+========================================================= */
 
-.charts-row{
+.charts{
     display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:12px;
-    margin-bottom:16px;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:10px;
 }
 
 .chart-card{
     background:var(--bg-card);
-    border-radius:12px;
-    padding:16px 12px;
     border:1px solid var(--border);
-    text-align:center;
+    border-radius:10px;
+    padding:10px;
     min-width:0;
 }
 
 .chart-title{
     font-size:12px;
-    color:var(--gray-text);
-    margin-bottom:12px;
-    font-weight:600;
-    text-transform:uppercase;
+    font-weight:700;
+    margin-bottom:8px;
 }
 
-.donut-wrap{
-    width:min(120px,35vw);
-    aspect-ratio:1;
-    border-radius:50%;
-    margin:0 auto;
+.donut-area{
     display:flex;
     align-items:center;
     justify-content:center;
-    transition:background .4s ease;
+    gap:15px;
+    min-height:100px;
 }
 
-.donut-inner{
-    width:76%;
-    height:76%;
-    background:var(--bg-card);
+.donut{
+    width:82px;
+    height:82px;
     border-radius:50%;
+    background:conic-gradient(
+        var(--blue) 0deg 180deg,
+        var(--orange) 180deg 360deg
+    );
+    position:relative;
+    flex-shrink:0;
+    box-shadow:0 0 20px rgba(33,150,243,.08);
+}
+
+.donut::after{
+    content:"";
+    position:absolute;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:var(--bg-card);
+    top:16px;
+    left:16px;
+}
+
+.donut-center{
+    position:absolute;
+    z-index:2;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:800;
+}
+
+.legend{
     display:flex;
     flex-direction:column;
+    gap:5px;
+    min-width:0;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:9px;
+    color:var(--muted);
+}
+
+.legend-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    flex-shrink:0;
+}
+
+/* =========================================================
+   TOP POSIÇÕES
+========================================================= */
+
+.position-list{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.position{
+    display:grid;
+    grid-template-columns:52px 1fr 50px;
+    align-items:center;
+    gap:5px;
+}
+
+.position-name{
+    font-size:9px;
+    font-weight:700;
+}
+
+.position-bar{
+    height:6px;
+    background:#10233b;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.position-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--blue),var(--blue2));
+    border-radius:20px;
+}
+
+.position-value{
+    text-align:right;
+    font-size:8px;
+    color:var(--muted);
+}
+
+/* =========================================================
+   SEGMENTOS
+========================================================= */
+
+.sectors{
+    margin-top:10px;
+    background:linear-gradient(145deg,#0a1629,#07111f);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:7px;
+}
+
+.section-title h2{
+    font-size:15px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.sector-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:6px;
+}
+
+.sector{
+    background:linear-gradient(145deg,#0b1a2d,#081322);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:7px;
+    min-width:0;
+    transition:.15s;
+}
+
+.sector:hover{
+    border-color:#2b5683;
+    transform:translateY(-1px);
+}
+
+.sector-top{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    min-width:0;
+}
+
+.sector-icon{
+    width:24px;
+    height:24px;
+    min-width:24px;
+    border-radius:7px;
+    display:flex;
     align-items:center;
     justify-content:center;
+    background:#102944;
+    font-size:12px;
 }
 
-.donut-total{
-    font-weight:900;
-    font-size:13px;
+.sector-info{
+    min-width:0;
 }
 
-.donut-val{
-    font-size:11px;
-    color:#ccc;
-    max-width:90%;
+.sector-name{
+    color:#aabdd1;
+    font-size:8px;
+    white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
 }
 
-.bar-list{
-    width:100%;
-    text-align:left;
-    overflow:hidden;
-}
-
-.bar-item{
-    display:flex;
-    align-items:center;
-    margin:7px 0;
-    min-height:22px;
-    gap:4px;
-}
-
-.bar-name{
-    width:58px;
-    flex-shrink:0;
+.sector-value{
     font-size:11px;
-    font-weight:700;
-}
-
-.bar-track{
-    flex:1;
-    min-width:20px;
-    height:11px;
-    background:#142540;
-    border-radius:3px;
-    overflow:hidden;
-}
-
-.bar-fill{
-    display:block;
-    height:100%;
-    background:var(--blue);
-    border-radius:3px;
-    transition:width .3s ease;
-}
-
-.bar-amt{
-    width:70px;
-    flex-shrink:0;
-    text-align:right;
-    font-size:10px;
-    font-weight:700;
-}
-
-/* =====================================================
-   SETORES
-===================================================== */
-
-.sectors-block{
-    background:var(--bg-card);
-    border-radius:12px;
-    padding:18px 14px;
-    border:1px solid var(--border);
-    margin-bottom:14px;
-}
-
-.sectors-title{
-    text-align:center;
-    font-size:13px;
-    color:var(--gray-text);
-    margin-bottom:15px;
-    font-weight:600;
-    text-transform:uppercase;
-}
-
-.sectors-grid{
-    display:grid;
-    grid-template-columns:repeat(8,minmax(0,1fr));
-    gap:12px 6px;
-    text-align:center;
-}
-
-.sector-icon{
-    font-size:24px;
-    margin-bottom:4px;
-}
-
-.sector-name{
-    font-size:10px;
-    color:#ccc;
-    line-height:1.2;
-}
-
-.sector-pct{
-    font-size:13px;
     font-weight:800;
-    margin-top:3px;
+    margin-top:2px;
+    color:#f1f6fc;
 }
 
-/* =====================================================
+/* =========================================================
    INFORMAÇÕES
-===================================================== */
+========================================================= */
 
-.info-row{
+.info{
     display:grid;
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:10px;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+    margin-top:10px;
 }
 
 .info-card{
-    background:var(--bg-card);
-    border-radius:10px;
-    padding:14px 10px;
     border:1px solid var(--border);
-    text-align:center;
+    background:#07101e;
+    border-radius:8px;
+    padding:7px;
 }
 
-.info-icon{
-    font-size:22px;
-    margin-bottom:6px;
+.info-card strong{
+    font-size:9px;
 }
 
-.info-text{
-    font-size:11px;
-    color:var(--gray-text);
+.info-card p{
+    color:var(--muted);
+    font-size:7px;
     line-height:1.3;
+    margin-top:2px;
 }
 
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal{
-    display:none;
-    position:fixed;
-    z-index:1000;
-    inset:0;
-    background:rgba(0,0,0,.78);
-    align-items:center;
-    justify-content:center;
-    padding:15px;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:min(560px,100%);
-    max-height:90vh;
-    overflow-y:auto;
-    background:var(--bg-card);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:20px;
-    box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-
-.modal-title{
+.footer{
     text-align:center;
-    font-size:22px;
-    font-weight:900;
-    margin-bottom:18px;
+    color:#52677f;
+    font-size:8px;
+    padding:7px 0 2px;
 }
 
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:12px;
-}
-
-.form-group{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-}
-
-.form-group.full{
-    grid-column:span 2;
-}
-
-.form-group label{
-    color:var(--gray-text);
-    font-size:12px;
-    font-weight:700;
-}
-
-.form-group input,
-.form-group select{
-    width:100%;
-    min-height:42px;
-    background:#071225;
-    color:#fff;
-    border:1px solid var(--border);
-    border-radius:6px;
-    padding:10px;
-    outline:none;
-    font-size:14px;
-}
-
-.form-group select{
-    cursor:pointer;
-}
-
-.form-group input:focus,
-.form-group select:focus{
-    border-color:var(--blue);
-}
-
-.form-group select option{
-    background:#071225;
-    color:#fff;
-}
-
-.modal-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:18px;
-}
-
-.modal-buttons button{
-    flex:1;
-    min-height:44px;
-    padding:11px;
-    border:none;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:800;
-}
-
-.btn-confirmar{
-    background:var(--green);
-    color:#fff;
-}
-
-.btn-cancelar{
-    background:#334155;
-    color:#fff;
-}
-
-/* =====================================================
+/* =========================================================
    TABLET
-===================================================== */
+========================================================= */
 
-@media(max-width:1100px){
-
-    .summary-bar{
-        grid-template-columns:repeat(3,minmax(0,1fr));
-    }
-
-    .sectors-grid{
-        grid-template-columns:repeat(4,minmax(0,1fr));
-    }
-
-}
-
-/* =====================================================
-   TABLET PEQUENO
-===================================================== */
-
-@media(max-width:850px){
-
-    .tables-wrap{
-        grid-template-columns:1fr;
-    }
-
-    .charts-row{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .charts-row .chart-card:first-child{
-        grid-column:span 2;
-    }
-
-    .info-row{
-        grid-template-columns:repeat(2,minmax(0,1fr));
-    }
-
-}
-
-/* =====================================================
-   CELULAR
-===================================================== */
-
-@media(max-width:600px){
+@media(max-width:900px){
 
     .page{
-        padding:8px;
+        padding:7px;
     }
 
-    .main-title h1{
-        font-size:22px;
-    }
-
-    .summary-bar{
-        grid-template-columns:1fr 1fr;
-        gap:7px;
-    }
-
-    .sum-card{
-        padding:10px 8px;
-        gap:7px;
-    }
-
-    .sum-icon{
-        font-size:18px;
-    }
-
-    .sum-label{
-        font-size:8px;
-    }
-
-    .sum-value{
-        font-size:13px;
-    }
-
-    .summary-bar>div:last-child{
-        grid-column:span 2;
-    }
-
-    .table-head{
-        font-size:17px;
-    }
-
-    .table-body{
-        max-height:420px;
-    }
-
-    table{
-        min-width:850px;
-    }
-
-    .charts-row{
-        grid-template-columns:1fr;
-    }
-
-    .charts-row .chart-card:first-child{
-        grid-column:auto;
-    }
-
-    .donut-wrap{
-        width:120px;
-    }
-
-    .sectors-grid{
-        grid-template-columns:repeat(4,1fr);
-    }
-
-    .info-row{
-        grid-template-columns:1fr 1fr;
-        gap:7px;
-    }
-
-    .info-card{
-        padding:12px 7px;
-    }
-
-    .modal{
-        padding:10px;
-        align-items:flex-end;
-    }
-
-    .modal-box{
-        max-height:92vh;
-        border-radius:14px 14px 8px 8px;
-        padding:16px;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .form-group.full{
-        grid-column:auto;
-    }
-
-    .modal-title{
+    .title-area h1{
         font-size:20px;
     }
 
+    .summary{
+        gap:5px;
+    }
+
+    .summary-card{
+        padding:7px;
+    }
+
+    .summary-value{
+        font-size:14px;
+    }
+
+    .summary-icon{
+        width:24px;
+        height:24px;
+        font-size:13px;
+    }
+
+    .charts{
+        gap:5px;
+    }
+
+    .sector-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
 }
 
-/* =====================================================
-   CELULAR PEQUENO
-===================================================== */
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media(max-width:600px){
+
+    body{
+        font-size:10px;
+    }
+
+    .page{
+        padding:3px;
+    }
+
+    .header{
+        margin-bottom:4px;
+        gap:5px;
+    }
+
+    .title-area h1{
+        font-size:14px;
+        letter-spacing:.2px;
+    }
+
+    .title-area p{
+        font-size:7px;
+    }
+
+    .status{
+        font-size:7px;
+        gap:3px;
+    }
+
+    .status-dot{
+        width:5px;
+        height:5px;
+    }
+
+    /* RESUMO */
+
+    .summary{
+        grid-template-columns:repeat(5,minmax(0,1fr));
+        gap:2px;
+        margin-bottom:4px;
+    }
+
+    .summary-card{
+        padding:4px 2px;
+        border-radius:5px;
+        text-align:center;
+    }
+
+    .summary-icon{
+        width:18px;
+        height:18px;
+        margin:0 auto 2px;
+        border-radius:5px;
+        font-size:9px;
+    }
+
+    .summary-label{
+        font-size:5px;
+    }
+
+    .summary-value{
+        font-size:8px;
+        margin-top:2px;
+    }
+
+    /* TABELAS */
+
+    .tables-container{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:3px;
+    }
+
+    .table-card{
+        border-radius:5px;
+    }
+
+    .table-title{
+        padding:4px;
+    }
+
+    .table-card.fii-card .table-title strong,
+    .table-card.acao-card .table-title strong{
+        font-size:8px;
+    }
+
+    .table-title span{
+        font-size:6px;
+    }
+
+    th{
+        font-size:5px;
+        padding:3px 2px;
+    }
+
+    td{
+        font-size:6px;
+        padding:3px 2px;
+    }
+
+    .col-nome,
+    .col-segmento{
+        display:none;
+    }
+
+    th.col-nome,
+    th.col-segmento{
+        display:none;
+    }
+
+    .col-ativo{
+        width:42%;
+    }
+
+    .col-qtd{
+        width:20%;
+        text-align:right;
+    }
+
+    .col-pm{
+        width:18%;
+        text-align:right;
+    }
+
+    .col-total{
+        width:20%;
+        text-align:right;
+    }
+
+    .asset-cell{
+        gap:3px;
+    }
+
+    .asset-icon{
+        width:18px;
+        height:18px;
+        min-width:18px;
+        border-radius:5px;
+        font-size:5px;
+    }
+
+    .asset-code{
+        font-size:6px;
+    }
+
+    .asset-name{
+        font-size:4px;
+    }
+
+    /* GRÁFICOS */
+
+    .charts{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:3px;
+        margin-top:4px;
+    }
+
+    .chart-card{
+        padding:4px;
+        border-radius:5px;
+    }
+
+    .chart-title{
+        font-size:7px;
+        margin-bottom:3px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    .donut-area{
+        min-height:55px;
+        gap:4px;
+    }
+
+    .donut{
+        width:48px;
+        height:48px;
+    }
+
+    .donut::after{
+        width:29px;
+        height:29px;
+        top:9.5px;
+        left:9.5px;
+    }
+
+    .donut-center{
+        font-size:6px;
+    }
+
+    .legend{
+        gap:2px;
+    }
+
+    .legend-item{
+        font-size:5px;
+        gap:2px;
+    }
+
+    .legend-dot{
+        width:4px;
+        height:4px;
+    }
+
+    .position-list{
+        gap:2px;
+    }
+
+    .position{
+        grid-template-columns:30px 1fr 27px;
+        gap:2px;
+    }
+
+    .position-name{
+        font-size:5px;
+    }
+
+    .position-bar{
+        height:3px;
+    }
+
+    .position-value{
+        font-size:5px;
+    }
+
+    .position:nth-child(n+6){
+        display:none;
+    }
+
+    /* SEGMENTOS */
+
+    .sectors{
+        margin-top:4px;
+        padding:4px;
+        border-radius:5px;
+    }
+
+    .section-title{
+        margin-bottom:3px;
+    }
+
+    .section-title h2{
+        font-size:8px;
+    }
+
+    .section-title span{
+        font-size:5px;
+    }
+
+    .sector-grid{
+        grid-template-columns:repeat(6,minmax(0,1fr));
+        gap:2px;
+    }
+
+    .sector{
+        padding:3px 2px;
+        border-radius:4px;
+    }
+
+    .sector-top{
+        gap:2px;
+    }
+
+    .sector-icon{
+        width:14px;
+        height:14px;
+        min-width:14px;
+        border-radius:4px;
+        font-size:7px;
+    }
+
+    .sector-name{
+        font-size:4px;
+    }
+
+    .sector-value{
+        font-size:6px;
+        margin-top:1px;
+    }
+
+    .sector:nth-child(n+7){
+        display:none;
+    }
+
+    /* INFORMAÇÕES */
+
+    .info{
+        grid-template-columns:repeat(4,minmax(0,1fr));
+        gap:2px;
+        margin-top:4px;
+    }
+
+    .info-card{
+        padding:3px 2px;
+        border-radius:4px;
+    }
+
+    .info-card strong{
+        font-size:5px;
+    }
+
+    .info-card p{
+        font-size:4px;
+        line-height:1.15;
+    }
+
+    .footer{
+        font-size:5px;
+        padding:3px 0 1px;
+    }
+}
+
+/* =========================================================
+   CELULARES MUITO PEQUENOS
+========================================================= */
 
 @media(max-width:380px){
 
-    .main-title h1{
-        font-size:19px;
-    }
-
-    .summary-bar{
-        grid-template-columns:1fr;
-    }
-
-    .summary-bar>div:last-child{
-        grid-column:auto;
-    }
-
-    .sectors-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .info-row{
-        grid-template-columns:1fr;
-    }
-
-    .modal-buttons{
-        flex-direction:column;
-    }
-
-}
-
-/* =====================================================
-   TELAS GRANDES
-===================================================== */
-
-@media(min-width:1800px){
-
     .page{
-        max-width:1700px;
+        padding:2px;
     }
 
-    .table-body{
-        max-height:560px;
+    .title-area h1{
+        font-size:12px;
     }
 
+    .summary-value{
+        font-size:7px;
+    }
+
+    .summary-icon{
+        width:16px;
+        height:16px;
+        font-size:8px;
+    }
+
+    td{
+        font-size:5.5px;
+    }
+
+    .asset-name{
+        display:none;
+    }
+
+    .asset-icon{
+        width:16px;
+        height:16px;
+        min-width:16px;
+        font-size:4px;
+    }
+
+    .charts{
+        margin-top:3px;
+    }
+
+    .donut{
+        width:42px;
+        height:42px;
+    }
+
+    .donut::after{
+        width:25px;
+        height:25px;
+        top:8.5px;
+        left:8.5px;
+    }
 }
-
 </style>
-
 </head>
 
 <body>
 
 <div class="page">
 
-<div class="main-title">
+<header class="header">
+
+    <div class="title-area">
+        <h1>CARTEIRA DE INVESTIMENTOS</h1>
+        <p id="dataAtualizacao">Carregando dados...</p>
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        <span>SUPABASE ONLINE</span>
+    </div>
+
+</header>
+
+<!-- RESUMO -->
+<section class="summary">
+
+    <div class="summary-card">
+        <div class="summary-icon">💰</div>
+        <div class="summary-label">Patrimônio</div>
+        <div class="summary-value" id="totalPatrimonio">
+            R$ 0,00
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-icon">📊</div>
+        <div class="summary-label">Ativos</div>
+        <div class="summary-value" id="totalAtivos">
+            0
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-icon">📈</div>
+        <div class="summary-label">Ações</div>
+        <div class="summary-value" id="totalAcoes">
+            0
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-icon">🏢</div>
+        <div class="summary-label">FIIs</div>
+        <div class="summary-value" id="totalFiis">
+            0
+        </div>
+    </div>
 
-<h1>
-CARTEIRA DE <span>INVESTIMENTOS</span>
-</h1>
+    <div class="summary-card">
+        <div class="summary-icon">🏆</div>
+        <div class="summary-label">Maior posição</div>
+        <div class="summary-value" id="maiorPosicao">
+            -
+        </div>
+    </div>
 
-<p id="data-atualizacao">
-CONECTANDO AO SUPABASE...
-</p>
+</section>
+
+<!-- FIIs + AÇÕES -->
+<section class="tables-container">
 
-</div>
+    <!-- PRIMEIRA TABELA: FIIs -->
+    <div class="table-card fii-card">
 
-<div id="status-bar" class="status-bar"></div>
+        <div class="table-title">
+            <strong>🏢 FIIs</strong>
+            <span id="contadorFiis">0 ativos</span>
+        </div>
 
-<!-- =====================================================
-     RESUMO
-===================================================== -->
+        <div class="table-wrapper">
 
-<div class="summary-bar">
+            <table>
 
-<div class="sum-card green">
+                <thead>
+                    <tr>
+                        <th class="col-ativo">Ativo</th>
+                        <th class="col-nome">Gestora</th>
+                        <th class="col-segmento">Segmento</th>
+                        <th class="col-qtd">Qtd.</th>
+                        <th class="col-pm">P. Médio</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
 
-<span class="sum-icon">💲</span>
+                <tbody id="tabelaFiis">
 
-<div>
+                    <tr>
+                        <td colspan="6" class="empty">
+                            Carregando...
+                        </td>
+                    </tr>
 
-<div class="sum-label">
-Total Investido
-</div>
+                </tbody>
 
-<div class="sum-value" id="total-investido">
-R$ 0,00
-</div>
+            </table>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<div class="sum-card blue">
+    <!-- SEGUNDA TABELA: AÇÕES -->
+    <div class="table-card acao-card">
 
-<span class="sum-icon">📊</span>
+        <div class="table-title">
+            <strong>📈 AÇÕES</strong>
+            <span id="contadorAcoes">0 ativos</span>
+        </div>
 
-<div>
+        <div class="table-wrapper">
 
-<div class="sum-label">
-Total de Ativos
-</div>
+            <table>
 
-<div class="sum-value" id="total-ativos">
-0
-</div>
+                <thead>
+                    <tr>
+                        <th class="col-ativo">Ativo</th>
+                        <th class="col-nome">Empresa</th>
+                        <th class="col-segmento">Segmento</th>
+                        <th class="col-qtd">Qtd.</th>
+                        <th class="col-pm">P. Médio</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
 
-</div>
+                <tbody id="tabelaAcoes">
 
-</div>
+                    <tr>
+                        <td colspan="6" class="empty">
+                            Carregando...
+                        </td>
+                    </tr>
 
-<div class="sum-card blue">
+                </tbody>
 
-<span class="sum-icon">📈</span>
+            </table>
 
-<div>
+        </div>
 
-<div class="sum-label">
-Ações
-</div>
+    </div>
 
-<div class="sum-value" id="qtd-acoes">
-0
-</div>
+</section>
 
-</div>
+<!-- GRÁFICOS -->
+<section class="charts">
 
-</div>
+    <div class="chart-card">
 
-<div class="sum-card orange">
+        <div class="chart-title">
+            Patrimônio por classe
+        </div>
 
-<span class="sum-icon">🏢</span>
+        <div class="donut-area">
 
-<div>
+            <div class="donut" id="donutPatrimonio">
+                <div class="donut-center">
+                    100%
+                </div>
+            </div>
 
-<div class="sum-label">
-FIIs
-</div>
+            <div class="legend">
 
-<div class="sum-value" id="qtd-fiis">
-0
-</div>
+                <div class="legend-item">
 
-</div>
+                    <span
+                        class="legend-dot"
+                        style="background:#2196f3">
+                    </span>
 
-</div>
+                    <span id="legAcoes">
+                        Ações 0%
+                    </span>
 
-<div class="sum-card yellow">
+                </div>
 
-<span class="sum-icon">🏆</span>
+                <div class="legend-item">
 
-<div>
+                    <span
+                        class="legend-dot"
+                        style="background:#ff9800">
+                    </span>
 
-<div class="sum-label">
-Maior Posição
-</div>
+                    <span id="legFiis">
+                        FIIs 0%
+                    </span>
 
-<div class="sum-value" id="maior-posicao">
---
-</div>
+                </div>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<!-- =====================================================
-     TABELAS
-===================================================== -->
+    <div class="chart-card">
 
-<div class="tables-wrap">
+        <div class="chart-title">
+            Top posições
+        </div>
 
-<!-- AÇÕES -->
+        <div
+            class="position-list"
+            id="topPosicoes">
 
-<div class="table-block">
+            <div class="empty">
+                Carregando...
+            </div>
 
-<div class="table-head blue">
-AÇÕES
-</div>
+        </div>
 
-<div class="table-actions">
+    </div>
 
-<button
-class="add-btn blue"
-onclick="abrirModal('acoes')">
+    <div class="chart-card">
 
-➕ ADICIONAR AÇÃO
+        <div class="chart-title">
+            Alocação da carteira
+        </div>
 
-</button>
+        <div class="donut-area">
 
-</div>
+            <div class="donut" id="donutAlocacao">
+                <div class="donut-center">
+                    100%
+                </div>
+            </div>
 
-<div class="table-body">
+            <div
+                class="legend"
+                id="legAlocacao">
 
-<table>
+                <div class="legend-item">
+                    Carregando...
+                </div>
 
-<thead>
+            </div>
 
-<tr>
+        </div>
 
-<th>Ativo</th>
-<th>Empresa</th>
-<th>Segmento</th>
-<th>Qtd</th>
-<th>Preço Médio</th>
-<th>Total</th>
-<th>Ações</th>
+    </div>
 
-</tr>
+</section>
 
-</thead>
+<!-- SEGMENTOS -->
+<section class="sectors">
 
-<tbody id="tabela-acoes"></tbody>
+    <div class="section-title">
 
-</table>
+        <h2>
+            📊 Distribuição por segmento
+        </h2>
 
-</div>
+        <span id="totalSegmentos">
+            0 segmentos
+        </span>
 
-<div class="row-total" id="total-acoes">
-TOTAL AÇÕES — R$ 0,00
-</div>
+    </div>
 
-</div>
+    <div
+        class="sector-grid"
+        id="setores">
 
-<!-- FIIs -->
+        <div class="sector">
 
-<div class="table-block">
+            <div class="sector-top">
 
-<div class="table-head orange">
-FIIs - FUNDOS IMOBILIÁRIOS
-</div>
+                <div class="sector-icon">
+                    📊
+                </div>
 
-<div class="table-actions">
+                <div class="sector-info">
 
-<button
-class="add-btn orange"
-onclick="abrirModal('fiis')">
+                    <div class="sector-name">
+                        Carregando...
+                    </div>
 
-➕ ADICIONAR FII
+                </div>
 
-</button>
+            </div>
 
-</div>
+        </div>
 
-<div class="table-body">
+    </div>
 
-<table>
+</section>
 
-<thead>
+<!-- INFORMAÇÕES -->
+<section class="info">
 
-<tr>
+    <div class="info-card">
 
-<th>Ativo</th>
-<th>Gestora</th>
-<th>Segmento</th>
-<th>Qtd</th>
-<th>Preço Médio</th>
-<th>Total</th>
-<th>Ações</th>
+        <strong>
+            📊 Fonte dos dados
+        </strong>
 
-</tr>
+        <p>
+            Informações carregadas diretamente do banco de dados.
+        </p>
 
-</thead>
+    </div>
 
-<tbody id="tabela-fiis"></tbody>
+    <div class="info-card">
 
-</table>
+        <strong>
+            🔒 Somente leitura
+        </strong>
 
-</div>
+        <p>
+            Esta página não permite alteração dos ativos.
+        </p>
 
-<div class="row-total" id="total-fiis">
-TOTAL FIIs — R$ 0,00
-</div>
+    </div>
 
-</div>
+    <div class="info-card">
 
-</div>
+        <strong>
+            🔄 Atualização
+        </strong>
 
-<!-- =====================================================
-     GRÁFICOS
-===================================================== -->
+        <p>
+            Os dados são atualizados automaticamente.
+        </p>
 
-<div class="charts-row">
+    </div>
 
-<div class="chart-card">
+    <div class="info-card">
 
-<div class="chart-title">
-Distribuição do Patrimônio
-</div>
+        <strong>
+            📱 Responsivo
+        </strong>
 
-<div
-class="donut-wrap"
-id="circulo-pat">
+        <p>
+            Layout adaptado para computador, tablet e celular.
+        </p>
 
-<div class="donut-inner">
+    </div>
 
-<div class="donut-total">
-TOTAL
-</div>
+</section>
 
-<div
-class="donut-val"
-id="valor-total-pat">
-R$ 0,00
-</div>
-
-<div
-style="color:var(--blue);font-weight:bold;font-size:12px;margin-top:2px"
-id="pct-acoes">
-AÇÕES 0%
-</div>
-
-<div
-style="color:var(--orange);font-weight:bold;font-size:12px;margin-top:2px"
-id="pct-fiis">
-FIIs 0%
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="chart-card">
-
-<div class="chart-title">
-Top 10 Maiores Posições
-</div>
-
-<div
-class="bar-list"
-id="top-positions">
-</div>
-
-</div>
-
-<div class="chart-card">
-
-<div class="chart-title">
-Alocação por Classe
-</div>
-
-<div
-class="donut-wrap"
-id="circulo-classe">
-
-<div class="donut-inner">
-
-<div
-style="color:var(--green);font-weight:bold;font-size:15px"
-id="classe-acoes">
-AÇÕES 0%
-</div>
-
-<div
-style="color:var(--orange);font-weight:bold;font-size:15px;margin-top:4px"
-id="classe-fiis">
-FIIs 0%
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =====================================================
-     SETORES
-===================================================== -->
-
-<div class="sectors-block">
-
-<div class="sectors-title">
-Alocação por Segmento
-</div>
-
-<div
-class="sectors-grid"
-id="grid-setores">
-</div>
-
-</div>
-
-<!-- =====================================================
-     INFORMAÇÕES
-===================================================== -->
-
-<div class="info-row">
-
-<div class="info-card">
-
-<div class="info-icon">🎯</div>
-
-<div class="info-text">
-Carteira Diversificada
-<br>
-Crescimento & Renda
-</div>
-
-</div>
-
-<div class="info-card">
-
-<div class="info-icon">⏱️</div>
-
-<div class="info-text">
-Foco Longo Prazo
-<br>
-Reavaliação Trimestral
-</div>
-
-</div>
-
-<div class="info-card">
-
-<div class="info-icon">📈</div>
-
-<div class="info-text">
-Otimização de
-<br>
-Retorno com Baixo Risco
-</div>
-
-</div>
-
-<div class="info-card">
-
-<div class="info-icon">🏆</div>
-
-<div class="info-text">
-Objetivo
-<br>
-Construção de Patrimônio
-</div>
-
-</div>
-
-</div>
-
-<!-- =====================================================
-     MODAL
-===================================================== -->
-
-<div class="modal" id="modal">
-
-<div class="modal-box">
-
-<div class="modal-title" id="modal-title">
-Adicionar ativo
-</div>
-
-<div class="form-grid">
-
-<div class="form-group">
-
-<label>
-Código do ativo
-</label>
-
-<input
-type="text"
-id="novo-codigo"
-placeholder="Ex: ITUB4"
-maxlength="10"
-autocomplete="off">
-
-</div>
-
-<div class="form-group">
-
-<label id="label-empresa">
-Empresa
-</label>
-
-<input
-type="text"
-id="novo-nome"
-placeholder="Ex: Itaú"
-autocomplete="off">
-
-</div>
-
-<div class="form-group">
-
-<label>
-Segmento *
-</label>
-
-<select id="novo-segmento" required>
-
-<option value="">
-Selecione o segmento
-</option>
-
-<option value="Financeiro">
-Financeiro
-</option>
-
-<option value="Seguros">
-Seguros
-</option>
-
-<option value="Bancos">
-Bancos
-</option>
-
-<option value="Energia Elétrica">
-Energia Elétrica
-</option>
-
-<option value="Petróleo e Gás">
-Petróleo e Gás
-</option>
-
-<option value="Mineração">
-Mineração
-</option>
-
-<option value="Siderurgia">
-Siderurgia
-</option>
-
-<option value="Logística">
-Logística
-</option>
-
-<option value="Shopping">
-Shopping
-</option>
-
-<option value="Lajes Corporativas">
-Lajes Corporativas
-</option>
-
-<option value="Agro">
-Agro
-</option>
-
-<option value="Papel / CRI">
-Papel / CRI
-</option>
-
-<option value="Recebíveis">
-Recebíveis
-</option>
-
-<option value="Infraestrutura">
-Infraestrutura
-</option>
-
-<option value="Saneamento">
-Saneamento
-</option>
-
-<option value="Consumo">
-Consumo
-</option>
-
-<option value="Saúde">
-Saúde
-</option>
-
-<option value="Tecnologia">
-Tecnologia
-</option>
-
-<option value="Telecomunicações">
-Telecomunicações
-</option>
-
-<option value="Outros">
-Outros
-</option>
-
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>
-Quantidade
-</label>
-
-<input
-type="number"
-id="nova-quantidade"
-min="0"
-step="1"
-value="0">
-
-</div>
-
-<div class="form-group">
-
-<label>
-Preço Médio
-</label>
-
-<input
-type="number"
-id="novo-preco"
-min="0"
-step="0.01"
-placeholder="0,00">
-
-</div>
-
-</div>
-
-<div class="modal-buttons">
-
-<button
-class="btn-cancelar"
-onclick="fecharModal()">
-
-Cancelar
-
-</button>
-
-<button
-class="btn-confirmar"
-onclick="adicionarAtivo()">
-
-Adicionar
-
-</button>
-
-</div>
-
-</div>
-
-</div>
+<footer class="footer">
+    Carteira de Investimentos • Dados fornecidos pelo Supabase
+</footer>
 
 </div>
 
 <script>
 
-/* =====================================================
-   SUPABASE
-===================================================== */
-
 const SUPABASE_URL =
-    "https://dylziaqkyavkfwjepqkp.supabase.co";
+    'https://dylziaqkyavkfwjepqkp.supabase.co';
 
 const SUPABASE_KEY =
-    "sb_publishable_-j6U29W2jS3Rn2YcKxe2Ow_-1x7MfCv";
+    'sb_publishable_-j6U29W2jS3Rn2YcKxe2Ow_-1x7MfCv';
 
 const supabaseClient =
     window.supabase.createClient(
@@ -1498,2320 +1436,720 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+let carteira = [];
 
-/* =====================================================
-   SEGMENTOS
-===================================================== */
-
-const SEGMENTOS = [
-
-    "Financeiro",
-    "Seguros",
-    "Bancos",
-    "Energia Elétrica",
-    "Petróleo e Gás",
-    "Mineração",
-    "Siderurgia",
-    "Logística",
-    "Shopping",
-    "Lajes Corporativas",
-    "Agro",
-    "Papel / CRI",
-    "Recebíveis",
-    "Infraestrutura",
-    "Saneamento",
-    "Consumo",
-    "Saúde",
-    "Tecnologia",
-    "Telecomunicações",
-    "Outros"
-
-];
-
-
-/* =====================================================
-   DADOS INICIAIS
-===================================================== */
-
-let carteira = {
-
-    dataAtualizacao:"20/09/2026",
-
-    acoes:[
-
-        {
-            id:1,
-            codigo:"BBSE3",
-            empresa:"BB Seguridade",
-            segmento:"Seguros",
-            quantidade:33,
-            precoMedio:34.97,
-            cor:"#ffcc00",
-            corTexto:"#000"
-        },
-
-        {
-            id:2,
-            codigo:"CXSE3",
-            empresa:"Caixa Seguridade",
-            segmento:"Seguros",
-            quantidade:31,
-            precoMedio:16.23,
-            cor:"#2570e8",
-            corTexto:"#fff"
-        },
-
-        {
-            id:3,
-            codigo:"VALE3",
-            empresa:"Vale",
-            segmento:"Mineração",
-            quantidade:6,
-            precoMedio:76.47,
-            cor:"#ff3333",
-            corTexto:"#fff"
-        },
-
-        {
-            id:4,
-            codigo:"PETR4",
-            empresa:"Petrobras",
-            segmento:"Petróleo e Gás",
-            quantidade:11,
-            precoMedio:31.78,
-            cor:"#2570e8",
-            corTexto:"#fff"
-        }
-
-    ],
-
-    fiis:[
-
-        {
-            id:1,
-            codigo:"HGLG11",
-            gestora:"CSHG",
-            segmento:"Logística",
-            quantidade:3,
-            precoMedio:149.73,
-            cor:"#2570e8",
-            corTexto:"#fff"
-        },
-
-        {
-            id:2,
-            codigo:"BTLG11",
-            gestora:"BTG Pactual",
-            segmento:"Logística",
-            quantidade:4,
-            precoMedio:102.03,
-            cor:"#003366",
-            corTexto:"#fff"
-        }
-
-    ]
-
-};
-
-
-let tipoNovoAtivo = "acoes";
-
-let sincronizando = false;
-
-
-/* =====================================================
-   AUXILIARES
-===================================================== */
-
-function formatarMoeda(valor){
+function moeda(valor){
 
     return new Intl.NumberFormat(
-        "pt-BR",
+        'pt-BR',
         {
-            style:"currency",
-            currency:"BRL"
+            style:'currency',
+            currency:'BRL'
         }
-    ).format(
-        Number(valor) || 0
-    );
+    ).format(Number(valor) || 0);
 
 }
 
+function numero(valor){
 
-function calcularTotal(itens){
-
-    return itens.reduce(
-        (soma,item)=>
-
-            soma +
-            (
-                Number(item.quantidade) || 0
-            ) *
-            (
-                Number(item.precoMedio) || 0
-            ),
-
-        0
-    );
-
-}
-
-
-function dataHoje(){
-
-    return new Date()
-        .toLocaleDateString("pt-BR");
-
-}
-
-
-function mostrarStatus(
-    msg,
-    tipo="success"
-){
-
-    const el =
-        document.getElementById(
-            "status-bar"
-        );
-
-    el.textContent = msg;
-
-    el.className =
-        `status-bar show ${tipo}`;
-
-    setTimeout(
-        ()=>{
-            el.classList.remove("show");
-        },
-        3500
-    );
-
-}
-
-
-function escapeHTML(valor){
-
-    return String(valor ?? "")
-
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
-   LOCAL STORAGE
-===================================================== */
-
-function salvarLocal(){
-
-    try{
-
-        localStorage.setItem(
-            "carteiraInvestimentos",
-            JSON.stringify(carteira)
-        );
-
-    }catch(error){
-
-        console.warn(error);
-
-    }
-
-}
-
-
-function carregarLocal(){
-
-    const salvo =
-        localStorage.getItem(
-            "carteiraInvestimentos"
-        );
-
-    if(!salvo){
-        return;
-    }
-
-    try{
-
-        const dados =
-            JSON.parse(salvo);
-
-        if(dados.acoes){
-            carteira.acoes = dados.acoes;
+    return new Intl.NumberFormat(
+        'pt-BR',
+        {
+            minimumFractionDigits:0,
+            maximumFractionDigits:2
         }
-
-        if(dados.fiis){
-            carteira.fiis = dados.fiis;
-        }
-
-        if(dados.dataAtualizacao){
-            carteira.dataAtualizacao =
-                dados.dataAtualizacao;
-        }
-
-        /*
-         * Compatibilidade com ativos antigos
-         * que ainda não tinham segmento.
-         */
-
-        carteira.acoes.forEach(
-            ativo=>{
-                if(!ativo.segmento){
-                    ativo.segmento = "Outros";
-                }
-            }
-        );
-
-        carteira.fiis.forEach(
-            ativo=>{
-                if(!ativo.segmento){
-                    ativo.segmento = "Outros";
-                }
-            }
-        );
-
-    }catch(error){
-
-        console.error(
-            "Erro no localStorage:",
-            error
-        );
-
-    }
+    ).format(Number(valor) || 0);
 
 }
 
+function percentual(valor){
 
-/* =====================================================
-   CONVERTER SUPABASE
-===================================================== */
+    return `${Number(valor || 0)
+        .toFixed(1)
+        .replace('.',',')}%`;
+
+}
+
+function criarIconeAtivo(codigo,tipo){
+
+    const texto =
+        String(codigo || '')
+        .replace(/[0-9]/g,'')
+        .substring(0,4);
+
+    return `
+        <div class="asset-icon ${tipo === 'fiis' ? 'fii' : ''}">
+            ${texto}
+        </div>
+    `;
+
+}
+
+function iconeSegmento(segmento){
+
+    const s =
+        String(segmento || '')
+        .toLowerCase();
+
+    if(s.includes('shopping') || s.includes('varejo')) return '🛍️';
+    if(s.includes('logística') || s.includes('logistica')) return '📦';
+    if(s.includes('industrial') || s.includes('galpão') || s.includes('galpao')) return '🏭';
+    if(s.includes('laje') || s.includes('escritório') || s.includes('escritorio')) return '🏢';
+    if(s.includes('papel') || s.includes('recebível') || s.includes('recebive')) return '📄';
+    if(s.includes('agro') || s.includes('agrícola') || s.includes('agricola')) return '🌱';
+    if(s.includes('renda') || s.includes('urbano')) return '🏠';
+    if(s.includes('energia')) return '⚡';
+    if(s.includes('banco') || s.includes('financeiro')) return '🏦';
+    if(s.includes('petróleo') || s.includes('petroleo') || s.includes('gás') || s.includes('gas')) return '🛢️';
+    if(s.includes('mineração') || s.includes('mineracao')) return '⛏️';
+    if(s.includes('tecnologia') || s.includes('software')) return '💻';
+    if(s.includes('telecom')) return '📡';
+    if(s.includes('saúde') || s.includes('saude')) return '🏥';
+    if(s.includes('educação') || s.includes('educacao')) return '🎓';
+
+    return '📊';
+
+}
 
 function converterLinhaSupabase(row){
 
-    const ativo = {
+    return {
 
         id:row.id,
 
-        codigo:row.codigo,
+        tipo:String(
+            row.tipo || ''
+        ).toLowerCase(),
+
+        codigo:String(
+            row.codigo || ''
+        ).toUpperCase(),
+
+        nome:row.nome || '',
 
         segmento:
-            row.segmento ||
-            "Outros",
+            row.segmento || 'Outros',
 
         quantidade:
             Number(row.quantidade) || 0,
 
-        precoMedio:
+        preco_medio:
             Number(row.preco_medio) || 0,
 
         cor:
-            row.cor || "#2570e8",
+            row.cor || '#2196f3',
 
-        corTexto:
-            row.cor_texto || "#fff"
+        cor_texto:
+            row.cor_texto || '#ffffff',
+
+        data_atualizacao:
+            row.data_atualizacao || null
 
     };
 
-
-    if(row.tipo === "acoes"){
-
-        ativo.empresa =
-            row.nome || "";
-
-    }else{
-
-        ativo.gestora =
-            row.nome || "";
-
-    }
-
-
-    return ativo;
-
 }
 
+function valorAtivo(ativo){
 
-/* =====================================================
-   CARREGAR SUPABASE
-===================================================== */
+    return (
+        Number(ativo.quantidade) *
+        Number(ativo.preco_medio)
+    );
+
+}
 
 async function carregarDoSupabase(){
 
     try{
 
-        mostrarStatus(
-            "☁️ Conectando ao Supabase..."
-        );
-
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-
-            .from("carteira_ativos")
-
-            .select("*")
-
-            .order(
-                "id",
-                {
-                    ascending:true
-                }
-            );
-
+        const {data,error} =
+            await supabaseClient
+                .from('carteira_ativos')
+                .select('*')
+                .order(
+                    'id',
+                    {
+                        ascending:true
+                    }
+                );
 
         if(error){
             throw error;
         }
 
-
-        if(!data || data.length === 0){
-
-            await enviarDadosIniciais();
-
-            salvarLocal();
-
-            mostrarStatus(
-                "☁️ Dados iniciais enviados ao Supabase."
+        carteira =
+            (data || [])
+            .map(
+                converterLinhaSupabase
             );
 
-            return;
+        atualizarTela();
 
-        }
-
-
-        carteira.acoes = [];
-        carteira.fiis = [];
-
-
-        data.forEach(
-            row=>{
-
-                const ativo =
-                    converterLinhaSupabase(row);
-
-
-                if(row.tipo === "acoes"){
-
-                    carteira.acoes.push(
-                        ativo
-                    );
-
-                }
-
-                if(row.tipo === "fiis"){
-
-                    carteira.fiis.push(
-                        ativo
-                    );
-
-                }
-
-            }
-        );
-
-
-        carteira.dataAtualizacao =
-            dataHoje();
-
-
-        salvarLocal();
-
-
-        mostrarStatus(
-            "☁️ Carteira sincronizada com o Supabase."
-        );
-
+        document.getElementById(
+            'dataAtualizacao'
+        ).textContent =
+            'Dados atualizados • ' +
+            new Date()
+                .toLocaleString('pt-BR');
 
     }catch(error){
 
         console.error(
-            "Erro Supabase:",
+            'Erro Supabase:',
             error
         );
 
-
-        mostrarStatus(
-            "⚠️ Não foi possível conectar ao Supabase. Usando dados locais.",
-            "error"
-        );
-
-
-        carregarLocal();
+        document.getElementById(
+            'dataAtualizacao'
+        ).textContent =
+            'Erro ao carregar dados';
 
     }
 
 }
 
+function renderizarTabela(
+    lista,
+    elementoId
+){
 
-/* =====================================================
-   ENVIAR DADOS INICIAIS
-===================================================== */
+    const tbody =
+        document.getElementById(
+            elementoId
+        );
 
-async function enviarDadosIniciais(){
+    if(!lista.length){
 
-    const registros = [];
+        tbody.innerHTML =
+            `<tr>
 
+                <td
+                    colspan="6"
+                    class="empty">
 
-    carteira.acoes.forEach(
-        item=>{
+                    Nenhum ativo cadastrado.
 
-            registros.push({
+                </td>
 
-                tipo:"acoes",
+            </tr>`;
 
-                codigo:item.codigo,
+        return;
 
-                nome:item.empresa,
-
-                segmento:
-                    item.segmento ||
-                    "Outros",
-
-                quantidade:item.quantidade,
-
-                preco_medio:item.precoMedio,
-
-                cor:item.cor,
-
-                cor_texto:item.corTexto,
-
-                data_atualizacao:
-                    new Date().toISOString()
-
-            });
-
-        }
-    );
-
-
-    carteira.fiis.forEach(
-        item=>{
-
-            registros.push({
-
-                tipo:"fiis",
-
-                codigo:item.codigo,
-
-                nome:item.gestora,
-
-                segmento:
-                    item.segmento ||
-                    "Outros",
-
-                quantidade:item.quantidade,
-
-                preco_medio:item.precoMedio,
-
-                cor:item.cor,
-
-                cor_texto:item.corTexto,
-
-                data_atualizacao:
-                    new Date().toISOString()
-
-            });
-
-        }
-    );
-
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-
-        .from("carteira_ativos")
-
-        .insert(registros)
-
-        .select();
-
-
-    if(error){
-        throw error;
     }
 
+    tbody.innerHTML =
+        lista.map(
+            ativo => {
 
-    if(data){
+                const total =
+                    valorAtivo(ativo);
 
-        data.forEach(
-            row=>{
-
-                const lista =
-                    row.tipo === "acoes"
-                        ? carteira.acoes
-                        : carteira.fiis;
-
-
-                const ativo =
-                    lista.find(
-                        item =>
-                            item.codigo ===
-                            row.codigo
+                const icone =
+                    criarIconeAtivo(
+                        ativo.codigo,
+                        ativo.tipo
                     );
 
-
-                if(ativo){
-
-                    ativo.id =
-                        row.id;
-
-                    ativo.segmento =
-                        row.segmento ||
-                        "Outros";
-
-                }
-
-            }
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ADICIONAR SUPABASE
-===================================================== */
-
-async function adicionarAtivoSupabase(
-    ativo,
-    tipo
-){
-
-    const nome =
-        tipo === "acoes"
-            ? ativo.empresa
-            : ativo.gestora;
-
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-
-        .from("carteira_ativos")
-
-        .insert({
-
-            tipo:tipo,
-
-            codigo:ativo.codigo,
-
-            nome:nome,
-
-            segmento:
-                ativo.segmento ||
-                "Outros",
-
-            quantidade:
-                Number(ativo.quantidade) || 0,
-
-            preco_medio:
-                Number(ativo.precoMedio) || 0,
-
-            cor:ativo.cor,
-
-            cor_texto:ativo.corTexto,
-
-            data_atualizacao:
-                new Date().toISOString()
-
-        })
-
-        .select()
-
-        .single();
-
-
-    if(error){
-        throw error;
-    }
-
-
-    ativo.id = data.id;
-
-    ativo.segmento =
-        data.segmento ||
-        "Outros";
-
-}
-
-
-/* =====================================================
-   ATUALIZAR SUPABASE
-===================================================== */
-
-async function atualizarAtivoSupabase(
-    ativo,
-    tipo
-){
-
-    if(!ativo.id){
-
-        throw new Error(
-            "ID do ativo não encontrado."
-        );
-
-    }
-
-
-    const nome =
-        tipo === "acoes"
-            ? ativo.empresa
-            : ativo.gestora;
-
-
-    const {
-        error
-    } = await supabaseClient
-
-        .from("carteira_ativos")
-
-        .update({
-
-            tipo:tipo,
-
-            codigo:ativo.codigo,
-
-            nome:nome,
-
-            segmento:
-                ativo.segmento ||
-                "Outros",
-
-            quantidade:
-                Number(ativo.quantidade) || 0,
-
-            preco_medio:
-                Number(ativo.precoMedio) || 0,
-
-            cor:ativo.cor,
-
-            cor_texto:ativo.corTexto,
-
-            data_atualizacao:
-                new Date().toISOString()
-
-        })
-
-        .eq(
-            "id",
-            ativo.id
-        );
-
-
-    if(error){
-        throw error;
-    }
-
-}
-
-
-/* =====================================================
-   EXCLUIR SUPABASE
-===================================================== */
-
-async function excluirAtivoSupabase(id){
-
-    if(!id){
-
-        throw new Error(
-            "ID não encontrado."
-        );
-
-    }
-
-
-    const {
-        error
-    } = await supabaseClient
-
-        .from("carteira_ativos")
-
-        .delete()
-
-        .eq(
-            "id",
-            id
-        );
-
-
-    if(error){
-        throw error;
-    }
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function abrirModal(tipo){
-
-    tipoNovoAtivo = tipo;
-
-
-    const titulo =
-        document.getElementById(
-            "modal-title"
-        );
-
-
-    const label =
-        document.getElementById(
-            "label-empresa"
-        );
-
-
-    const nome =
-        document.getElementById(
-            "novo-nome"
-        );
-
-
-    if(tipo === "acoes"){
-
-        titulo.textContent =
-            "Adicionar nova ação";
-
-        label.textContent =
-            "Empresa";
-
-        nome.placeholder =
-            "Ex: Itaú";
-
-    }else{
-
-        titulo.textContent =
-            "Adicionar novo FII";
-
-        label.textContent =
-            "Gestora";
-
-        nome.placeholder =
-            "Ex: Kinea";
-
-    }
-
-
-    document.getElementById(
-        "novo-codigo"
-    ).value = "";
-
-
-    document.getElementById(
-        "novo-nome"
-    ).value = "";
-
-
-    document.getElementById(
-        "novo-segmento"
-    ).value = "";
-
-
-    document.getElementById(
-        "nova-quantidade"
-    ).value = "0";
-
-
-    document.getElementById(
-        "novo-preco"
-    ).value = "";
-
-
-    document.getElementById(
-        "modal"
-    ).classList.add("show");
-
-
-    document.getElementById(
-        "novo-codigo"
-    ).focus();
-
-}
-
-
-function fecharModal(){
-
-    document.getElementById(
-        "modal"
-    ).classList.remove("show");
-
-}
-
-
-/* =====================================================
-   ADICIONAR ATIVO
-===================================================== */
-
-async function adicionarAtivo(){
-
-    if(sincronizando){
-        return;
-    }
-
-
-    const codigo =
-        document.getElementById(
-            "novo-codigo"
-        )
-        .value
-        .trim()
-        .toUpperCase();
-
-
-    const nome =
-        document.getElementById(
-            "novo-nome"
-        )
-        .value
-        .trim();
-
-
-    const segmento =
-        document.getElementById(
-            "novo-segmento"
-        )
-        .value
-        .trim();
-
-
-    const quantidade =
-        Number(
-            document.getElementById(
-                "nova-quantidade"
-            ).value
-        ) || 0;
-
-
-    const preco =
-        Number(
-            document.getElementById(
-                "novo-preco"
-            ).value
-        ) || 0;
-
-
-    if(!codigo){
-
-        mostrarStatus(
-            "Informe o código do ativo.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(!nome){
-
-        mostrarStatus(
-            "Informe o nome da empresa ou gestora.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(!segmento){
-
-        mostrarStatus(
-            "⚠️ Selecione o segmento do ativo.",
-            "error"
-        );
-
-        document.getElementById(
-            "novo-segmento"
-        ).focus();
-
-        return;
-
-    }
-
-
-    if(!SEGMENTOS.includes(segmento)){
-
-        mostrarStatus(
-            "Segmento inválido.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(quantidade < 0){
-
-        mostrarStatus(
-            "A quantidade não pode ser negativa.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(preco <= 0){
-
-        mostrarStatus(
-            "Informe um preço médio válido.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const lista =
-        tipoNovoAtivo === "acoes"
-            ? carteira.acoes
-            : carteira.fiis;
-
-
-    const existe =
-        lista.some(
-            item =>
-                String(item.codigo)
-                    .toUpperCase() ===
-                codigo
-        );
-
-
-    if(existe){
-
-        mostrarStatus(
-            `${codigo} já está cadastrado.`,
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    const cores = [
-
-        "#2570e8",
-        "#34c759",
-        "#f28c28",
-        "#ffcc00",
-        "#8b5cf6",
-        "#ef4444",
-        "#06b6d4",
-        "#ec4899"
-
-    ];
-
-
-    const cor =
-        cores[
-            lista.length % cores.length
-        ];
-
-
-    const novoAtivo = {
-
-        id:null,
-
-        codigo:codigo,
-
-        segmento:segmento,
-
-        quantidade:quantidade,
-
-        precoMedio:preco,
-
-        cor:cor,
-
-        corTexto:"#fff"
-
-    };
-
-
-    if(tipoNovoAtivo === "acoes"){
-
-        novoAtivo.empresa = nome;
-
-    }else{
-
-        novoAtivo.gestora = nome;
-
-    }
-
-
-    sincronizando = true;
-
-
-    try{
-
-        await adicionarAtivoSupabase(
-            novoAtivo,
-            tipoNovoAtivo
-        );
-
-
-        lista.push(
-            novoAtivo
-        );
-
-
-        carteira.dataAtualizacao =
-            dataHoje();
-
-
-        salvarLocal();
-
-        renderizarAcoes();
-
-        renderizarFiis();
-
-        renderizarSetores();
-
-        atualizarTela();
-
-        fecharModal();
-
-
-        mostrarStatus(
-            `☁️ ${codigo} — ${segmento} adicionado com sucesso.`
-        );
-
-
-    }catch(error){
-
-        console.error(error);
-
-
-        mostrarStatus(
-            `❌ Erro ao salvar ${codigo}: ${error.message || "erro no Supabase"}`,
-            "error"
-        );
-
-
-    }finally{
-
-        sincronizando = false;
-
-    }
-
-}
-
-
-/* =====================================================
-   ATUALIZAR TELA
-===================================================== */
-
-function atualizarTela(){
-
-    const totalAcoes =
-        calcularTotal(
-            carteira.acoes
-        );
-
-
-    const totalFiis =
-        calcularTotal(
-            carteira.fiis
-        );
-
-
-    const totalGeral =
-        totalAcoes +
-        totalFiis;
-
-
-    const pctAcoes =
-        totalGeral > 0
-            ? (
-                totalAcoes /
-                totalGeral *
-                100
-              ).toFixed(1)
-            : "0.0";
-
-
-    const pctFiis =
-        totalGeral > 0
-            ? (
-                totalFiis /
-                totalGeral *
-                100
-              ).toFixed(1)
-            : "0.0";
-
-
-    document.getElementById(
-        "data-atualizacao"
-    ).textContent =
-        `ATUALIZADA EM ${carteira.dataAtualizacao}`;
-
-
-    document.getElementById(
-        "total-investido"
-    ).textContent =
-        formatarMoeda(totalGeral);
-
-
-    document.getElementById(
-        "total-ativos"
-    ).textContent =
-        carteira.acoes.length +
-        carteira.fiis.length;
-
-
-    document.getElementById(
-        "qtd-acoes"
-    ).textContent =
-        carteira.acoes.length;
-
-
-    document.getElementById(
-        "qtd-fiis"
-    ).textContent =
-        carteira.fiis.length;
-
-
-    const todos = [
-
-        ...carteira.acoes,
-        ...carteira.fiis
-
-    ]
-    .map(
-        item => ({
-
-            ...item,
-
-            valor:
-                (
-                    Number(item.quantidade) || 0
-                ) *
-                (
-                    Number(item.precoMedio) || 0
-                )
-
-        })
-    )
-    .sort(
-        (a,b) =>
-            b.valor - a.valor
-    );
-
-
-    document.getElementById(
-        "maior-posicao"
-    ).textContent =
-
-        todos[0] && totalGeral > 0
-
-            ? `${todos[0].codigo} ${
-                (
-                    todos[0].valor /
-                    totalGeral *
-                    100
-                ).toFixed(1)
-              }%`
-
-            : "--";
-
-
-    document.getElementById(
-        "total-acoes"
-    ).textContent =
-        `TOTAL AÇÕES — ${formatarMoeda(totalAcoes)}`;
-
-
-    document.getElementById(
-        "total-fiis"
-    ).textContent =
-        `TOTAL FIIs — ${formatarMoeda(totalFiis)}`;
-
-
-    document.getElementById(
-        "valor-total-pat"
-    ).textContent =
-        formatarMoeda(totalGeral);
-
-
-    document.getElementById(
-        "pct-acoes"
-    ).textContent =
-        `AÇÕES ${pctAcoes}%`;
-
-
-    document.getElementById(
-        "pct-fiis"
-    ).textContent =
-        `FIIs ${pctFiis}%`;
-
-
-    document.getElementById(
-        "classe-acoes"
-    ).textContent =
-        `AÇÕES ${pctAcoes}%`;
-
-
-    document.getElementById(
-        "classe-fiis"
-    ).textContent =
-        `FIIs ${pctFiis}%`;
-
-
-    const grauAcoes =
-        (
-            Number(pctAcoes) / 100
-        ) * 360;
-
-
-    document.getElementById(
-        "circulo-pat"
-    ).style.background =
-        `conic-gradient(
-            var(--blue)
-            0deg
-            ${grauAcoes}deg,
-
-            var(--orange)
-            ${grauAcoes}deg
-            360deg
-        )`;
-
-
-    document.getElementById(
-        "circulo-classe"
-    ).style.background =
-        `conic-gradient(
-            var(--green)
-            0deg
-            ${grauAcoes}deg,
-
-            var(--orange)
-            ${grauAcoes}deg
-            360deg
-        )`;
-
-
-    const top10 =
-        todos.slice(0,10);
-
-
-    const maiorValor =
-        top10[0]?.valor || 1;
-
-
-    document.getElementById(
-        "top-positions"
-    ).innerHTML =
-
-        top10.map(
-            item => {
-
-                const largura =
-                    (
-                        item.valor /
-                        maiorValor
-                    ) * 100;
-
+                const segmentoIcone =
+                    iconeSegmento(
+                        ativo.segmento
+                    );
 
                 return `
+                    <tr>
 
-                    <div class="bar-item">
+                        <td class="col-ativo">
 
-                        <span class="bar-name">
-                            ${escapeHTML(item.codigo)}
-                        </span>
+                            <div class="asset-cell">
 
-                        <span class="bar-track">
+                                ${icone}
 
-                            <span
-                                class="bar-fill"
-                                style="width:${largura}%">
+                                <div class="asset-info">
+
+                                    <div class="asset-code">
+                                        ${ativo.codigo}
+                                    </div>
+
+                                    <div class="asset-name">
+                                        ${ativo.nome}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="col-nome">
+                            ${ativo.nome || '-'}
+                        </td>
+
+                        <td class="col-segmento">
+
+                            <span class="segment-badge">
+
+                                <span class="segment-icon">
+                                    ${segmentoIcone}
+                                </span>
+
+                                ${ativo.segmento || 'Outros'}
+
                             </span>
 
-                        </span>
+                        </td>
 
-                        <span class="bar-amt">
-                            ${formatarMoeda(item.valor)}
+                        <td class="col-qtd">
+                            ${numero(ativo.quantidade)}
+                        </td>
+
+                        <td class="col-pm">
+                            ${moeda(ativo.preco_medio)}
+                        </td>
+
+                        <td class="col-total value">
+                            ${moeda(total)}
+                        </td>
+
+                    </tr>
+                `;
+
+            }
+        ).join('');
+
+}
+
+function atualizarResumo(){
+
+    const total =
+        carteira.reduce(
+            (soma,ativo) =>
+                soma + valorAtivo(ativo),
+            0
+        );
+
+    const acoes =
+        carteira.filter(
+            ativo =>
+                ativo.tipo === 'acoes'
+        );
+
+    const fiis =
+        carteira.filter(
+            ativo =>
+                ativo.tipo === 'fiis'
+        );
+
+    const totalAcoes =
+        acoes.reduce(
+            (soma,ativo) =>
+                soma + valorAtivo(ativo),
+            0
+        );
+
+    const totalFiis =
+        fiis.reduce(
+            (soma,ativo) =>
+                soma + valorAtivo(ativo),
+            0
+        );
+
+    const maior =
+        [...carteira]
+            .sort(
+                (a,b) =>
+                    valorAtivo(b) -
+                    valorAtivo(a)
+            )[0];
+
+    document.getElementById(
+        'totalPatrimonio'
+    ).textContent =
+        moeda(total);
+
+    document.getElementById(
+        'totalAtivos'
+    ).textContent =
+        carteira.length;
+
+    document.getElementById(
+        'totalAcoes'
+    ).textContent =
+        acoes.length;
+
+    document.getElementById(
+        'totalFiis'
+    ).textContent =
+        fiis.length;
+
+    document.getElementById(
+        'maiorPosicao'
+    ).textContent =
+        maior
+            ? maior.codigo
+            : '-';
+
+    document.getElementById(
+        'contadorAcoes'
+    ).textContent =
+        `${acoes.length} ativos`;
+
+    document.getElementById(
+        'contadorFiis'
+    ).textContent =
+        `${fiis.length} ativos`;
+
+    atualizarDonuts(
+        totalAcoes,
+        totalFiis,
+        total
+    );
+
+}
+
+function atualizarDonuts(
+    totalAcoes,
+    totalFiis,
+    total
+){
+
+    const pctAcoes =
+        total > 0
+            ? totalAcoes / total * 100
+            : 0;
+
+    const pctFiis =
+        total > 0
+            ? totalFiis / total * 100
+            : 0;
+
+    document.getElementById(
+        'donutPatrimonio'
+    ).style.background =
+        `conic-gradient(
+            #2196f3 0% ${pctAcoes}%,
+            #ff9800 ${pctAcoes}% 100%
+        )`;
+
+    document.getElementById(
+        'legAcoes'
+    ).textContent =
+        `Ações ${percentual(pctAcoes)}`;
+
+    document.getElementById(
+        'legFiis'
+    ).textContent =
+        `FIIs ${percentual(pctFiis)}`;
+
+    renderizarAlocacao(
+        {
+            Ações:totalAcoes,
+            FIIs:totalFiis
+        },
+        total
+    );
+
+}
+
+function renderizarAlocacao(
+    classes,
+    total
+){
+
+    const cores=[
+        '#2196f3',
+        '#ff9800',
+        '#00d084',
+        '#9c6cff'
+    ];
+
+    const nomes =
+        Object.keys(classes);
+
+    let inicio=0;
+
+    const partes=[];
+
+    nomes.forEach(
+        (nome,index)=>{
+
+            const pct =
+                total > 0
+                    ? classes[nome] /
+                      total * 100
+                    : 0;
+
+            const fim =
+                inicio + pct;
+
+            partes.push(
+                `${cores[index]} ${inicio}% ${fim}%`
+            );
+
+            inicio=fim;
+
+        }
+    );
+
+    document.getElementById(
+        'donutAlocacao'
+    ).style.background =
+        `conic-gradient(
+            ${partes.join(',')}
+        )`;
+
+    document.getElementById(
+        'legAlocacao'
+    ).innerHTML =
+        nomes.map(
+            (nome,index)=>{
+
+                const pct =
+                    total > 0
+                        ? classes[nome] /
+                          total * 100
+                        : 0;
+
+                return `
+                    <div class="legend-item">
+
+                        <span
+                            class="legend-dot"
+                            style="background:${cores[index]}"
+                        ></span>
+
+                        <span>
+                            ${nome}
+                            ${percentual(pct)}
                         </span>
 
                     </div>
-
                 `;
 
             }
-        ).join("");
+        ).join('');
 
 }
 
+function renderizarTopPosicoes(){
 
-/* =====================================================
-   RENDERIZAR AÇÕES
-===================================================== */
+    const lista =
+        [...carteira]
+            .sort(
+                (a,b) =>
+                    valorAtivo(b) -
+                    valorAtivo(a)
+            )
+            .slice(0,10);
 
-function renderizarAcoes(){
-
-    const tabela =
+    const container =
         document.getElementById(
-            "tabela-acoes"
+            'topPosicoes'
         );
 
+    if(!lista.length){
 
-    tabela.innerHTML =
+        container.innerHTML =
+            `<div class="empty">
+                Nenhum ativo.
+            </div>`;
 
-        carteira.acoes.map(
-            (item,i)=>{
+        return;
 
-                const valor =
+    }
 
-                    (
-                        Number(item.quantidade) || 0
-                    ) *
-                    (
-                        Number(item.precoMedio) || 0
-                    );
-
-
-                return `
-
-                    <tr
-                        data-tipo="acoes"
-                        data-indice="${i}">
-
-                        <td>
-
-                            <div class="asset-cell">
-
-                                <span
-                                    class="asset-badge"
-                                    style="
-                                        background:${escapeHTML(item.cor)};
-                                        color:${escapeHTML(item.corTexto)}
-                                    ">
-
-                                    ${escapeHTML(
-                                        item.codigo.slice(0,3)
-                                    )}
-
-                                </span>
-
-                                <span class="asset-code">
-
-                                    ${escapeHTML(item.codigo)}
-
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            ${escapeHTML(item.empresa)}
-
-                        </td>
-
-                        <td>
-
-                            <span class="segmento-badge">
-
-                                ${escapeHTML(
-                                    item.segmento || "Outros"
-                                )}
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <div class="qtd-wrap">
-
-                                <button
-                                    class="qtd-btn minus"
-                                    data-acao="diminuir">
-
-                                    −
-
-                                </button>
-
-                                <input
-                                    type="number"
-                                    class="qtd-input"
-                                    value="${Number(item.quantidade) || 0}"
-                                    min="0"
-                                    step="1">
-
-                                <button
-                                    class="qtd-btn"
-                                    data-acao="aumentar">
-
-                                    +
-
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            ${formatarMoeda(
-                                item.precoMedio
-                            )}
-
-                        </td>
-
-                        <td
-                            class="valor-linha"
-                            style="font-weight:700">
-
-                            ${formatarMoeda(valor)}
-
-                        </td>
-
-                        <td>
-
-                            <button class="save-btn">
-                                Salvar
-                            </button>
-
-                            <button class="delete-btn">
-                                Excluir
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        ).join("");
-
-}
-
-
-/* =====================================================
-   RENDERIZAR FIIs
-===================================================== */
-
-function renderizarFiis(){
-
-    const tabela =
-        document.getElementById(
-            "tabela-fiis"
+    const maior =
+        Math.max(
+            ...lista.map(
+                ativo =>
+                    valorAtivo(ativo)
+            )
         );
 
-
-    tabela.innerHTML =
-
-        carteira.fiis.map(
-            (item,i)=>{
+    container.innerHTML =
+        lista.map(
+            ativo=>{
 
                 const valor =
+                    valorAtivo(ativo);
 
-                    (
-                        Number(item.quantidade) || 0
-                    ) *
-                    (
-                        Number(item.precoMedio) || 0
-                    );
-
+                const largura =
+                    maior > 0
+                        ? valor / maior * 100
+                        : 0;
 
                 return `
+                    <div class="position">
 
-                    <tr
-                        data-tipo="fiis"
-                        data-indice="${i}">
+                        <div class="position-name">
+                            ${ativo.codigo}
+                        </div>
 
-                        <td>
+                        <div class="position-bar">
 
-                            <div class="asset-cell">
+                            <div
+                                class="position-fill"
+                                style="width:${largura}%"
+                            ></div>
 
-                                <span
-                                    class="asset-badge"
-                                    style="
-                                        background:${escapeHTML(item.cor)};
-                                        color:${escapeHTML(item.corTexto)}
-                                    ">
+                        </div>
 
-                                    ${escapeHTML(
-                                        item.codigo.slice(0,3)
-                                    )}
+                        <div class="position-value">
+                            ${moeda(valor)}
+                        </div>
 
-                                </span>
-
-                                <span class="asset-code">
-
-                                    ${escapeHTML(item.codigo)}
-
-                                </span>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            ${escapeHTML(item.gestora)}
-
-                        </td>
-
-                        <td>
-
-                            <span class="segmento-badge">
-
-                                ${escapeHTML(
-                                    item.segmento || "Outros"
-                                )}
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <div class="qtd-wrap">
-
-                                <button
-                                    class="qtd-btn minus"
-                                    data-acao="diminuir">
-
-                                    −
-
-                                </button>
-
-                                <input
-                                    type="number"
-                                    class="qtd-input"
-                                    value="${Number(item.quantidade) || 0}"
-                                    min="0"
-                                    step="1">
-
-                                <button
-                                    class="qtd-btn"
-                                    data-acao="aumentar">
-
-                                    +
-
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            ${formatarMoeda(
-                                item.precoMedio
-                            )}
-
-                        </td>
-
-                        <td
-                            class="valor-linha"
-                            style="font-weight:700">
-
-                            ${formatarMoeda(valor)}
-
-                        </td>
-
-                        <td>
-
-                            <button class="save-btn">
-                                Salvar
-                            </button>
-
-                            <button class="delete-btn">
-                                Excluir
-                            </button>
-
-                        </td>
-
-                    </tr>
-
+                    </div>
                 `;
 
             }
-        ).join("");
+        ).join('');
 
 }
-
-
-/* =====================================================
-   SEGMENTOS / ALOCAÇÃO
-===================================================== */
 
 function renderizarSetores(){
 
-    const todos = [
+    const mapa={};
 
-        ...carteira.acoes,
-        ...carteira.fiis
-
-    ];
-
-
-    const valores = {};
-
-
-    todos.forEach(
+    carteira.forEach(
         ativo=>{
 
-            const segmento =
+            const setor =
                 ativo.segmento ||
-                "Outros";
+                'Outros';
 
+            if(!mapa[setor]){
+                mapa[setor]=0;
+            }
 
-            const valor =
-                (
-                    Number(ativo.quantidade) || 0
-                ) *
-                (
-                    Number(ativo.precoMedio) || 0
-                );
-
-
-            valores[segmento] =
-                (
-                    valores[segmento] || 0
-                ) +
-                valor;
+            mapa[setor] +=
+                valorAtivo(ativo);
 
         }
     );
 
-
     const total =
-        Object.values(valores)
+        Object.values(mapa)
             .reduce(
                 (a,b)=>a+b,
                 0
             );
 
-
-    const icones = {
-
-        "Financeiro":"🏦",
-        "Seguros":"🛡️",
-        "Bancos":"🏦",
-        "Energia Elétrica":"⚡",
-        "Petróleo e Gás":"🛢️",
-        "Mineração":"⛏️",
-        "Siderurgia":"🏭",
-        "Logística":"🚚",
-        "Shopping":"🛍️",
-        "Lajes Corporativas":"🏢",
-        "Agro":"🌱",
-        "Papel / CRI":"📄",
-        "Recebíveis":"💰",
-        "Infraestrutura":"🏗️",
-        "Saneamento":"💧",
-        "Consumo":"🛒",
-        "Saúde":"🏥",
-        "Tecnologia":"💻",
-        "Telecomunicações":"📡",
-        "Outros":"⋯"
-
-    };
-
-
-    const lista =
-        Object.entries(valores)
+    const setores =
+        Object.entries(mapa)
             .sort(
                 (a,b)=>b[1]-a[1]
             );
 
-
     document.getElementById(
-        "grid-setores"
-    ).innerHTML =
+        'totalSegmentos'
+    ).textContent =
+        `${setores.length} segmentos`;
 
-        lista.length
+    const container =
+        document.getElementById(
+            'setores'
+        );
 
-            ? lista.map(
-                ([nome,valor])=>{
+    if(!setores.length){
 
-                    const percentual =
-                        total > 0
-                            ? (
-                                valor /
-                                total *
-                                100
-                              )
-                            : 0;
+        container.innerHTML =
+            `<div class="sector">
 
+                <div class="sector-name">
+                    Nenhum segmento
+                </div>
 
-                    return `
+            </div>`;
 
-                        <div>
+        return;
+
+    }
+
+    container.innerHTML =
+        setores.map(
+            ([nome,valor])=>{
+
+                const pct =
+                    total > 0
+                        ? valor / total * 100
+                        : 0;
+
+                return `
+                    <div class="sector">
+
+                        <div class="sector-top">
 
                             <div class="sector-icon">
-
-                                ${icones[nome] || "⋯"}
-
+                                ${iconeSegmento(nome)}
                             </div>
 
-                            <div class="sector-name">
+                            <div class="sector-info">
 
-                                ${escapeHTML(nome)}
+                                <div class="sector-name">
+                                    ${nome}
+                                </div>
 
-                            </div>
-
-                            <div class="sector-pct">
-
-                                ${percentual.toFixed(1)}%
+                                <div class="sector-value">
+                                    ${percentual(pct)}
+                                </div>
 
                             </div>
 
                         </div>
 
-                    `;
+                    </div>
+                `;
 
-                }
-              ).join("")
-
-            : `
-
-                <div style="
-                    grid-column:1/-1;
-                    color:var(--gray-text);
-                    padding:15px">
-
-                    Nenhum segmento cadastrado.
-
-                </div>
-
-              `;
+            }
+        ).join('');
 
 }
 
+function atualizarTela(){
 
-/* =====================================================
-   EVENTOS
-===================================================== */
+    const acoes =
+        carteira.filter(
+            ativo =>
+                ativo.tipo === 'acoes'
+        );
 
-document.addEventListener(
-    "click",
-    async function(e){
+    const fiis =
+        carteira.filter(
+            ativo =>
+                ativo.tipo === 'fiis'
+        );
 
-        const tr =
-            e.target.closest("tr");
+    renderizarTabela(
+        fiis,
+        'tabelaFiis'
+    );
 
+    renderizarTabela(
+        acoes,
+        'tabelaAcoes'
+    );
 
-        if(!tr){
-            return;
-        }
+    atualizarResumo();
 
+    renderizarTopPosicoes();
 
-        const tipo =
-            tr.dataset.tipo;
+    renderizarSetores();
 
-
-        const indice =
-            parseInt(
-                tr.dataset.indice,
-                10
-            );
-
-
-        const lista =
-            tipo === "acoes"
-                ? carteira.acoes
-                : carteira.fiis;
-
-
-        const ativo =
-            lista[indice];
-
-
-        if(!ativo){
-            return;
-        }
-
-
-        /* + / - */
-
-        if(
-            e.target.classList.contains(
-                "qtd-btn"
-            )
-        ){
-
-            let v =
-                parseInt(
-                    ativo.quantidade,
-                    10
-                ) || 0;
-
-
-            if(
-                e.target.dataset.acao ===
-                "aumentar"
-            ){
-
-                v++;
-
-            }else if(v > 0){
-
-                v--;
-
-            }
-
-
-            ativo.quantidade = v;
-
-
-            const input =
-                tr.querySelector(
-                    ".qtd-input"
-                );
-
-
-            if(input){
-                input.value = v;
-            }
-
-
-            const valorLinha =
-                tr.querySelector(
-                    ".valor-linha"
-                );
-
-
-            if(valorLinha){
-
-                valorLinha.textContent =
-                    formatarMoeda(
-                        v *
-                        ativo.precoMedio
-                    );
-
-            }
-
-
-            carteira.dataAtualizacao =
-                dataHoje();
-
-
-            salvarLocal();
-
-            atualizarTela();
-
-            renderizarSetores();
-
-
-            try{
-
-                await atualizarAtivoSupabase(
-                    ativo,
-                    tipo
-                );
-
-
-                mostrarStatus(
-                    `☁️ ${ativo.codigo}: quantidade atualizada.`
-                );
-
-
-            }catch(error){
-
-                console.error(error);
-
-
-                mostrarStatus(
-                    `⚠️ ${ativo.codigo}: salvo localmente, mas não sincronizado.`,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* SALVAR */
-
-        if(
-            e.target.classList.contains(
-                "save-btn"
-            )
-        ){
-
-            try{
-
-                await atualizarAtivoSupabase(
-                    ativo,
-                    tipo
-                );
-
-
-                carteira.dataAtualizacao =
-                    dataHoje();
-
-
-                salvarLocal();
-
-                atualizarTela();
-
-                renderizarSetores();
-
-
-                mostrarStatus(
-                    `☁️ ${ativo.codigo}: salvo no Supabase.`
-                );
-
-
-            }catch(error){
-
-                console.error(error);
-
-
-                salvarLocal();
-
-
-                mostrarStatus(
-                    `⚠️ ${ativo.codigo}: salvo localmente, mas não sincronizado.`,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* EXCLUIR */
-
-        if(
-            e.target.classList.contains(
-                "delete-btn"
-            )
-        ){
-
-            const codigo =
-                ativo.codigo;
-
-
-            const confirmar =
-                confirm(
-                    `Deseja realmente excluir ${codigo} da carteira?`
-                );
-
-
-            if(!confirmar){
-                return;
-            }
-
-
-            try{
-
-                await excluirAtivoSupabase(
-                    ativo.id
-                );
-
-
-                lista.splice(
-                    indice,
-                    1
-                );
-
-
-                carteira.dataAtualizacao =
-                    dataHoje();
-
-
-                salvarLocal();
-
-
-                renderizarAcoes();
-
-                renderizarFiis();
-
-                renderizarSetores();
-
-                atualizarTela();
-
-
-                mostrarStatus(
-                    `🗑️ ${codigo} removido do Supabase.`
-                );
-
-
-            }catch(error){
-
-                console.error(error);
-
-
-                mostrarStatus(
-                    `❌ Não foi possível excluir ${codigo}.`,
-                    "error"
-                );
-
-            }
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   ALTERAÇÃO MANUAL
-===================================================== */
-
-document.addEventListener(
-    "input",
-    function(e){
-
-        if(
-            !e.target.classList.contains(
-                "qtd-input"
-            )
-        ){
-            return;
-        }
-
-
-        const tr =
-            e.target.closest("tr");
-
-
-        if(!tr){
-            return;
-        }
-
-
-        const lista =
-            tr.dataset.tipo === "acoes"
-                ? carteira.acoes
-                : carteira.fiis;
-
-
-        const indice =
-            parseInt(
-                tr.dataset.indice,
-                10
-            );
-
-
-        const ativo =
-            lista[indice];
-
-
-        if(!ativo){
-            return;
-        }
-
-
-        let v =
-            parseInt(
-                e.target.value,
-                10
-            ) || 0;
-
-
-        if(v < 0){
-            v = 0;
-        }
-
-
-        ativo.quantidade = v;
-
-
-        const valorLinha =
-            tr.querySelector(
-                ".valor-linha"
-            );
-
-
-        if(valorLinha){
-
-            valorLinha.textContent =
-                formatarMoeda(
-                    v *
-                    ativo.precoMedio
-                );
-
-        }
-
-
-        carteira.dataAtualizacao =
-            dataHoje();
-
-
-        salvarLocal();
-
-        atualizarTela();
-
-    }
-);
-
-
-/* =====================================================
-   CHANGE
-===================================================== */
-
-document.addEventListener(
-    "change",
-    async function(e){
-
-        if(
-            !e.target.classList.contains(
-                "qtd-input"
-            )
-        ){
-            return;
-        }
-
-
-        const tr =
-            e.target.closest("tr");
-
-
-        if(!tr){
-            return;
-        }
-
-
-        const lista =
-            tr.dataset.tipo === "acoes"
-                ? carteira.acoes
-                : carteira.fiis;
-
-
-        const indice =
-            parseInt(
-                tr.dataset.indice,
-                10
-            );
-
-
-        const ativo =
-            lista[indice];
-
-
-        if(!ativo){
-            return;
-        }
-
-
-        try{
-
-            await atualizarAtivoSupabase(
-                ativo,
-                tr.dataset.tipo
-            );
-
-
-            mostrarStatus(
-                `☁️ ${ativo.codigo}: sincronizado.`
-            );
-
-
-        }catch(error){
-
-            console.error(error);
-
-
-            mostrarStatus(
-                `⚠️ ${ativo.codigo}: alteração salva apenas localmente.`,
-                "error"
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   FECHAR MODAL
-===================================================== */
-
-document.getElementById(
-    "modal"
-).addEventListener(
-    "click",
-    function(e){
-
-        if(e.target === this){
-            fecharModal();
-        }
-
-    }
-);
-
-
-/* =====================================================
-   ESC
-===================================================== */
-
-document.addEventListener(
-    "keydown",
-    function(e){
-
-        if(e.key === "Escape"){
-            fecharModal();
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INICIALIZAÇÃO
-===================================================== */
+}
 
 async function iniciarAplicacao(){
 
-    carregarLocal();
-
-
-    renderizarAcoes();
-
-    renderizarFiis();
-
-    renderizarSetores();
-
-    atualizarTela();
-
-
     await carregarDoSupabase();
-
-
-    renderizarAcoes();
-
-    renderizarFiis();
-
-    renderizarSetores();
-
-    atualizarTela();
 
 }
 
+iniciarAplicacao();
 
-document.addEventListener(
-    "DOMContentLoaded",
-    iniciarAplicacao
+setInterval(
+    carregarDoSupabase,
+    60000
 );
 
 </script>
 
 </body>
 </html>
-
