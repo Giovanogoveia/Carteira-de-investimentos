@@ -1,3 +1,5 @@
+
+
 <br>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -350,6 +352,8 @@ body{
 
 table{
     width:100%;
+    min-width:100%;
+
     border-collapse:collapse;
 
     table-layout:fixed;
@@ -368,8 +372,13 @@ th{
     padding:6px 4px;
 
     border-bottom:1px solid var(--border);
+    border-right:1px solid rgba(25,48,74,.65);
 
     text-align:left;
+}
+
+th:last-child{
+    border-right:none;
 }
 
 td{
@@ -377,7 +386,8 @@ td{
 
     height:34px;
 
-    border-bottom:1px solid rgba(25,48,74,.45);
+    border-bottom:1px solid rgba(25,48,74,.65);
+    border-right:1px solid rgba(25,48,74,.55);
 
     font-size:9px;
 
@@ -388,13 +398,26 @@ td{
     white-space:nowrap;
 }
 
+td:last-child{
+    border-right:none;
+}
+
 tr:last-child td{
     border-bottom:none;
 }
 
-tr:hover td{
+tbody tr{
+    transition:background .15s ease;
+}
+
+tbody tr:hover td{
     background:rgba(42,94,145,.08);
 }
+
+
+/* =========================================================
+   COLUNAS
+========================================================= */
 
 .col-ativo{
     width:31%;
@@ -422,6 +445,11 @@ tr:hover td{
     width:18%;
     text-align:right;
 }
+
+
+/* =========================================================
+   ATIVO
+========================================================= */
 
 .asset-cell{
     display:flex;
@@ -451,6 +479,7 @@ tr:hover td{
 
 .asset-info{
     min-width:0;
+    overflow:hidden;
 }
 
 .asset-code{
@@ -458,6 +487,8 @@ tr:hover td{
     font-weight:900;
 
     color:#fff;
+
+    white-space:nowrap;
 }
 
 .asset-name{
@@ -469,6 +500,7 @@ tr:hover td{
 
     overflow:hidden;
     text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 .value{
@@ -609,7 +641,7 @@ tr:hover td{
 
 
 /* =========================================================
-   TOP POSIÇÕES
+   TOP DIVIDENDOS
 ========================================================= */
 
 .position-list{
@@ -625,7 +657,6 @@ tr:hover td{
     grid-template-columns:
         45px
         minmax(0,1fr)
-        42px
         55px;
 
     align-items:center;
@@ -668,17 +699,6 @@ tr:hover td{
             #2386d9,
             #54b7ff
         );
-}
-
-.position-value{
-    text-align:right;
-
-    font-size:7px;
-    font-weight:800;
-
-    color:#dce7f1;
-
-    white-space:nowrap;
 }
 
 .position-dy{
@@ -974,23 +994,20 @@ tr:hover td{
     }
 
 
-    /* RESUMO */
+    /* =====================================================
+       RESUMO
+    ===================================================== */
 
     .summary{
         grid-template-columns:repeat(5,minmax(0,1fr));
-
         gap:2px;
-
         margin-bottom:5px;
     }
 
     .summary-card{
         padding:5px 3px;
-
         min-height:52px;
-
         border-radius:6px;
-
         gap:3px;
     }
 
@@ -998,7 +1015,6 @@ tr:hover td{
         width:22px;
         height:34px;
         min-width:22px;
-
         border-radius:6px;
     }
 
@@ -1010,16 +1026,13 @@ tr:hover td{
     .summary-label{
         font-size:6px;
         font-weight:800;
-
         line-height:1.1;
     }
 
     .summary-value{
         font-size:9px;
         font-weight:900;
-
         margin-top:3px;
-
         line-height:1.1;
     }
 
@@ -1030,7 +1043,9 @@ tr:hover td{
     }
 
 
-    /* TABELAS */
+    /* =====================================================
+       TABELAS
+    ===================================================== */
 
     .tables-container{
         grid-template-columns:
@@ -1061,6 +1076,7 @@ tr:hover td{
 
     .table-card{
         border-radius:6px;
+        min-width:0;
     }
 
     .table-title{
@@ -1079,53 +1095,184 @@ tr:hover td{
         font-weight:600;
     }
 
+    .table-wrapper{
+        width:100%;
+        overflow:hidden;
+    }
+
+    table{
+        width:100%;
+        min-width:100%;
+        table-layout:fixed;
+        border-collapse:collapse;
+    }
+
     th{
         font-size:6px;
         font-weight:800;
 
         padding:4px 2px;
+
+        border-right:1px solid rgba(25,48,74,.75);
+        border-bottom:1px solid rgba(25,48,74,.85);
+
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
     }
 
     td{
-        font-size:7.5px;
+        font-size:7px;
         font-weight:600;
 
         padding:4px 2px;
 
         height:27px;
+
+        border-right:1px solid rgba(25,48,74,.65);
+        border-bottom:1px solid rgba(25,48,74,.70);
+
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
     }
 
-    .col-nome,
-    .col-segmento{
-        display:none;
+
+    /* =====================================================
+       FIIs / AÇÕES
+       ATIVO | SEGMENTO | QTD | TOTAL
+    ===================================================== */
+
+    .fii-card .col-nome,
+    .acao-card .col-nome,
+
+    .fii-card th.col-nome,
+    .acao-card th.col-nome{
+        display:none !important;
     }
 
-    th.col-nome,
-    th.col-segmento{
-        display:none;
+    .fii-card .col-segmento,
+    .acao-card .col-segmento,
+
+    .fii-card th.col-segmento,
+    .acao-card th.col-segmento{
+        display:table-cell !important;
     }
 
-    .col-ativo{
-        width:42%;
+    .fii-card .col-pm,
+    .acao-card .col-pm,
+
+    .fii-card th.col-pm,
+    .acao-card th.col-pm{
+        display:none !important;
     }
 
-    .col-qtd{
+
+    /* 31 + 20 + 15 + 34 = 100% */
+
+    .fii-card .col-ativo,
+    .acao-card .col-ativo{
+        width:31%;
+    }
+
+    .fii-card .col-segmento,
+    .acao-card .col-segmento{
         width:20%;
-        text-align:right;
+        text-align:left;
     }
 
-    .col-pm{
-        width:18%;
+    .fii-card .col-qtd,
+    .acao-card .col-qtd{
+        width:15%;
         text-align:right;
+        white-space:nowrap;
     }
 
-    .col-total{
+    .fii-card .col-total,
+    .acao-card .col-total{
+        width:34%;
+        text-align:right;
+        white-space:nowrap;
+    }
+
+
+    /* =====================================================
+       RENDA FIXA
+       ATIVO | TIPO | QTD | TOTAL
+    ===================================================== */
+
+    .renda-fixa-card .col-nome,
+    .renda-fixa-card th.col-nome{
+        display:none !important;
+    }
+
+    .renda-fixa-card .col-segmento,
+    .renda-fixa-card th.col-segmento{
+        display:table-cell !important;
+    }
+
+    .renda-fixa-card .col-pm,
+    .renda-fixa-card th.col-pm{
+        display:none !important;
+    }
+
+    .renda-fixa-card .col-ativo{
+        width:31%;
+    }
+
+    .renda-fixa-card .col-segmento{
         width:20%;
+        text-align:left;
+    }
+
+    .renda-fixa-card .col-qtd{
+        width:15%;
+        text-align:right;
+        white-space:nowrap;
+    }
+
+    .renda-fixa-card .col-total{
+        width:34%;
+        text-align:right;
+        white-space:nowrap;
+    }
+
+
+    /* =====================================================
+       TOTAL — MAIS ESPAÇO NO CELULAR
+    ===================================================== */
+
+    .fii-card td.col-total,
+    .acao-card td.col-total,
+    .renda-fixa-card td.col-total{
+        font-size:7px;
+        font-weight:900;
+        color:#f1f6fc;
+
+        white-space:nowrap;
+
+        overflow:visible;
+
+        text-overflow:clip;
+
+        letter-spacing:-0.15px;
+    }
+
+
+    .fii-card th.col-total,
+    .acao-card th.col-total,
+    .renda-fixa-card th.col-total{
         text-align:right;
     }
+
+
+    /* =====================================================
+       ATIVO
+    ===================================================== */
 
     .asset-cell{
         gap:3px;
+        min-width:0;
     }
 
     .asset-icon{
@@ -1138,31 +1285,42 @@ tr:hover td{
         font-size:5.5px;
     }
 
+    .asset-info{
+        min-width:0;
+        overflow:hidden;
+    }
+
     .asset-code{
         font-size:7.5px;
         font-weight:900;
         color:#fff;
+        white-space:nowrap;
     }
 
     .asset-name{
         font-size:5px;
         margin-top:1px;
+
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
     }
 
     .value{
-        font-size:7.5px;
+        font-size:7px;
         font-weight:800;
         color:#f1f6fc;
+        white-space:nowrap;
     }
 
 
-    /* GRÁFICOS */
+    /* =====================================================
+       GRÁFICOS
+    ===================================================== */
 
     .charts{
         grid-template-columns:repeat(3,minmax(0,1fr));
-
         gap:3px;
-
         margin-top:4px;
     }
 
@@ -1221,7 +1379,9 @@ tr:hover td{
     }
 
 
-    /* TOP POSIÇÕES */
+    /* =====================================================
+       TOP DIVIDENDOS
+    ===================================================== */
 
     .position-list{
         gap:2px;
@@ -1231,7 +1391,6 @@ tr:hover td{
         grid-template-columns:
             30px
             minmax(0,1fr)
-            27px
             40px;
 
         gap:2px;
@@ -1246,11 +1405,6 @@ tr:hover td{
         height:3px;
     }
 
-    .position-value{
-        font-size:6px;
-        font-weight:700;
-    }
-
     .position-dy{
         font-size:5.5px;
         font-weight:700;
@@ -1261,13 +1415,13 @@ tr:hover td{
     }
 
 
-    /* SEGMENTOS */
+    /* =====================================================
+       SEGMENTOS
+    ===================================================== */
 
     .sectors{
         margin-top:4px;
-
         padding:4px;
-
         border-radius:5px;
     }
 
@@ -1287,15 +1441,12 @@ tr:hover td{
 
     .sector-grid{
         grid-template-columns:repeat(6,minmax(0,1fr));
-
         gap:2px;
     }
 
     .sector{
         padding:5px 2px;
-
         border-radius:5px;
-
         min-height:52px;
     }
 
@@ -1336,7 +1487,9 @@ tr:hover td{
     }
 
 
-    /* INFORMAÇÕES */
+    /* =====================================================
+       INFORMAÇÕES
+    ===================================================== */
 
     .info{
         grid-template-columns:repeat(4,minmax(0,1fr));
@@ -1348,7 +1501,6 @@ tr:hover td{
 
     .info-card{
         padding:4px 2px;
-
         border-radius:4px;
     }
 
@@ -1359,15 +1511,12 @@ tr:hover td{
 
     .info-card p{
         font-size:5px;
-
         line-height:1.2;
-
         margin-top:2px;
     }
 
     .footer{
         font-size:6px;
-
         padding:4px 0 1px;
     }
 
@@ -1394,9 +1543,7 @@ tr:hover td{
 
     .summary-card{
         min-height:46px;
-
         gap:2px;
-
         padding:4px 2px;
     }
 
@@ -1423,22 +1570,63 @@ tr:hover td{
         font-size:4.5px;
     }
 
+
+    /* TABELAS PEQUENAS */
+
     th{
         font-size:5.5px;
         padding:3px 2px;
     }
 
     td{
-        font-size:7px;
+        font-size:6.8px;
         padding:4px 2px;
         height:26px;
     }
+
+
+    /* Mais espaço para o TOTAL */
+
+    .fii-card .col-ativo,
+    .acao-card .col-ativo,
+    .renda-fixa-card .col-ativo{
+        width:29%;
+    }
+
+    .fii-card .col-segmento,
+    .acao-card .col-segmento,
+    .renda-fixa-card .col-segmento{
+        width:18%;
+    }
+
+    .fii-card .col-qtd,
+    .acao-card .col-qtd,
+    .renda-fixa-card .col-qtd{
+        width:13%;
+    }
+
+    .fii-card .col-total,
+    .acao-card .col-total,
+    .renda-fixa-card .col-total{
+        width:40%;
+        font-size:6.5px;
+        letter-spacing:-0.2px;
+        white-space:nowrap;
+        overflow:visible;
+        text-overflow:clip;
+    }
+
+    .fii-card td.col-total,
+    .acao-card td.col-total,
+    .renda-fixa-card td.col-total{
+        font-size:6.5px;
+    }
+
 
     .asset-icon{
         width:18px;
         height:18px;
         min-width:18px;
-
         font-size:5px;
     }
 
@@ -1451,8 +1639,11 @@ tr:hover td{
     }
 
     .value{
-        font-size:7px;
+        font-size:6.8px;
     }
+
+
+    /* GRÁFICOS */
 
     .charts{
         margin-top:3px;
@@ -1471,11 +1662,13 @@ tr:hover td{
         left:8.5px;
     }
 
+
+    /* TOP DIVIDENDOS */
+
     .position{
         grid-template-columns:
             28px
             minmax(0,1fr)
-            24px
             36px;
 
         gap:2px;
@@ -1485,13 +1678,12 @@ tr:hover td{
         font-size:5.5px;
     }
 
-    .position-value{
-        font-size:5px;
-    }
-
     .position-dy{
         font-size:4.8px;
     }
+
+
+    /* SEGMENTOS */
 
     .sector{
         min-height:46px;
@@ -1526,565 +1718,549 @@ tr:hover td{
 <div class="page">
 
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+<!-- =====================================================
+     HEADER
+====================================================== -->
 
-    <header class="header">
+<header class="header">
 
-        <div class="title-area">
+    <div class="title-area">
 
-            <h1>CARTEIRA DE INVESTIMENTOS</h1>
+        <h1>CARTEIRA DE INVESTIMENTOS</h1>
 
-            <p id="dataAtualizacao">
-                Carregando dados...
-            </p>
+        <p id="dataAtualizacao">
+            Carregando dados...
+        </p>
+
+    </div>
+
+    <div class="status">
+
+        <span class="status-dot"></span>
+
+        <span>SUPABASE ONLINE</span>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     RESUMO
+====================================================== -->
+
+<section class="summary">
+
+
+    <div class="summary-card">
+
+        <div class="summary-icon" style="color:#42a5f5;">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M3 7h18"></path>
+
+                <path d="M5 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"></path>
+
+                <rect x="3" y="7" width="18" height="14" rx="2"></rect>
+
+                <path d="M3 12h18"></path>
+
+                <path d="M16 12v3h3"></path>
+
+            </svg>
 
         </div>
 
-        <div class="status">
+        <div class="summary-content">
 
-            <span class="status-dot"></span>
-
-            <span>SUPABASE ONLINE</span>
-
-        </div>
-
-    </header>
-
-
-    <!-- =====================================================
-         RESUMO
-    ====================================================== -->
-
-    <section class="summary">
-
-
-        <!-- PATRIMÔNIO -->
-
-        <div class="summary-card">
-
-            <div class="summary-icon" style="color:#42a5f5;">
-
-                <svg viewBox="0 0 24 24">
-
-                    <path d="M3 7h18"></path>
-
-                    <path d="M5 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"></path>
-
-                    <rect x="3" y="7" width="18" height="14" rx="2"></rect>
-
-                    <path d="M3 12h18"></path>
-
-                    <path d="M16 12v3h3"></path>
-
-                </svg>
-
+            <div class="summary-label">
+                Patrimônio
             </div>
 
-            <div class="summary-content">
-
-                <div class="summary-label">
-                    Patrimônio
-                </div>
-
-                <div class="summary-value" id="totalPatrimonio">
-                    R$ 0,00
-                </div>
-
+            <div class="summary-value" id="totalPatrimonio">
+                R$ 0,00
             </div>
 
         </div>
 
+    </div>
 
-        <!-- ATIVOS -->
 
-        <div class="summary-card">
+    <div class="summary-card">
 
-            <div class="summary-icon" style="color:#27d17f;">
+        <div class="summary-icon" style="color:#27d17f;">
 
-                <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24">
 
-                    <path d="M4 19V5"></path>
+                <path d="M4 19V5"></path>
 
-                    <path d="M4 19h16"></path>
+                <path d="M4 19h16"></path>
 
-                    <path d="M7 15l3-4 3 2 5-7"></path>
+                <path d="M7 15l3-4 3 2 5-7"></path>
 
-                </svg>
+            </svg>
 
+        </div>
+
+        <div class="summary-content">
+
+            <div class="summary-label">
+                Ativos
             </div>
 
-            <div class="summary-content">
+            <div class="summary-value" id="totalAtivos">
+                0
+            </div>
 
-                <div class="summary-label">
-                    Ativos
-                </div>
-
-                <div class="summary-value" id="totalAtivos">
-                    0
-                </div>
-
-                <div class="summary-sub" id="ativosDetalhe">
-                    FIIs: 0 · Ações: 0 · RF: 0
-                </div>
-
+            <div class="summary-sub" id="ativosDetalhe">
+                FIIs: 0 · Ações: 0 · RF: 0
             </div>
 
         </div>
 
+    </div>
 
-        <!-- AÇÕES -->
 
-        <div class="summary-card">
+    <div class="summary-card">
 
-            <div class="summary-icon" style="color:#ffae42;">
+        <div class="summary-icon" style="color:#ffae42;">
 
-                <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24">
 
-                    <path d="M4 19V5"></path>
+                <path d="M4 19V5"></path>
 
-                    <path d="M4 19h16"></path>
+                <path d="M4 19h16"></path>
 
-                    <path d="M8 15v-3"></path>
+                <path d="M8 15v-3"></path>
 
-                    <path d="M12 15V9"></path>
+                <path d="M12 15V9"></path>
 
-                    <path d="M16 15V6"></path>
+                <path d="M16 15V6"></path>
 
-                </svg>
+            </svg>
 
+        </div>
+
+        <div class="summary-content">
+
+            <div class="summary-label">
+                Total Ações
             </div>
 
-            <div class="summary-content">
-
-                <div class="summary-label">
-                    Total Ações
-                </div>
-
-                <div class="summary-value" id="totalAcoes">
-                    R$ 0,00
-                </div>
-
+            <div class="summary-value" id="totalAcoes">
+                R$ 0,00
             </div>
 
         </div>
 
+    </div>
 
-        <!-- FIIs -->
 
-        <div class="summary-card">
+    <div class="summary-card">
 
-            <div class="summary-icon" style="color:#a879ff;">
+        <div class="summary-icon" style="color:#a879ff;">
 
-                <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24">
 
-                    <rect x="4" y="4" width="16" height="17" rx="2"></rect>
+                <rect x="4" y="4" width="16" height="17" rx="2"></rect>
 
-                    <path d="M8 4v-2h8v2"></path>
+                <path d="M8 4v-2h8v2"></path>
 
-                    <path d="M8 9h8"></path>
+                <path d="M8 9h8"></path>
 
-                    <path d="M8 13h8"></path>
+                <path d="M8 13h8"></path>
 
-                    <path d="M8 17h5"></path>
+                <path d="M8 17h5"></path>
 
-                </svg>
+            </svg>
 
+        </div>
+
+        <div class="summary-content">
+
+            <div class="summary-label">
+                Total FIIs
             </div>
 
-            <div class="summary-content">
-
-                <div class="summary-label">
-                    Total FIIs
-                </div>
-
-                <div class="summary-value" id="totalFiis">
-                    R$ 0,00
-                </div>
-
+            <div class="summary-value" id="totalFiis">
+                R$ 0,00
             </div>
 
         </div>
 
+    </div>
 
-        <!-- MAIOR POSIÇÃO -->
 
-        <div class="summary-card">
+    <div class="summary-card">
 
-            <div class="summary-icon" style="color:#ffd54f;">
+        <div class="summary-icon" style="color:#ffd54f;">
 
-                <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24">
 
-                    <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"></path>
+                <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"></path>
 
-                </svg>
+            </svg>
 
+        </div>
+
+        <div class="summary-content">
+
+            <div class="summary-label">
+                Maior posição
             </div>
 
-            <div class="summary-content">
-
-                <div class="summary-label">
-                    Maior posição
-                </div>
-
-                <div class="summary-value" id="maiorPosicao">
-                    -
-                </div>
-
+            <div class="summary-value" id="maiorPosicao">
+                -
             </div>
 
         </div>
 
-    </section>
+    </div>
 
+</section>
 
-    <!-- =====================================================
-         TABELAS
-    ====================================================== -->
 
-    <section class="tables-container">
+<!-- =====================================================
+     TABELAS
+====================================================== -->
 
+<section class="tables-container">
 
-        <!-- FIIs -->
 
-        <div class="table-card fii-card">
+    <!-- FIIs -->
 
-            <div class="table-title">
+    <div class="table-card fii-card">
 
-                <strong>FIIs</strong>
+        <div class="table-title">
 
-                <span id="qtdFiis">
-                    0 ativos
-                </span>
+            <strong>FIIs</strong>
 
-            </div>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th class="col-ativo">
-                                Ativo
-                            </th>
-
-                            <th class="col-nome">
-                                Gestora
-                            </th>
-
-                            <th class="col-segmento">
-                                Segmento
-                            </th>
-
-                            <th class="col-qtd">
-                                Qtd
-                            </th>
-
-                            <th class="col-pm">
-                                PM
-                            </th>
-
-                            <th class="col-total">
-                                Total
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tabelaFiis"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-
-        <!-- AÇÕES -->
-
-        <div class="table-card acao-card">
-
-            <div class="table-title">
-
-                <strong>AÇÕES</strong>
-
-                <span id="qtdAcoes">
-                    0 ativos
-                </span>
-
-            </div>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th class="col-ativo">
-                                Ativo
-                            </th>
-
-                            <th class="col-nome">
-                                Empresa
-                            </th>
-
-                            <th class="col-segmento">
-                                Segmento
-                            </th>
-
-                            <th class="col-qtd">
-                                Qtd
-                            </th>
-
-                            <th class="col-pm">
-                                PM
-                            </th>
-
-                            <th class="col-total">
-                                Total
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tabelaAcoes"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-
-        <!-- RENDA FIXA -->
-
-        <div class="table-card renda-fixa-card">
-
-            <div class="table-title">
-
-                <strong>RENDA FIXA</strong>
-
-                <span id="qtdRendaFixa">
-                    0 ativos
-                </span>
-
-            </div>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th class="col-ativo">
-                                Ativo
-                            </th>
-
-                            <th class="col-nome">
-                                Instituição
-                            </th>
-
-                            <th class="col-segmento">
-                                Tipo
-                            </th>
-
-                            <th class="col-qtd">
-                                Qtd
-                            </th>
-
-                            <th class="col-pm">
-                                Taxa
-                            </th>
-
-                            <th class="col-total">
-                                Total
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="tabelaRendaFixa"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         GRÁFICOS
-    ====================================================== -->
-
-    <section class="charts">
-
-
-        <!-- PATRIMÔNIO POR CLASSE -->
-
-        <div class="chart-card">
-
-            <div class="chart-title">
-                Patrimônio por classe
-            </div>
-
-            <div class="donut-area">
-
-                <div class="donut" id="donutPatrimonio">
-
-                    <div class="donut-center">
-                        100%
-                    </div>
-
-                </div>
-
-                <div class="legend" id="legAcoes"></div>
-
-            </div>
-
-        </div>
-
-
-        <!-- TOP POSIÇÕES -->
-
-        <div class="chart-card">
-
-            <div class="chart-title">
-                Top posições
-            </div>
-
-            <div class="position-list" id="topPosicoes"></div>
-
-        </div>
-
-
-        <!-- ALOCAÇÃO -->
-
-        <div class="chart-card">
-
-            <div class="chart-title">
-                Alocação da carteira
-            </div>
-
-            <div class="donut-area">
-
-                <div class="donut" id="donutAlocacao">
-
-                    <div class="donut-center">
-                        100%
-                    </div>
-
-                </div>
-
-                <div class="legend" id="legAlocacao"></div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         SEGMENTOS
-    ====================================================== -->
-
-    <section class="sectors">
-
-        <div class="section-title">
-
-            <h2>
-                Distribuição por segmento
-            </h2>
-
-            <span id="totalSegmentos">
-                0 segmentos
+            <span id="qtdFiis">
+                0 ativos
             </span>
 
         </div>
 
-        <div class="sector-grid" id="setores"></div>
+        <div class="table-wrapper">
 
-    </section>
+            <table>
 
+                <thead>
 
-    <!-- =====================================================
-         INFORMAÇÕES
-    ====================================================== -->
+                    <tr>
 
-    <section class="info">
+                        <th class="col-ativo">
+                            Ativo
+                        </th>
 
-        <div class="info-card">
+                        <th class="col-nome">
+                            Gestora
+                        </th>
 
-            <strong>
-                Fonte dos dados
-            </strong>
+                        <th class="col-segmento">
+                            Segmento
+                        </th>
 
-            <p>
-                Dados carregados diretamente do Supabase.
-            </p>
+                        <th class="col-qtd">
+                            Qtd
+                        </th>
 
-        </div>
+                        <th class="col-pm">
+                            PM
+                        </th>
 
+                        <th class="col-total">
+                            Total
+                        </th>
 
-        <div class="info-card">
+                    </tr>
 
-            <strong>
-                Somente leitura
-            </strong>
+                </thead>
 
-            <p>
-                Este painel não altera os dados da carteira.
-            </p>
+                <tbody id="tabelaFiis"></tbody>
 
-        </div>
-
-
-        <div class="info-card">
-
-            <strong>
-                Atualização
-            </strong>
-
-            <p>
-                Os dados são atualizados automaticamente a cada 60 segundos.
-            </p>
+            </table>
 
         </div>
-
-
-        <div class="info-card">
-
-            <strong>
-                Responsivo
-            </strong>
-
-            <p>
-                Layout adaptado para computador, tablet e celular.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <div class="footer">
-
-        Carteira de Investimentos • Dados em tempo real
 
     </div>
+
+
+    <!-- AÇÕES -->
+
+    <div class="table-card acao-card">
+
+        <div class="table-title">
+
+            <strong>AÇÕES</strong>
+
+            <span id="qtdAcoes">
+                0 ativos
+            </span>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th class="col-ativo">
+                            Ativo
+                        </th>
+
+                        <th class="col-nome">
+                            Empresa
+                        </th>
+
+                        <th class="col-segmento">
+                            Segmento
+                        </th>
+
+                        <th class="col-qtd">
+                            Qtd
+                        </th>
+
+                        <th class="col-pm">
+                            PM
+                        </th>
+
+                        <th class="col-total">
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaAcoes"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- RENDA FIXA -->
+
+    <div class="table-card renda-fixa-card">
+
+        <div class="table-title">
+
+            <strong>RENDA FIXA</strong>
+
+            <span id="qtdRendaFixa">
+                0 ativos
+            </span>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th class="col-ativo">
+                            Ativo
+                        </th>
+
+                        <th class="col-nome">
+                            Instituição
+                        </th>
+
+                        <th class="col-segmento">
+                            Tipo
+                        </th>
+
+                        <th class="col-qtd">
+                            Qtd
+                        </th>
+
+                        <th class="col-pm">
+                            Taxa
+                        </th>
+
+                        <th class="col-total">
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaRendaFixa"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GRÁFICOS
+====================================================== -->
+
+<section class="charts">
+
+
+    <div class="chart-card">
+
+        <div class="chart-title">
+            Patrimônio por classe
+        </div>
+
+        <div class="donut-area">
+
+            <div class="donut" id="donutPatrimonio">
+
+                <div class="donut-center">
+                    100%
+                </div>
+
+            </div>
+
+            <div class="legend" id="legAcoes"></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <div class="chart-title">
+            Top Dividendos
+        </div>
+
+        <div class="position-list" id="topPosicoes"></div>
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <div class="chart-title">
+            Alocação da carteira
+        </div>
+
+        <div class="donut-area">
+
+            <div class="donut" id="donutAlocacao">
+
+                <div class="donut-center">
+                    100%
+                </div>
+
+            </div>
+
+            <div class="legend" id="legAlocacao"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SEGMENTOS
+====================================================== -->
+
+<section class="sectors">
+
+    <div class="section-title">
+
+        <h2>
+            Distribuição por segmento
+        </h2>
+
+        <span id="totalSegmentos">
+            0 segmentos
+        </span>
+
+    </div>
+
+    <div class="sector-grid" id="setores"></div>
+
+</section>
+
+
+<!-- =====================================================
+     INFORMAÇÕES
+====================================================== -->
+
+<section class="info">
+
+    <div class="info-card">
+
+        <strong>
+            Fonte dos dados
+        </strong>
+
+        <p>
+            Dados carregados diretamente do Supabase.
+        </p>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <strong>
+            Somente leitura
+        </strong>
+
+        <p>
+            Este painel não altera os dados da carteira.
+        </p>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <strong>
+            Atualização
+        </strong>
+
+        <p>
+            Os dados são atualizados automaticamente a cada 60 segundos.
+        </p>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <strong>
+            Responsivo
+        </strong>
+
+        <p>
+            Layout adaptado para computador, tablet e celular.
+        </p>
+
+    </div>
+
+</section>
+
+
+<div class="footer">
+
+    Carteira de Investimentos • Dados em tempo real
+
+</div>
 
 </div>
 
@@ -2507,6 +2683,8 @@ function renderizarTabela(
             valorAtivo(ativo);
 
 
+        /* ATIVO */
+
         const tdAtivo =
             document.createElement('td');
 
@@ -2558,6 +2736,8 @@ function renderizarTabela(
         );
 
 
+        /* NOME */
+
         const tdNome =
             document.createElement('td');
 
@@ -2567,6 +2747,8 @@ function renderizarTabela(
         tdNome.textContent =
             ativo.nome;
 
+
+        /* SEGMENTO */
 
         const tdSegmento =
             document.createElement('td');
@@ -2578,6 +2760,8 @@ function renderizarTabela(
             ativo.segmento;
 
 
+        /* QUANTIDADE */
+
         const tdQtd =
             document.createElement('td');
 
@@ -2588,6 +2772,8 @@ function renderizarTabela(
             numero(ativo.quantidade);
 
 
+        /* PREÇO MÉDIO / TAXA */
+
         const tdPm =
             document.createElement('td');
 
@@ -2597,6 +2783,8 @@ function renderizarTabela(
         tdPm.textContent =
             moeda(ativo.precoMedio);
 
+
+        /* TOTAL */
 
         const tdTotal =
             document.createElement('td');
@@ -2742,7 +2930,7 @@ function atualizarResumo(){
 
 
 /* =========================================================
-   DONUT PATRIMÔNIO POR CLASSE
+   DONUTS
 ========================================================= */
 
 function atualizarDonuts(){
@@ -2754,10 +2942,6 @@ function atualizarDonuts(){
             0
         );
 
-
-    /* =====================================================
-       AÇÕES
-    ===================================================== */
 
     const acoes =
         carteira
@@ -2771,10 +2955,6 @@ function atualizarDonuts(){
         );
 
 
-    /* =====================================================
-       FIIs
-    ===================================================== */
-
     const fiis =
         carteira
         .filter(
@@ -2787,10 +2967,6 @@ function atualizarDonuts(){
         );
 
 
-    /* =====================================================
-       RENDA FIXA
-    ===================================================== */
-
     const rendaFixa =
         carteira
         .filter(
@@ -2802,10 +2978,6 @@ function atualizarDonuts(){
             0
         );
 
-
-    /* =====================================================
-       PERCENTUAIS
-    ===================================================== */
 
     const pAcoes =
         total > 0
@@ -2825,10 +2997,6 @@ function atualizarDonuts(){
             : 0;
 
 
-    /* =====================================================
-       DONUT
-    ===================================================== */
-
     const donut =
         document.getElementById(
             'donutPatrimonio'
@@ -2838,18 +3006,14 @@ function atualizarDonuts(){
     const fimAcoes =
         pAcoes;
 
-
     const inicioFiis =
         fimAcoes;
-
 
     const fimFiis =
         inicioFiis + pFiis;
 
-
     const inicioRendaFixa =
         fimFiis;
-
 
     const fimRendaFixa =
         inicioRendaFixa + pRendaFixa;
@@ -2857,7 +3021,6 @@ function atualizarDonuts(){
 
     donut.style.background =
         total > 0
-
         ? `
             conic-gradient(
                 #3da5ff 0 ${fimAcoes}%,
@@ -2865,23 +3028,14 @@ function atualizarDonuts(){
                 #ffae42 ${inicioRendaFixa}% ${fimRendaFixa}%
             )
           `
-
         : '#17283a';
 
-
-    /* =====================================================
-       CENTRO
-    ===================================================== */
 
     donut.querySelector(
         '.donut-center'
     ).textContent =
         percentual(100);
 
-
-    /* =====================================================
-       LEGENDA
-    ===================================================== */
 
     document
         .getElementById('legAcoes')
@@ -3060,7 +3214,7 @@ function atualizarDonuts(){
 
 
 /* =========================================================
-   TOP POSIÇÕES + DY
+   TOP DIVIDENDOS
 ========================================================= */
 
 function renderizarTopPosicoes(){
@@ -3074,33 +3228,56 @@ function renderizarTopPosicoes(){
     container.innerHTML = '';
 
 
-    const total =
-        carteira.reduce(
-            (soma,a) =>
-                soma + valorAtivo(a),
-            0
-        );
-
-
     const ativos =
         [...carteira]
+        .filter(
+            ativo =>
+                Number(ativo.dy) > 0
+        )
         .sort(
             (a,b) =>
-                valorAtivo(b) -
-                valorAtivo(a)
+                Number(b.dy) -
+                Number(a.dy)
         )
         .slice(0,8);
 
 
+    if(!ativos.length){
+
+        container.innerHTML = `
+            <div
+                style="
+                    text-align:center;
+                    color:#7189a0;
+                    font-size:7px;
+                    padding:15px 0;
+                ">
+                Nenhum DY informado
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const maiorDY =
+        Math.max(
+            ...ativos.map(
+                ativo =>
+                    Number(ativo.dy) || 0
+            )
+        );
+
+
     ativos.forEach(ativo => {
 
-        const valor =
-            valorAtivo(ativo);
+        const dy =
+            Number(ativo.dy) || 0;
 
 
         const p =
-            total > 0
-                ? valor / total * 100
+            maiorDY > 0
+                ? dy / maiorDY * 100
                 : 0;
 
 
@@ -3114,7 +3291,9 @@ function renderizarTopPosicoes(){
 
         div.innerHTML = `
 
-            <div class="position-name">
+            <div
+                class="position-name"
+                title="${ativo.nome}">
                 ${ativo.codigo}
             </div>
 
@@ -3127,12 +3306,8 @@ function renderizarTopPosicoes(){
 
             </div>
 
-            <div class="position-value">
-                ${percentual(p)}
-            </div>
-
             <div class="position-dy">
-                DY ${formatarDY(ativo.dy)}
+                DY ${formatarDY(dy)}
             </div>
 
         `;
@@ -3344,4 +3519,5 @@ setInterval(
 </body>
 
 </html>
+
 
