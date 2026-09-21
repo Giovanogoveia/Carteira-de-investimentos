@@ -1,0 +1,3817 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>Carteira de Investimentos</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+}
+
+:root{
+    --bg-main:#000510;
+    --bg-card:#0a1629;
+    --blue:#2570e8;
+    --orange:#f28c28;
+    --green:#34c759;
+    --yellow:#ffcc00;
+    --red:#ff3b30;
+    --gray-text:#94a3b8;
+    --border:#1e3050;
+    --editable-bg:#0f2040;
+}
+
+html{
+    background:var(--bg-main);
+    scroll-behavior:smooth;
+}
+
+body{
+    background:var(--bg-main);
+    color:#fff;
+    min-height:100vh;
+    width:100%;
+    overflow-x:hidden;
+}
+
+.page{
+    width:100%;
+    max-width:1500px;
+    margin:0 auto;
+    padding:clamp(10px,2vw,24px);
+}
+
+/* =====================================================
+   TÍTULO
+===================================================== */
+
+.main-title{
+    text-align:center;
+    margin-bottom:clamp(12px,2vw,20px);
+}
+
+.main-title h1{
+    font-size:clamp(21px,4vw,34px);
+    font-weight:900;
+    letter-spacing:1px;
+    line-height:1.15;
+}
+
+.main-title h1 span{
+    color:var(--green);
+}
+
+.main-title p{
+    color:var(--gray-text);
+    font-size:clamp(11px,1.5vw,13px);
+    margin-top:5px;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status-bar{
+    display:none;
+    text-align:center;
+    padding:9px 12px;
+    margin-bottom:12px;
+    border-radius:8px;
+    font-size:13px;
+}
+
+.status-bar.show{
+    display:block;
+}
+
+.status-bar.success{
+    background:rgba(52,199,89,.2);
+    color:var(--green);
+    border:1px solid var(--green);
+}
+
+.status-bar.error{
+    background:rgba(255,59,48,.2);
+    color:var(--red);
+    border:1px solid var(--red);
+}
+
+/* =====================================================
+   RESUMO
+===================================================== */
+
+.summary-bar{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:10px;
+    margin-bottom:16px;
+}
+
+.sum-card{
+    background:var(--bg-card);
+    border-radius:10px;
+    padding:12px;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    border:1px solid var(--border);
+}
+
+.sum-card.green{
+    border-color:var(--green);
+}
+
+.sum-card.blue{
+    border-color:var(--blue);
+}
+
+.sum-card.orange{
+    border-color:var(--orange);
+}
+
+.sum-card.yellow{
+    border-color:var(--yellow);
+}
+
+.sum-icon{
+    font-size:clamp(19px,2.5vw,24px);
+    flex-shrink:0;
+}
+
+.sum-label{
+    font-size:clamp(9px,1vw,11px);
+    color:var(--gray-text);
+    text-transform:uppercase;
+    white-space:nowrap;
+}
+
+.sum-value{
+    font-size:clamp(13px,1.8vw,18px);
+    font-weight:800;
+    margin-top:2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* =====================================================
+   TABELAS
+===================================================== */
+
+.tables-wrap{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+    margin-bottom:18px;
+}
+
+.table-block{
+    background:var(--bg-card);
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    min-width:0;
+}
+
+.table-head{
+    padding:12px 10px;
+    font-size:clamp(16px,2vw,22px);
+    font-weight:900;
+    text-align:center;
+}
+
+.table-head.blue{
+    background:var(--blue);
+}
+
+.table-head.orange{
+    background:var(--orange);
+}
+
+.table-actions{
+    display:flex;
+    justify-content:center;
+    padding:9px;
+    background:#081225;
+    border-bottom:1px solid var(--border);
+}
+
+.add-btn{
+    border:none;
+    border-radius:6px;
+    padding:8px 14px;
+    min-height:36px;
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+    font-size:12px;
+    transition:.2s;
+}
+
+.add-btn.blue{
+    background:var(--blue);
+}
+
+.add-btn.orange{
+    background:var(--orange);
+}
+
+.add-btn:hover{
+    opacity:.85;
+    transform:translateY(-1px);
+}
+
+.table-body{
+    width:100%;
+    max-height:480px;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+}
+
+table{
+    width:100%;
+    min-width:850px;
+    border-collapse:collapse;
+}
+
+th{
+    position:sticky;
+    top:0;
+    z-index:2;
+    background:#0a1629;
+    color:var(--gray-text);
+    text-align:left;
+    font-size:11px;
+    padding:8px 5px;
+    border-bottom:1px solid var(--border);
+    white-space:nowrap;
+}
+
+td{
+    font-size:clamp(12px,1.3vw,14px);
+    padding:8px 5px;
+    border-bottom:1px solid var(--border);
+    vertical-align:middle;
+    white-space:nowrap;
+}
+
+tbody tr:hover{
+    background:rgba(37,112,232,.06);
+}
+
+/* =====================================================
+   ATIVO
+===================================================== */
+
+.asset-cell{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.asset-badge{
+    width:28px;
+    height:28px;
+    border-radius:5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    font-weight:900;
+    flex-shrink:0;
+}
+
+.asset-code{
+    font-weight:700;
+    font-size:clamp(12px,1.5vw,15px);
+}
+
+/* =====================================================
+   SEGMENTO
+===================================================== */
+
+.segmento-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:4px 7px;
+    border-radius:5px;
+    background:#10233f;
+    border:1px solid #24456f;
+    color:#cbd5e1;
+    font-size:10px;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+/* =====================================================
+   QUANTIDADE
+===================================================== */
+
+.qtd-wrap{
+    display:flex;
+    align-items:center;
+    gap:4px;
+}
+
+.qtd-input{
+    width:55px;
+    min-height:30px;
+    padding:4px;
+    background:var(--editable-bg);
+    border:1px solid var(--blue);
+    border-radius:4px;
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    text-align:center;
+    outline:none;
+}
+
+.qtd-input:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 2px rgba(52,199,89,.3);
+}
+
+.qtd-btn{
+    width:26px;
+    height:26px;
+    background:var(--blue);
+    border:none;
+    border-radius:4px;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.qtd-btn:hover{
+    background:var(--green);
+}
+
+.qtd-btn.minus:hover{
+    background:var(--red);
+}
+
+.save-btn,
+.delete-btn{
+    min-height:28px;
+    padding:4px 8px;
+    border:none;
+    border-radius:4px;
+    color:#fff;
+    font-size:10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.save-btn{
+    background:var(--green);
+}
+
+.delete-btn{
+    background:var(--red);
+    margin-left:3px;
+}
+
+.row-total{
+    padding:13px;
+    text-align:right;
+    font-size:clamp(15px,2vw,20px);
+    font-weight:900;
+    border-top:2px solid var(--border);
+}
+
+/* =====================================================
+   GRÁFICOS
+===================================================== */
+
+.charts-row{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+    margin-bottom:16px;
+}
+
+.chart-card{
+    background:var(--bg-card);
+    border-radius:12px;
+    padding:16px 12px;
+    border:1px solid var(--border);
+    text-align:center;
+    min-width:0;
+}
+
+.chart-title{
+    font-size:12px;
+    color:var(--gray-text);
+    margin-bottom:12px;
+    font-weight:600;
+    text-transform:uppercase;
+}
+
+.donut-wrap{
+    width:min(120px,35vw);
+    aspect-ratio:1;
+    border-radius:50%;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .4s ease;
+}
+
+.donut-inner{
+    width:76%;
+    height:76%;
+    background:var(--bg-card);
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.donut-total{
+    font-weight:900;
+    font-size:13px;
+}
+
+.donut-val{
+    font-size:11px;
+    color:#ccc;
+    max-width:90%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.bar-list{
+    width:100%;
+    text-align:left;
+    overflow:hidden;
+}
+
+.bar-item{
+    display:flex;
+    align-items:center;
+    margin:7px 0;
+    min-height:22px;
+    gap:4px;
+}
+
+.bar-name{
+    width:58px;
+    flex-shrink:0;
+    font-size:11px;
+    font-weight:700;
+}
+
+.bar-track{
+    flex:1;
+    min-width:20px;
+    height:11px;
+    background:#142540;
+    border-radius:3px;
+    overflow:hidden;
+}
+
+.bar-fill{
+    display:block;
+    height:100%;
+    background:var(--blue);
+    border-radius:3px;
+    transition:width .3s ease;
+}
+
+.bar-amt{
+    width:70px;
+    flex-shrink:0;
+    text-align:right;
+    font-size:10px;
+    font-weight:700;
+}
+
+/* =====================================================
+   SETORES
+===================================================== */
+
+.sectors-block{
+    background:var(--bg-card);
+    border-radius:12px;
+    padding:18px 14px;
+    border:1px solid var(--border);
+    margin-bottom:14px;
+}
+
+.sectors-title{
+    text-align:center;
+    font-size:13px;
+    color:var(--gray-text);
+    margin-bottom:15px;
+    font-weight:600;
+    text-transform:uppercase;
+}
+
+.sectors-grid{
+    display:grid;
+    grid-template-columns:repeat(8,minmax(0,1fr));
+    gap:12px 6px;
+    text-align:center;
+}
+
+.sector-icon{
+    font-size:24px;
+    margin-bottom:4px;
+}
+
+.sector-name{
+    font-size:10px;
+    color:#ccc;
+    line-height:1.2;
+}
+
+.sector-pct{
+    font-size:13px;
+    font-weight:800;
+    margin-top:3px;
+}
+
+/* =====================================================
+   INFORMAÇÕES
+===================================================== */
+
+.info-row{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;
+}
+
+.info-card{
+    background:var(--bg-card);
+    border-radius:10px;
+    padding:14px 10px;
+    border:1px solid var(--border);
+    text-align:center;
+}
+
+.info-icon{
+    font-size:22px;
+    margin-bottom:6px;
+}
+
+.info-text{
+    font-size:11px;
+    color:var(--gray-text);
+    line-height:1.3;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(560px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.modal-title{
+    text-align:center;
+    font-size:22px;
+    font-weight:900;
+    margin-bottom:18px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.form-group.full{
+    grid-column:span 2;
+}
+
+.form-group label{
+    color:var(--gray-text);
+    font-size:12px;
+    font-weight:700;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    min-height:42px;
+    background:#071225;
+    color:#fff;
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:10px;
+    outline:none;
+    font-size:14px;
+}
+
+.form-group select{
+    cursor:pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:var(--blue);
+}
+
+.form-group select option{
+    background:#071225;
+    color:#fff;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+.modal-buttons button{
+    flex:1;
+    min-height:44px;
+    padding:11px;
+    border:none;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:800;
+}
+
+.btn-confirmar{
+    background:var(--green);
+    color:#fff;
+}
+
+.btn-cancelar{
+    background:#334155;
+    color:#fff;
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media(max-width:1100px){
+
+    .summary-bar{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+
+    .sectors-grid{
+        grid-template-columns:repeat(4,minmax(0,1fr));
+    }
+
+}
+
+/* =====================================================
+   TABLET PEQUENO
+===================================================== */
+
+@media(max-width:850px){
+
+    .tables-wrap{
+        grid-template-columns:1fr;
+    }
+
+    .charts-row{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .charts-row .chart-card:first-child{
+        grid-column:span 2;
+    }
+
+    .info-row{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+}
+
+/* =====================================================
+   CELULAR
+===================================================== */
+
+@media(max-width:600px){
+
+    .page{
+        padding:8px;
+    }
+
+    .main-title h1{
+        font-size:22px;
+    }
+
+    .summary-bar{
+        grid-template-columns:1fr 1fr;
+        gap:7px;
+    }
+
+    .sum-card{
+        padding:10px 8px;
+        gap:7px;
+    }
+
+    .sum-icon{
+        font-size:18px;
+    }
+
+    .sum-label{
+        font-size:8px;
+    }
+
+    .sum-value{
+        font-size:13px;
+    }
+
+    .summary-bar>div:last-child{
+        grid-column:span 2;
+    }
+
+    .table-head{
+        font-size:17px;
+    }
+
+    .table-body{
+        max-height:420px;
+    }
+
+    table{
+        min-width:850px;
+    }
+
+    .charts-row{
+        grid-template-columns:1fr;
+    }
+
+    .charts-row .chart-card:first-child{
+        grid-column:auto;
+    }
+
+    .donut-wrap{
+        width:120px;
+    }
+
+    .sectors-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .info-row{
+        grid-template-columns:1fr 1fr;
+        gap:7px;
+    }
+
+    .info-card{
+        padding:12px 7px;
+    }
+
+    .modal{
+        padding:10px;
+        align-items:flex-end;
+    }
+
+    .modal-box{
+        max-height:92vh;
+        border-radius:14px 14px 8px 8px;
+        padding:16px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .modal-title{
+        font-size:20px;
+    }
+
+}
+
+/* =====================================================
+   CELULAR PEQUENO
+===================================================== */
+
+@media(max-width:380px){
+
+    .main-title h1{
+        font-size:19px;
+    }
+
+    .summary-bar{
+        grid-template-columns:1fr;
+    }
+
+    .summary-bar>div:last-child{
+        grid-column:auto;
+    }
+
+    .sectors-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .info-row{
+        grid-template-columns:1fr;
+    }
+
+    .modal-buttons{
+        flex-direction:column;
+    }
+
+}
+
+/* =====================================================
+   TELAS GRANDES
+===================================================== */
+
+@media(min-width:1800px){
+
+    .page{
+        max-width:1700px;
+    }
+
+    .table-body{
+        max-height:560px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="main-title">
+
+<h1>
+CARTEIRA DE <span>INVESTIMENTOS</span>
+</h1>
+
+<p id="data-atualizacao">
+CONECTANDO AO SUPABASE...
+</p>
+
+</div>
+
+<div id="status-bar" class="status-bar"></div>
+
+<!-- =====================================================
+     RESUMO
+===================================================== -->
+
+<div class="summary-bar">
+
+<div class="sum-card green">
+
+<span class="sum-icon">💲</span>
+
+<div>
+
+<div class="sum-label">
+Total Investido
+</div>
+
+<div class="sum-value" id="total-investido">
+R$ 0,00
+</div>
+
+</div>
+
+</div>
+
+<div class="sum-card blue">
+
+<span class="sum-icon">📊</span>
+
+<div>
+
+<div class="sum-label">
+Total de Ativos
+</div>
+
+<div class="sum-value" id="total-ativos">
+0
+</div>
+
+</div>
+
+</div>
+
+<div class="sum-card blue">
+
+<span class="sum-icon">📈</span>
+
+<div>
+
+<div class="sum-label">
+Ações
+</div>
+
+<div class="sum-value" id="qtd-acoes">
+0
+</div>
+
+</div>
+
+</div>
+
+<div class="sum-card orange">
+
+<span class="sum-icon">🏢</span>
+
+<div>
+
+<div class="sum-label">
+FIIs
+</div>
+
+<div class="sum-value" id="qtd-fiis">
+0
+</div>
+
+</div>
+
+</div>
+
+<div class="sum-card yellow">
+
+<span class="sum-icon">🏆</span>
+
+<div>
+
+<div class="sum-label">
+Maior Posição
+</div>
+
+<div class="sum-value" id="maior-posicao">
+--
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     TABELAS
+===================================================== -->
+
+<div class="tables-wrap">
+
+<!-- AÇÕES -->
+
+<div class="table-block">
+
+<div class="table-head blue">
+AÇÕES
+</div>
+
+<div class="table-actions">
+
+<button
+class="add-btn blue"
+onclick="abrirModal('acoes')">
+
+➕ ADICIONAR AÇÃO
+
+</button>
+
+</div>
+
+<div class="table-body">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Ativo</th>
+<th>Empresa</th>
+<th>Segmento</th>
+<th>Qtd</th>
+<th>Preço Médio</th>
+<th>Total</th>
+<th>Ações</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabela-acoes"></tbody>
+
+</table>
+
+</div>
+
+<div class="row-total" id="total-acoes">
+TOTAL AÇÕES — R$ 0,00
+</div>
+
+</div>
+
+<!-- FIIs -->
+
+<div class="table-block">
+
+<div class="table-head orange">
+FIIs - FUNDOS IMOBILIÁRIOS
+</div>
+
+<div class="table-actions">
+
+<button
+class="add-btn orange"
+onclick="abrirModal('fiis')">
+
+➕ ADICIONAR FII
+
+</button>
+
+</div>
+
+<div class="table-body">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Ativo</th>
+<th>Gestora</th>
+<th>Segmento</th>
+<th>Qtd</th>
+<th>Preço Médio</th>
+<th>Total</th>
+<th>Ações</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabela-fiis"></tbody>
+
+</table>
+
+</div>
+
+<div class="row-total" id="total-fiis">
+TOTAL FIIs — R$ 0,00
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     GRÁFICOS
+===================================================== -->
+
+<div class="charts-row">
+
+<div class="chart-card">
+
+<div class="chart-title">
+Distribuição do Patrimônio
+</div>
+
+<div
+class="donut-wrap"
+id="circulo-pat">
+
+<div class="donut-inner">
+
+<div class="donut-total">
+TOTAL
+</div>
+
+<div
+class="donut-val"
+id="valor-total-pat">
+R$ 0,00
+</div>
+
+<div
+style="color:var(--blue);font-weight:bold;font-size:12px;margin-top:2px"
+id="pct-acoes">
+AÇÕES 0%
+</div>
+
+<div
+style="color:var(--orange);font-weight:bold;font-size:12px;margin-top:2px"
+id="pct-fiis">
+FIIs 0%
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="chart-card">
+
+<div class="chart-title">
+Top 10 Maiores Posições
+</div>
+
+<div
+class="bar-list"
+id="top-positions">
+</div>
+
+</div>
+
+<div class="chart-card">
+
+<div class="chart-title">
+Alocação por Classe
+</div>
+
+<div
+class="donut-wrap"
+id="circulo-classe">
+
+<div class="donut-inner">
+
+<div
+style="color:var(--green);font-weight:bold;font-size:15px"
+id="classe-acoes">
+AÇÕES 0%
+</div>
+
+<div
+style="color:var(--orange);font-weight:bold;font-size:15px;margin-top:4px"
+id="classe-fiis">
+FIIs 0%
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     SETORES
+===================================================== -->
+
+<div class="sectors-block">
+
+<div class="sectors-title">
+Alocação por Segmento
+</div>
+
+<div
+class="sectors-grid"
+id="grid-setores">
+</div>
+
+</div>
+
+<!-- =====================================================
+     INFORMAÇÕES
+===================================================== -->
+
+<div class="info-row">
+
+<div class="info-card">
+
+<div class="info-icon">🎯</div>
+
+<div class="info-text">
+Carteira Diversificada
+<br>
+Crescimento & Renda
+</div>
+
+</div>
+
+<div class="info-card">
+
+<div class="info-icon">⏱️</div>
+
+<div class="info-text">
+Foco Longo Prazo
+<br>
+Reavaliação Trimestral
+</div>
+
+</div>
+
+<div class="info-card">
+
+<div class="info-icon">📈</div>
+
+<div class="info-text">
+Otimização de
+<br>
+Retorno com Baixo Risco
+</div>
+
+</div>
+
+<div class="info-card">
+
+<div class="info-icon">🏆</div>
+
+<div class="info-text">
+Objetivo
+<br>
+Construção de Patrimônio
+</div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<div class="modal-title" id="modal-title">
+Adicionar ativo
+</div>
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>
+Código do ativo
+</label>
+
+<input
+type="text"
+id="novo-codigo"
+placeholder="Ex: ITUB4"
+maxlength="10"
+autocomplete="off">
+
+</div>
+
+<div class="form-group">
+
+<label id="label-empresa">
+Empresa
+</label>
+
+<input
+type="text"
+id="novo-nome"
+placeholder="Ex: Itaú"
+autocomplete="off">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Segmento *
+</label>
+
+<select id="novo-segmento" required>
+
+<option value="">
+Selecione o segmento
+</option>
+
+<option value="Financeiro">
+Financeiro
+</option>
+
+<option value="Seguros">
+Seguros
+</option>
+
+<option value="Bancos">
+Bancos
+</option>
+
+<option value="Energia Elétrica">
+Energia Elétrica
+</option>
+
+<option value="Petróleo e Gás">
+Petróleo e Gás
+</option>
+
+<option value="Mineração">
+Mineração
+</option>
+
+<option value="Siderurgia">
+Siderurgia
+</option>
+
+<option value="Logística">
+Logística
+</option>
+
+<option value="Shopping">
+Shopping
+</option>
+
+<option value="Lajes Corporativas">
+Lajes Corporativas
+</option>
+
+<option value="Agro">
+Agro
+</option>
+
+<option value="Papel / CRI">
+Papel / CRI
+</option>
+
+<option value="Recebíveis">
+Recebíveis
+</option>
+
+<option value="Infraestrutura">
+Infraestrutura
+</option>
+
+<option value="Saneamento">
+Saneamento
+</option>
+
+<option value="Consumo">
+Consumo
+</option>
+
+<option value="Saúde">
+Saúde
+</option>
+
+<option value="Tecnologia">
+Tecnologia
+</option>
+
+<option value="Telecomunicações">
+Telecomunicações
+</option>
+
+<option value="Outros">
+Outros
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Quantidade
+</label>
+
+<input
+type="number"
+id="nova-quantidade"
+min="0"
+step="1"
+value="0">
+
+</div>
+
+<div class="form-group">
+
+<label>
+Preço Médio
+</label>
+
+<input
+type="number"
+id="novo-preco"
+min="0"
+step="0.01"
+placeholder="0,00">
+
+</div>
+
+</div>
+
+<div class="modal-buttons">
+
+<button
+class="btn-cancelar"
+onclick="fecharModal()">
+
+Cancelar
+
+</button>
+
+<button
+class="btn-confirmar"
+onclick="adicionarAtivo()">
+
+Adicionar
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://dylziaqkyavkfwjepqkp.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_-j6U29W2jS3Rn2YcKxe2Ow_-1x7MfCv";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   SEGMENTOS
+===================================================== */
+
+const SEGMENTOS = [
+
+    "Financeiro",
+    "Seguros",
+    "Bancos",
+    "Energia Elétrica",
+    "Petróleo e Gás",
+    "Mineração",
+    "Siderurgia",
+    "Logística",
+    "Shopping",
+    "Lajes Corporativas",
+    "Agro",
+    "Papel / CRI",
+    "Recebíveis",
+    "Infraestrutura",
+    "Saneamento",
+    "Consumo",
+    "Saúde",
+    "Tecnologia",
+    "Telecomunicações",
+    "Outros"
+
+];
+
+
+/* =====================================================
+   DADOS INICIAIS
+===================================================== */
+
+let carteira = {
+
+    dataAtualizacao:"20/09/2026",
+
+    acoes:[
+
+        {
+            id:1,
+            codigo:"BBSE3",
+            empresa:"BB Seguridade",
+            segmento:"Seguros",
+            quantidade:33,
+            precoMedio:34.97,
+            cor:"#ffcc00",
+            corTexto:"#000"
+        },
+
+        {
+            id:2,
+            codigo:"CXSE3",
+            empresa:"Caixa Seguridade",
+            segmento:"Seguros",
+            quantidade:31,
+            precoMedio:16.23,
+            cor:"#2570e8",
+            corTexto:"#fff"
+        },
+
+        {
+            id:3,
+            codigo:"VALE3",
+            empresa:"Vale",
+            segmento:"Mineração",
+            quantidade:6,
+            precoMedio:76.47,
+            cor:"#ff3333",
+            corTexto:"#fff"
+        },
+
+        {
+            id:4,
+            codigo:"PETR4",
+            empresa:"Petrobras",
+            segmento:"Petróleo e Gás",
+            quantidade:11,
+            precoMedio:31.78,
+            cor:"#2570e8",
+            corTexto:"#fff"
+        }
+
+    ],
+
+    fiis:[
+
+        {
+            id:1,
+            codigo:"HGLG11",
+            gestora:"CSHG",
+            segmento:"Logística",
+            quantidade:3,
+            precoMedio:149.73,
+            cor:"#2570e8",
+            corTexto:"#fff"
+        },
+
+        {
+            id:2,
+            codigo:"BTLG11",
+            gestora:"BTG Pactual",
+            segmento:"Logística",
+            quantidade:4,
+            precoMedio:102.03,
+            cor:"#003366",
+            corTexto:"#fff"
+        }
+
+    ]
+
+};
+
+
+let tipoNovoAtivo = "acoes";
+
+let sincronizando = false;
+
+
+/* =====================================================
+   AUXILIARES
+===================================================== */
+
+function formatarMoeda(valor){
+
+    return new Intl.NumberFormat(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    ).format(
+        Number(valor) || 0
+    );
+
+}
+
+
+function calcularTotal(itens){
+
+    return itens.reduce(
+        (soma,item)=>
+
+            soma +
+            (
+                Number(item.quantidade) || 0
+            ) *
+            (
+                Number(item.precoMedio) || 0
+            ),
+
+        0
+    );
+
+}
+
+
+function dataHoje(){
+
+    return new Date()
+        .toLocaleDateString("pt-BR");
+
+}
+
+
+function mostrarStatus(
+    msg,
+    tipo="success"
+){
+
+    const el =
+        document.getElementById(
+            "status-bar"
+        );
+
+    el.textContent = msg;
+
+    el.className =
+        `status-bar show ${tipo}`;
+
+    setTimeout(
+        ()=>{
+            el.classList.remove("show");
+        },
+        3500
+    );
+
+}
+
+
+function escapeHTML(valor){
+
+    return String(valor ?? "")
+
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   LOCAL STORAGE
+===================================================== */
+
+function salvarLocal(){
+
+    try{
+
+        localStorage.setItem(
+            "carteiraInvestimentos",
+            JSON.stringify(carteira)
+        );
+
+    }catch(error){
+
+        console.warn(error);
+
+    }
+
+}
+
+
+function carregarLocal(){
+
+    const salvo =
+        localStorage.getItem(
+            "carteiraInvestimentos"
+        );
+
+    if(!salvo){
+        return;
+    }
+
+    try{
+
+        const dados =
+            JSON.parse(salvo);
+
+        if(dados.acoes){
+            carteira.acoes = dados.acoes;
+        }
+
+        if(dados.fiis){
+            carteira.fiis = dados.fiis;
+        }
+
+        if(dados.dataAtualizacao){
+            carteira.dataAtualizacao =
+                dados.dataAtualizacao;
+        }
+
+        /*
+         * Compatibilidade com ativos antigos
+         * que ainda não tinham segmento.
+         */
+
+        carteira.acoes.forEach(
+            ativo=>{
+                if(!ativo.segmento){
+                    ativo.segmento = "Outros";
+                }
+            }
+        );
+
+        carteira.fiis.forEach(
+            ativo=>{
+                if(!ativo.segmento){
+                    ativo.segmento = "Outros";
+                }
+            }
+        );
+
+    }catch(error){
+
+        console.error(
+            "Erro no localStorage:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CONVERTER SUPABASE
+===================================================== */
+
+function converterLinhaSupabase(row){
+
+    const ativo = {
+
+        id:row.id,
+
+        codigo:row.codigo,
+
+        segmento:
+            row.segmento ||
+            "Outros",
+
+        quantidade:
+            Number(row.quantidade) || 0,
+
+        precoMedio:
+            Number(row.preco_medio) || 0,
+
+        cor:
+            row.cor || "#2570e8",
+
+        corTexto:
+            row.cor_texto || "#fff"
+
+    };
+
+
+    if(row.tipo === "acoes"){
+
+        ativo.empresa =
+            row.nome || "";
+
+    }else{
+
+        ativo.gestora =
+            row.nome || "";
+
+    }
+
+
+    return ativo;
+
+}
+
+
+/* =====================================================
+   CARREGAR SUPABASE
+===================================================== */
+
+async function carregarDoSupabase(){
+
+    try{
+
+        mostrarStatus(
+            "☁️ Conectando ao Supabase..."
+        );
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+
+            .from("carteira_ativos")
+
+            .select("*")
+
+            .order(
+                "id",
+                {
+                    ascending:true
+                }
+            );
+
+
+        if(error){
+            throw error;
+        }
+
+
+        if(!data || data.length === 0){
+
+            await enviarDadosIniciais();
+
+            salvarLocal();
+
+            mostrarStatus(
+                "☁️ Dados iniciais enviados ao Supabase."
+            );
+
+            return;
+
+        }
+
+
+        carteira.acoes = [];
+        carteira.fiis = [];
+
+
+        data.forEach(
+            row=>{
+
+                const ativo =
+                    converterLinhaSupabase(row);
+
+
+                if(row.tipo === "acoes"){
+
+                    carteira.acoes.push(
+                        ativo
+                    );
+
+                }
+
+                if(row.tipo === "fiis"){
+
+                    carteira.fiis.push(
+                        ativo
+                    );
+
+                }
+
+            }
+        );
+
+
+        carteira.dataAtualizacao =
+            dataHoje();
+
+
+        salvarLocal();
+
+
+        mostrarStatus(
+            "☁️ Carteira sincronizada com o Supabase."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Erro Supabase:",
+            error
+        );
+
+
+        mostrarStatus(
+            "⚠️ Não foi possível conectar ao Supabase. Usando dados locais.",
+            "error"
+        );
+
+
+        carregarLocal();
+
+    }
+
+}
+
+
+/* =====================================================
+   ENVIAR DADOS INICIAIS
+===================================================== */
+
+async function enviarDadosIniciais(){
+
+    const registros = [];
+
+
+    carteira.acoes.forEach(
+        item=>{
+
+            registros.push({
+
+                tipo:"acoes",
+
+                codigo:item.codigo,
+
+                nome:item.empresa,
+
+                segmento:
+                    item.segmento ||
+                    "Outros",
+
+                quantidade:item.quantidade,
+
+                preco_medio:item.precoMedio,
+
+                cor:item.cor,
+
+                cor_texto:item.corTexto,
+
+                data_atualizacao:
+                    new Date().toISOString()
+
+            });
+
+        }
+    );
+
+
+    carteira.fiis.forEach(
+        item=>{
+
+            registros.push({
+
+                tipo:"fiis",
+
+                codigo:item.codigo,
+
+                nome:item.gestora,
+
+                segmento:
+                    item.segmento ||
+                    "Outros",
+
+                quantidade:item.quantidade,
+
+                preco_medio:item.precoMedio,
+
+                cor:item.cor,
+
+                cor_texto:item.corTexto,
+
+                data_atualizacao:
+                    new Date().toISOString()
+
+            });
+
+        }
+    );
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+
+        .from("carteira_ativos")
+
+        .insert(registros)
+
+        .select();
+
+
+    if(error){
+        throw error;
+    }
+
+
+    if(data){
+
+        data.forEach(
+            row=>{
+
+                const lista =
+                    row.tipo === "acoes"
+                        ? carteira.acoes
+                        : carteira.fiis;
+
+
+                const ativo =
+                    lista.find(
+                        item =>
+                            item.codigo ===
+                            row.codigo
+                    );
+
+
+                if(ativo){
+
+                    ativo.id =
+                        row.id;
+
+                    ativo.segmento =
+                        row.segmento ||
+                        "Outros";
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ADICIONAR SUPABASE
+===================================================== */
+
+async function adicionarAtivoSupabase(
+    ativo,
+    tipo
+){
+
+    const nome =
+        tipo === "acoes"
+            ? ativo.empresa
+            : ativo.gestora;
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+
+        .from("carteira_ativos")
+
+        .insert({
+
+            tipo:tipo,
+
+            codigo:ativo.codigo,
+
+            nome:nome,
+
+            segmento:
+                ativo.segmento ||
+                "Outros",
+
+            quantidade:
+                Number(ativo.quantidade) || 0,
+
+            preco_medio:
+                Number(ativo.precoMedio) || 0,
+
+            cor:ativo.cor,
+
+            cor_texto:ativo.corTexto,
+
+            data_atualizacao:
+                new Date().toISOString()
+
+        })
+
+        .select()
+
+        .single();
+
+
+    if(error){
+        throw error;
+    }
+
+
+    ativo.id = data.id;
+
+    ativo.segmento =
+        data.segmento ||
+        "Outros";
+
+}
+
+
+/* =====================================================
+   ATUALIZAR SUPABASE
+===================================================== */
+
+async function atualizarAtivoSupabase(
+    ativo,
+    tipo
+){
+
+    if(!ativo.id){
+
+        throw new Error(
+            "ID do ativo não encontrado."
+        );
+
+    }
+
+
+    const nome =
+        tipo === "acoes"
+            ? ativo.empresa
+            : ativo.gestora;
+
+
+    const {
+        error
+    } = await supabaseClient
+
+        .from("carteira_ativos")
+
+        .update({
+
+            tipo:tipo,
+
+            codigo:ativo.codigo,
+
+            nome:nome,
+
+            segmento:
+                ativo.segmento ||
+                "Outros",
+
+            quantidade:
+                Number(ativo.quantidade) || 0,
+
+            preco_medio:
+                Number(ativo.precoMedio) || 0,
+
+            cor:ativo.cor,
+
+            cor_texto:ativo.corTexto,
+
+            data_atualizacao:
+                new Date().toISOString()
+
+        })
+
+        .eq(
+            "id",
+            ativo.id
+        );
+
+
+    if(error){
+        throw error;
+    }
+
+}
+
+
+/* =====================================================
+   EXCLUIR SUPABASE
+===================================================== */
+
+async function excluirAtivoSupabase(id){
+
+    if(!id){
+
+        throw new Error(
+            "ID não encontrado."
+        );
+
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+
+        .from("carteira_ativos")
+
+        .delete()
+
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+        throw error;
+    }
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function abrirModal(tipo){
+
+    tipoNovoAtivo = tipo;
+
+
+    const titulo =
+        document.getElementById(
+            "modal-title"
+        );
+
+
+    const label =
+        document.getElementById(
+            "label-empresa"
+        );
+
+
+    const nome =
+        document.getElementById(
+            "novo-nome"
+        );
+
+
+    if(tipo === "acoes"){
+
+        titulo.textContent =
+            "Adicionar nova ação";
+
+        label.textContent =
+            "Empresa";
+
+        nome.placeholder =
+            "Ex: Itaú";
+
+    }else{
+
+        titulo.textContent =
+            "Adicionar novo FII";
+
+        label.textContent =
+            "Gestora";
+
+        nome.placeholder =
+            "Ex: Kinea";
+
+    }
+
+
+    document.getElementById(
+        "novo-codigo"
+    ).value = "";
+
+
+    document.getElementById(
+        "novo-nome"
+    ).value = "";
+
+
+    document.getElementById(
+        "novo-segmento"
+    ).value = "";
+
+
+    document.getElementById(
+        "nova-quantidade"
+    ).value = "0";
+
+
+    document.getElementById(
+        "novo-preco"
+    ).value = "";
+
+
+    document.getElementById(
+        "modal"
+    ).classList.add("show");
+
+
+    document.getElementById(
+        "novo-codigo"
+    ).focus();
+
+}
+
+
+function fecharModal(){
+
+    document.getElementById(
+        "modal"
+    ).classList.remove("show");
+
+}
+
+
+/* =====================================================
+   ADICIONAR ATIVO
+===================================================== */
+
+async function adicionarAtivo(){
+
+    if(sincronizando){
+        return;
+    }
+
+
+    const codigo =
+        document.getElementById(
+            "novo-codigo"
+        )
+        .value
+        .trim()
+        .toUpperCase();
+
+
+    const nome =
+        document.getElementById(
+            "novo-nome"
+        )
+        .value
+        .trim();
+
+
+    const segmento =
+        document.getElementById(
+            "novo-segmento"
+        )
+        .value
+        .trim();
+
+
+    const quantidade =
+        Number(
+            document.getElementById(
+                "nova-quantidade"
+            ).value
+        ) || 0;
+
+
+    const preco =
+        Number(
+            document.getElementById(
+                "novo-preco"
+            ).value
+        ) || 0;
+
+
+    if(!codigo){
+
+        mostrarStatus(
+            "Informe o código do ativo.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!nome){
+
+        mostrarStatus(
+            "Informe o nome da empresa ou gestora.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!segmento){
+
+        mostrarStatus(
+            "⚠️ Selecione o segmento do ativo.",
+            "error"
+        );
+
+        document.getElementById(
+            "novo-segmento"
+        ).focus();
+
+        return;
+
+    }
+
+
+    if(!SEGMENTOS.includes(segmento)){
+
+        mostrarStatus(
+            "Segmento inválido.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(quantidade < 0){
+
+        mostrarStatus(
+            "A quantidade não pode ser negativa.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(preco <= 0){
+
+        mostrarStatus(
+            "Informe um preço médio válido.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const lista =
+        tipoNovoAtivo === "acoes"
+            ? carteira.acoes
+            : carteira.fiis;
+
+
+    const existe =
+        lista.some(
+            item =>
+                String(item.codigo)
+                    .toUpperCase() ===
+                codigo
+        );
+
+
+    if(existe){
+
+        mostrarStatus(
+            `${codigo} já está cadastrado.`,
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const cores = [
+
+        "#2570e8",
+        "#34c759",
+        "#f28c28",
+        "#ffcc00",
+        "#8b5cf6",
+        "#ef4444",
+        "#06b6d4",
+        "#ec4899"
+
+    ];
+
+
+    const cor =
+        cores[
+            lista.length % cores.length
+        ];
+
+
+    const novoAtivo = {
+
+        id:null,
+
+        codigo:codigo,
+
+        segmento:segmento,
+
+        quantidade:quantidade,
+
+        precoMedio:preco,
+
+        cor:cor,
+
+        corTexto:"#fff"
+
+    };
+
+
+    if(tipoNovoAtivo === "acoes"){
+
+        novoAtivo.empresa = nome;
+
+    }else{
+
+        novoAtivo.gestora = nome;
+
+    }
+
+
+    sincronizando = true;
+
+
+    try{
+
+        await adicionarAtivoSupabase(
+            novoAtivo,
+            tipoNovoAtivo
+        );
+
+
+        lista.push(
+            novoAtivo
+        );
+
+
+        carteira.dataAtualizacao =
+            dataHoje();
+
+
+        salvarLocal();
+
+        renderizarAcoes();
+
+        renderizarFiis();
+
+        renderizarSetores();
+
+        atualizarTela();
+
+        fecharModal();
+
+
+        mostrarStatus(
+            `☁️ ${codigo} — ${segmento} adicionado com sucesso.`
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        mostrarStatus(
+            `❌ Erro ao salvar ${codigo}: ${error.message || "erro no Supabase"}`,
+            "error"
+        );
+
+
+    }finally{
+
+        sincronizando = false;
+
+    }
+
+}
+
+
+/* =====================================================
+   ATUALIZAR TELA
+===================================================== */
+
+function atualizarTela(){
+
+    const totalAcoes =
+        calcularTotal(
+            carteira.acoes
+        );
+
+
+    const totalFiis =
+        calcularTotal(
+            carteira.fiis
+        );
+
+
+    const totalGeral =
+        totalAcoes +
+        totalFiis;
+
+
+    const pctAcoes =
+        totalGeral > 0
+            ? (
+                totalAcoes /
+                totalGeral *
+                100
+              ).toFixed(1)
+            : "0.0";
+
+
+    const pctFiis =
+        totalGeral > 0
+            ? (
+                totalFiis /
+                totalGeral *
+                100
+              ).toFixed(1)
+            : "0.0";
+
+
+    document.getElementById(
+        "data-atualizacao"
+    ).textContent =
+        `ATUALIZADA EM ${carteira.dataAtualizacao}`;
+
+
+    document.getElementById(
+        "total-investido"
+    ).textContent =
+        formatarMoeda(totalGeral);
+
+
+    document.getElementById(
+        "total-ativos"
+    ).textContent =
+        carteira.acoes.length +
+        carteira.fiis.length;
+
+
+    document.getElementById(
+        "qtd-acoes"
+    ).textContent =
+        carteira.acoes.length;
+
+
+    document.getElementById(
+        "qtd-fiis"
+    ).textContent =
+        carteira.fiis.length;
+
+
+    const todos = [
+
+        ...carteira.acoes,
+        ...carteira.fiis
+
+    ]
+    .map(
+        item => ({
+
+            ...item,
+
+            valor:
+                (
+                    Number(item.quantidade) || 0
+                ) *
+                (
+                    Number(item.precoMedio) || 0
+                )
+
+        })
+    )
+    .sort(
+        (a,b) =>
+            b.valor - a.valor
+    );
+
+
+    document.getElementById(
+        "maior-posicao"
+    ).textContent =
+
+        todos[0] && totalGeral > 0
+
+            ? `${todos[0].codigo} ${
+                (
+                    todos[0].valor /
+                    totalGeral *
+                    100
+                ).toFixed(1)
+              }%`
+
+            : "--";
+
+
+    document.getElementById(
+        "total-acoes"
+    ).textContent =
+        `TOTAL AÇÕES — ${formatarMoeda(totalAcoes)}`;
+
+
+    document.getElementById(
+        "total-fiis"
+    ).textContent =
+        `TOTAL FIIs — ${formatarMoeda(totalFiis)}`;
+
+
+    document.getElementById(
+        "valor-total-pat"
+    ).textContent =
+        formatarMoeda(totalGeral);
+
+
+    document.getElementById(
+        "pct-acoes"
+    ).textContent =
+        `AÇÕES ${pctAcoes}%`;
+
+
+    document.getElementById(
+        "pct-fiis"
+    ).textContent =
+        `FIIs ${pctFiis}%`;
+
+
+    document.getElementById(
+        "classe-acoes"
+    ).textContent =
+        `AÇÕES ${pctAcoes}%`;
+
+
+    document.getElementById(
+        "classe-fiis"
+    ).textContent =
+        `FIIs ${pctFiis}%`;
+
+
+    const grauAcoes =
+        (
+            Number(pctAcoes) / 100
+        ) * 360;
+
+
+    document.getElementById(
+        "circulo-pat"
+    ).style.background =
+        `conic-gradient(
+            var(--blue)
+            0deg
+            ${grauAcoes}deg,
+
+            var(--orange)
+            ${grauAcoes}deg
+            360deg
+        )`;
+
+
+    document.getElementById(
+        "circulo-classe"
+    ).style.background =
+        `conic-gradient(
+            var(--green)
+            0deg
+            ${grauAcoes}deg,
+
+            var(--orange)
+            ${grauAcoes}deg
+            360deg
+        )`;
+
+
+    const top10 =
+        todos.slice(0,10);
+
+
+    const maiorValor =
+        top10[0]?.valor || 1;
+
+
+    document.getElementById(
+        "top-positions"
+    ).innerHTML =
+
+        top10.map(
+            item => {
+
+                const largura =
+                    (
+                        item.valor /
+                        maiorValor
+                    ) * 100;
+
+
+                return `
+
+                    <div class="bar-item">
+
+                        <span class="bar-name">
+                            ${escapeHTML(item.codigo)}
+                        </span>
+
+                        <span class="bar-track">
+
+                            <span
+                                class="bar-fill"
+                                style="width:${largura}%">
+                            </span>
+
+                        </span>
+
+                        <span class="bar-amt">
+                            ${formatarMoeda(item.valor)}
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =====================================================
+   RENDERIZAR AÇÕES
+===================================================== */
+
+function renderizarAcoes(){
+
+    const tabela =
+        document.getElementById(
+            "tabela-acoes"
+        );
+
+
+    tabela.innerHTML =
+
+        carteira.acoes.map(
+            (item,i)=>{
+
+                const valor =
+
+                    (
+                        Number(item.quantidade) || 0
+                    ) *
+                    (
+                        Number(item.precoMedio) || 0
+                    );
+
+
+                return `
+
+                    <tr
+                        data-tipo="acoes"
+                        data-indice="${i}">
+
+                        <td>
+
+                            <div class="asset-cell">
+
+                                <span
+                                    class="asset-badge"
+                                    style="
+                                        background:${escapeHTML(item.cor)};
+                                        color:${escapeHTML(item.corTexto)}
+                                    ">
+
+                                    ${escapeHTML(
+                                        item.codigo.slice(0,3)
+                                    )}
+
+                                </span>
+
+                                <span class="asset-code">
+
+                                    ${escapeHTML(item.codigo)}
+
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            ${escapeHTML(item.empresa)}
+
+                        </td>
+
+                        <td>
+
+                            <span class="segmento-badge">
+
+                                ${escapeHTML(
+                                    item.segmento || "Outros"
+                                )}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="qtd-wrap">
+
+                                <button
+                                    class="qtd-btn minus"
+                                    data-acao="diminuir">
+
+                                    −
+
+                                </button>
+
+                                <input
+                                    type="number"
+                                    class="qtd-input"
+                                    value="${Number(item.quantidade) || 0}"
+                                    min="0"
+                                    step="1">
+
+                                <button
+                                    class="qtd-btn"
+                                    data-acao="aumentar">
+
+                                    +
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            ${formatarMoeda(
+                                item.precoMedio
+                            )}
+
+                        </td>
+
+                        <td
+                            class="valor-linha"
+                            style="font-weight:700">
+
+                            ${formatarMoeda(valor)}
+
+                        </td>
+
+                        <td>
+
+                            <button class="save-btn">
+                                Salvar
+                            </button>
+
+                            <button class="delete-btn">
+                                Excluir
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =====================================================
+   RENDERIZAR FIIs
+===================================================== */
+
+function renderizarFiis(){
+
+    const tabela =
+        document.getElementById(
+            "tabela-fiis"
+        );
+
+
+    tabela.innerHTML =
+
+        carteira.fiis.map(
+            (item,i)=>{
+
+                const valor =
+
+                    (
+                        Number(item.quantidade) || 0
+                    ) *
+                    (
+                        Number(item.precoMedio) || 0
+                    );
+
+
+                return `
+
+                    <tr
+                        data-tipo="fiis"
+                        data-indice="${i}">
+
+                        <td>
+
+                            <div class="asset-cell">
+
+                                <span
+                                    class="asset-badge"
+                                    style="
+                                        background:${escapeHTML(item.cor)};
+                                        color:${escapeHTML(item.corTexto)}
+                                    ">
+
+                                    ${escapeHTML(
+                                        item.codigo.slice(0,3)
+                                    )}
+
+                                </span>
+
+                                <span class="asset-code">
+
+                                    ${escapeHTML(item.codigo)}
+
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            ${escapeHTML(item.gestora)}
+
+                        </td>
+
+                        <td>
+
+                            <span class="segmento-badge">
+
+                                ${escapeHTML(
+                                    item.segmento || "Outros"
+                                )}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="qtd-wrap">
+
+                                <button
+                                    class="qtd-btn minus"
+                                    data-acao="diminuir">
+
+                                    −
+
+                                </button>
+
+                                <input
+                                    type="number"
+                                    class="qtd-input"
+                                    value="${Number(item.quantidade) || 0}"
+                                    min="0"
+                                    step="1">
+
+                                <button
+                                    class="qtd-btn"
+                                    data-acao="aumentar">
+
+                                    +
+
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            ${formatarMoeda(
+                                item.precoMedio
+                            )}
+
+                        </td>
+
+                        <td
+                            class="valor-linha"
+                            style="font-weight:700">
+
+                            ${formatarMoeda(valor)}
+
+                        </td>
+
+                        <td>
+
+                            <button class="save-btn">
+                                Salvar
+                            </button>
+
+                            <button class="delete-btn">
+                                Excluir
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =====================================================
+   SEGMENTOS / ALOCAÇÃO
+===================================================== */
+
+function renderizarSetores(){
+
+    const todos = [
+
+        ...carteira.acoes,
+        ...carteira.fiis
+
+    ];
+
+
+    const valores = {};
+
+
+    todos.forEach(
+        ativo=>{
+
+            const segmento =
+                ativo.segmento ||
+                "Outros";
+
+
+            const valor =
+                (
+                    Number(ativo.quantidade) || 0
+                ) *
+                (
+                    Number(ativo.precoMedio) || 0
+                );
+
+
+            valores[segmento] =
+                (
+                    valores[segmento] || 0
+                ) +
+                valor;
+
+        }
+    );
+
+
+    const total =
+        Object.values(valores)
+            .reduce(
+                (a,b)=>a+b,
+                0
+            );
+
+
+    const icones = {
+
+        "Financeiro":"🏦",
+        "Seguros":"🛡️",
+        "Bancos":"🏦",
+        "Energia Elétrica":"⚡",
+        "Petróleo e Gás":"🛢️",
+        "Mineração":"⛏️",
+        "Siderurgia":"🏭",
+        "Logística":"🚚",
+        "Shopping":"🛍️",
+        "Lajes Corporativas":"🏢",
+        "Agro":"🌱",
+        "Papel / CRI":"📄",
+        "Recebíveis":"💰",
+        "Infraestrutura":"🏗️",
+        "Saneamento":"💧",
+        "Consumo":"🛒",
+        "Saúde":"🏥",
+        "Tecnologia":"💻",
+        "Telecomunicações":"📡",
+        "Outros":"⋯"
+
+    };
+
+
+    const lista =
+        Object.entries(valores)
+            .sort(
+                (a,b)=>b[1]-a[1]
+            );
+
+
+    document.getElementById(
+        "grid-setores"
+    ).innerHTML =
+
+        lista.length
+
+            ? lista.map(
+                ([nome,valor])=>{
+
+                    const percentual =
+                        total > 0
+                            ? (
+                                valor /
+                                total *
+                                100
+                              )
+                            : 0;
+
+
+                    return `
+
+                        <div>
+
+                            <div class="sector-icon">
+
+                                ${icones[nome] || "⋯"}
+
+                            </div>
+
+                            <div class="sector-name">
+
+                                ${escapeHTML(nome)}
+
+                            </div>
+
+                            <div class="sector-pct">
+
+                                ${percentual.toFixed(1)}%
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+              ).join("")
+
+            : `
+
+                <div style="
+                    grid-column:1/-1;
+                    color:var(--gray-text);
+                    padding:15px">
+
+                    Nenhum segmento cadastrado.
+
+                </div>
+
+              `;
+
+}
+
+
+/* =====================================================
+   EVENTOS
+===================================================== */
+
+document.addEventListener(
+    "click",
+    async function(e){
+
+        const tr =
+            e.target.closest("tr");
+
+
+        if(!tr){
+            return;
+        }
+
+
+        const tipo =
+            tr.dataset.tipo;
+
+
+        const indice =
+            parseInt(
+                tr.dataset.indice,
+                10
+            );
+
+
+        const lista =
+            tipo === "acoes"
+                ? carteira.acoes
+                : carteira.fiis;
+
+
+        const ativo =
+            lista[indice];
+
+
+        if(!ativo){
+            return;
+        }
+
+
+        /* + / - */
+
+        if(
+            e.target.classList.contains(
+                "qtd-btn"
+            )
+        ){
+
+            let v =
+                parseInt(
+                    ativo.quantidade,
+                    10
+                ) || 0;
+
+
+            if(
+                e.target.dataset.acao ===
+                "aumentar"
+            ){
+
+                v++;
+
+            }else if(v > 0){
+
+                v--;
+
+            }
+
+
+            ativo.quantidade = v;
+
+
+            const input =
+                tr.querySelector(
+                    ".qtd-input"
+                );
+
+
+            if(input){
+                input.value = v;
+            }
+
+
+            const valorLinha =
+                tr.querySelector(
+                    ".valor-linha"
+                );
+
+
+            if(valorLinha){
+
+                valorLinha.textContent =
+                    formatarMoeda(
+                        v *
+                        ativo.precoMedio
+                    );
+
+            }
+
+
+            carteira.dataAtualizacao =
+                dataHoje();
+
+
+            salvarLocal();
+
+            atualizarTela();
+
+            renderizarSetores();
+
+
+            try{
+
+                await atualizarAtivoSupabase(
+                    ativo,
+                    tipo
+                );
+
+
+                mostrarStatus(
+                    `☁️ ${ativo.codigo}: quantidade atualizada.`
+                );
+
+
+            }catch(error){
+
+                console.error(error);
+
+
+                mostrarStatus(
+                    `⚠️ ${ativo.codigo}: salvo localmente, mas não sincronizado.`,
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /* SALVAR */
+
+        if(
+            e.target.classList.contains(
+                "save-btn"
+            )
+        ){
+
+            try{
+
+                await atualizarAtivoSupabase(
+                    ativo,
+                    tipo
+                );
+
+
+                carteira.dataAtualizacao =
+                    dataHoje();
+
+
+                salvarLocal();
+
+                atualizarTela();
+
+                renderizarSetores();
+
+
+                mostrarStatus(
+                    `☁️ ${ativo.codigo}: salvo no Supabase.`
+                );
+
+
+            }catch(error){
+
+                console.error(error);
+
+
+                salvarLocal();
+
+
+                mostrarStatus(
+                    `⚠️ ${ativo.codigo}: salvo localmente, mas não sincronizado.`,
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /* EXCLUIR */
+
+        if(
+            e.target.classList.contains(
+                "delete-btn"
+            )
+        ){
+
+            const codigo =
+                ativo.codigo;
+
+
+            const confirmar =
+                confirm(
+                    `Deseja realmente excluir ${codigo} da carteira?`
+                );
+
+
+            if(!confirmar){
+                return;
+            }
+
+
+            try{
+
+                await excluirAtivoSupabase(
+                    ativo.id
+                );
+
+
+                lista.splice(
+                    indice,
+                    1
+                );
+
+
+                carteira.dataAtualizacao =
+                    dataHoje();
+
+
+                salvarLocal();
+
+
+                renderizarAcoes();
+
+                renderizarFiis();
+
+                renderizarSetores();
+
+                atualizarTela();
+
+
+                mostrarStatus(
+                    `🗑️ ${codigo} removido do Supabase.`
+                );
+
+
+            }catch(error){
+
+                console.error(error);
+
+
+                mostrarStatus(
+                    `❌ Não foi possível excluir ${codigo}.`,
+                    "error"
+                );
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ALTERAÇÃO MANUAL
+===================================================== */
+
+document.addEventListener(
+    "input",
+    function(e){
+
+        if(
+            !e.target.classList.contains(
+                "qtd-input"
+            )
+        ){
+            return;
+        }
+
+
+        const tr =
+            e.target.closest("tr");
+
+
+        if(!tr){
+            return;
+        }
+
+
+        const lista =
+            tr.dataset.tipo === "acoes"
+                ? carteira.acoes
+                : carteira.fiis;
+
+
+        const indice =
+            parseInt(
+                tr.dataset.indice,
+                10
+            );
+
+
+        const ativo =
+            lista[indice];
+
+
+        if(!ativo){
+            return;
+        }
+
+
+        let v =
+            parseInt(
+                e.target.value,
+                10
+            ) || 0;
+
+
+        if(v < 0){
+            v = 0;
+        }
+
+
+        ativo.quantidade = v;
+
+
+        const valorLinha =
+            tr.querySelector(
+                ".valor-linha"
+            );
+
+
+        if(valorLinha){
+
+            valorLinha.textContent =
+                formatarMoeda(
+                    v *
+                    ativo.precoMedio
+                );
+
+        }
+
+
+        carteira.dataAtualizacao =
+            dataHoje();
+
+
+        salvarLocal();
+
+        atualizarTela();
+
+    }
+);
+
+
+/* =====================================================
+   CHANGE
+===================================================== */
+
+document.addEventListener(
+    "change",
+    async function(e){
+
+        if(
+            !e.target.classList.contains(
+                "qtd-input"
+            )
+        ){
+            return;
+        }
+
+
+        const tr =
+            e.target.closest("tr");
+
+
+        if(!tr){
+            return;
+        }
+
+
+        const lista =
+            tr.dataset.tipo === "acoes"
+                ? carteira.acoes
+                : carteira.fiis;
+
+
+        const indice =
+            parseInt(
+                tr.dataset.indice,
+                10
+            );
+
+
+        const ativo =
+            lista[indice];
+
+
+        if(!ativo){
+            return;
+        }
+
+
+        try{
+
+            await atualizarAtivoSupabase(
+                ativo,
+                tr.dataset.tipo
+            );
+
+
+            mostrarStatus(
+                `☁️ ${ativo.codigo}: sincronizado.`
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            mostrarStatus(
+                `⚠️ ${ativo.codigo}: alteração salva apenas localmente.`,
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+document.getElementById(
+    "modal"
+).addEventListener(
+    "click",
+    function(e){
+
+        if(e.target === this){
+            fecharModal();
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESC
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(e){
+
+        if(e.key === "Escape"){
+            fecharModal();
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+async function iniciarAplicacao(){
+
+    carregarLocal();
+
+
+    renderizarAcoes();
+
+    renderizarFiis();
+
+    renderizarSetores();
+
+    atualizarTela();
+
+
+    await carregarDoSupabase();
+
+
+    renderizarAcoes();
+
+    renderizarFiis();
+
+    renderizarSetores();
+
+    atualizarTela();
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    iniciarAplicacao
+);
+
+</script>
+
+</body>
+</html>
+
