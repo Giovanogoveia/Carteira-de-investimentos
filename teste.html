@@ -511,6 +511,133 @@ tbody tr:hover td{
 
 
 /* =========================================================
+   RODAPÉ DAS TABELAS
+========================================================= */
+
+.table-total-row td{
+    background:linear-gradient(90deg,#0e6fbe,#1685e5);
+    color:#ffffff;
+    font-size:10px;
+    font-weight:900;
+    border-top:1px solid rgba(255,255,255,.12);
+    border-bottom:none;
+    height:30px;
+    padding:0 7px;
+}
+
+.table-total-content{
+    width:100%;
+    min-width:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.table-total-label{
+    text-transform:uppercase;
+    letter-spacing:.2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.table-total-content strong{
+    margin-left:auto;
+    flex:0 0 auto;
+    color:#fff;
+    font-size:10px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.fii-card .table-total-row td{
+    background:linear-gradient(90deg,#df6100,#ff7a00);
+}
+
+.renda-fixa-card .table-total-row td{
+    background:linear-gradient(90deg,#11834b,#19a866);
+}
+
+.table-total-label{
+    text-transform:uppercase;
+}
+
+.asset-logo{
+    width:27px;
+    height:27px;
+    min-width:27px;
+    border-radius:7px;
+    object-fit:contain;
+    background:#ffffff;
+    border:1px solid rgba(255,255,255,.14);
+    padding:3px;
+    box-shadow:0 2px 8px rgba(0,0,0,.25);
+}
+
+.asset-logo-fallback{
+    width:27px;
+    height:27px;
+    min-width:27px;
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:7px;
+    font-weight:900;
+    border:1px solid rgba(255,255,255,.1);
+}
+
+@media(max-width:600px){
+    .table-total-row td{
+        height:25px;
+        padding:0 4px;
+    }
+
+    .table-total-content strong{
+        font-size:7px;
+    }
+
+    .table-total-label{
+        font-size:7px;
+    }
+
+    .asset-logo,
+    .asset-logo-fallback{
+        width:20px;
+        height:20px;
+        min-width:20px;
+        border-radius:5px;
+        padding:2px;
+        font-size:5.5px;
+    }
+}
+
+@media(max-width:380px){
+    .table-total-row td{
+        height:24px;
+        padding:0 3px;
+    }
+
+    .table-total-content{
+        gap:4px;
+    }
+
+    .table-total-content strong,
+    .table-total-label{
+        font-size:6.5px;
+    }
+
+    .asset-logo,
+    .asset-logo-fallback{
+        width:18px;
+        height:18px;
+        min-width:18px;
+        border-radius:4px;
+    }
+}
+
+/* =========================================================
    GRÁFICOS
 ========================================================= */
 
@@ -875,12 +1002,60 @@ tbody tr:hover td{
 
     padding:8px;
 
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    min-width:0;
+
     box-shadow:
         0 4px 12px rgba(0,0,0,.20);
 
     transition:
         border-color .2s ease,
         transform .2s ease;
+}
+
+.info-icon{
+    width:27px;
+    height:27px;
+    min-width:27px;
+    border-radius:7px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#1685e5;
+    background:rgba(22,133,229,.12);
+    border:1px solid rgba(22,133,229,.28);
+}
+
+.info-card:nth-child(2) .info-icon{
+    color:#9be33c;
+    background:rgba(155,227,60,.10);
+    border-color:rgba(155,227,60,.25);
+}
+
+.info-card:nth-child(3) .info-icon{
+    color:#ffb020;
+    background:rgba(255,176,32,.10);
+    border-color:rgba(255,176,32,.25);
+}
+
+.info-card:nth-child(4) .info-icon{
+    color:#a878ff;
+    background:rgba(168,120,255,.10);
+    border-color:rgba(168,120,255,.25);
+}
+
+.info-icon svg{
+    width:15px;
+    height:15px;
+}
+
+.info-content{
+    min-width:0;
 }
 
 .info-card:hover{
@@ -1568,6 +1743,20 @@ tbody tr:hover td{
     .info-card{
         padding:4px 2px;
         border-radius:4px;
+        gap:2px;
+        align-items:center;
+    }
+
+    .info-icon{
+        width:14px;
+        height:14px;
+        min-width:14px;
+        border-radius:3px;
+    }
+
+    .info-icon svg{
+        width:9px;
+        height:9px;
     }
 
     .info-card strong{
@@ -1813,6 +2002,209 @@ tbody tr:hover td{
 
 }
 
+
+/* =========================================================
+   PALETA VISUAL — baseada na referência enviada
+   Os gráficos permanecem com as cores originais.
+========================================================= */
+
+:root{
+    --theme-bg:#06121c;
+    --theme-card:#0b1c28;
+    --theme-card2:#0a1823;
+    --theme-border:#385364;
+    --theme-border-soft:#294554;
+    --theme-blue:#1685e5;
+    --theme-blue-dark:#0d5fa9;
+    --theme-orange:#ff7a00;
+    --theme-green:#9be33c;
+    --theme-text:#f3f6f8;
+    --theme-muted:#9aabb7;
+}
+
+body{
+    background:
+        radial-gradient(circle at 18% 0%,rgba(22,133,229,.10),transparent 30%),
+        radial-gradient(circle at 82% 8%,rgba(155,227,60,.045),transparent 24%),
+        var(--theme-bg);
+}
+
+.header{
+    background:linear-gradient(145deg,#0d202d,#081722);
+    border-color:var(--theme-border);
+}
+
+.title-area h1{
+    color:#f4f4f4;
+}
+
+.title-green{
+    color:var(--theme-green);
+}
+
+.title-area p{
+    color:#a8b7c1;
+}
+
+.status{
+    color:#a8b7c1;
+}
+
+.summary-card{
+    background:linear-gradient(145deg,#0d202d,#081722);
+    border-color:var(--theme-border);
+}
+
+.summary-card:hover{
+    border-color:#4c7185;
+}
+
+.summary-icon{
+    background:#102b3b;
+    border-color:rgba(255,255,255,.12);
+}
+
+.summary-label{
+    color:#a9bac4;
+}
+
+.summary-sub{
+    color:#91a5b1;
+}
+
+/* Ícones dos 5 cards superiores */
+.summary-card:nth-child(1) .summary-icon{color:var(--theme-green) !important;}
+.summary-card:nth-child(2) .summary-icon{color:#38a9ff !important;}
+.summary-card:nth-child(3) .summary-icon{color:var(--theme-green) !important;}
+.summary-card:nth-child(4) .summary-icon{color:var(--theme-orange) !important;}
+.summary-card:nth-child(5) .summary-icon{color:#ffd54f !important;}
+
+.table-card{
+    background:linear-gradient(145deg,#0c202d,#081821);
+    border-color:var(--theme-border);
+}
+
+.table-title{
+    background:linear-gradient(90deg,rgba(22,133,229,.22),rgba(22,133,229,.04));
+    border-bottom-color:var(--theme-border);
+}
+
+.acao-card .table-title{
+    background:linear-gradient(90deg,#147bd2,#1685e5);
+    border-bottom-color:#2e9af0;
+}
+
+.fii-card .table-title{
+    background:linear-gradient(90deg,#ed6900,#ff7a00);
+    border-bottom-color:#ff9435;
+}
+
+.renda-fixa-card .table-title{
+    background:linear-gradient(90deg,#11834b,#19a866);
+    border-bottom-color:#35c982;
+}
+
+.table-title strong,
+.table-title span{
+    color:#fff;
+}
+
+.table-title span{
+    opacity:.9;
+}
+
+th{
+    background:#0a1b27;
+    color:#91a7b4;
+    border-bottom-color:var(--theme-border-soft);
+    border-right-color:rgba(56,83,100,.65);
+}
+
+td{
+    color:#e1e9ed;
+    border-bottom-color:rgba(56,83,100,.52);
+    border-right-color:rgba(56,83,100,.42);
+}
+
+tbody tr:hover td{
+    background:rgba(22,133,229,.09);
+}
+
+.asset-code{
+    color:#f5f8fa;
+}
+
+.asset-name{
+    color:#78909d;
+}
+
+.value{
+    color:#f1f5f7;
+}
+
+/* Cards dos gráficos: apenas o fundo/borda muda.
+   As cores dos gráficos continuam as originais. */
+.chart-card{
+    background:linear-gradient(145deg,#0c202d,#081821);
+    border-color:var(--theme-border);
+}
+
+.chart-title{
+    color:#e7edf1;
+}
+
+.sectors{
+    background:linear-gradient(145deg,#0c202d,#081821);
+    border-color:var(--theme-border);
+}
+
+.section-title h2{
+    color:#f0f4f6;
+}
+
+.section-title span{
+    color:#9aabb7;
+}
+
+.sector{
+    background:linear-gradient(145deg,#0d202d,#081722);
+    border-color:var(--theme-border);
+}
+
+.sector:hover{
+    border-color:#4c7185;
+}
+
+.sector-icon{
+    background:linear-gradient(145deg,#123247,#0b2331);
+    border-color:rgba(255,255,255,.10);
+}
+
+.sector-name{
+    color:#dce6eb;
+}
+
+.info-card{
+    background:linear-gradient(145deg,#0c202d,#081821);
+    border-color:var(--theme-border);
+}
+
+.info-card:hover{
+    border-color:#4c7185;
+}
+
+.info-card strong{
+    color:#e6edf1;
+}
+
+.info-card p{
+    color:#91a5b1;
+}
+
+.footer{
+    color:#607985;
+}
+
 </style>
 
 </head>
@@ -1827,7 +2219,7 @@ tbody tr:hover td{
 
     <div class="title-area">
 
-        <h1>CARTEIRA DE INVESTIMENTOS</h1>
+        <h1>CARTEIRA DE <span class="title-green">INVESTIMENTOS</span></h1>
 
         <p id="dataAtualizacao">
             Carregando dados...
@@ -2071,6 +2463,8 @@ tbody tr:hover td{
 
                 <tbody id="tabelaFiis"></tbody>
 
+                <tfoot><tr class="table-total-row"><td colspan="6"><div class="table-total-content"><span class="table-total-label">Total FIIs</span><strong id="totalTabelaFiis">R$ 0,00</strong></div></td></tr></tfoot>
+
             </table>
 
         </div>
@@ -2128,6 +2522,8 @@ tbody tr:hover td{
 
                 <tbody id="tabelaAcoes"></tbody>
 
+                <tfoot><tr class="table-total-row"><td colspan="6"><div class="table-total-content"><span class="table-total-label">Total Ações</span><strong id="totalTabelaAcoes">R$ 0,00</strong></div></td></tr></tfoot>
+
             </table>
 
         </div>
@@ -2184,6 +2580,8 @@ tbody tr:hover td{
                 </thead>
 
                 <tbody id="tabelaRendaFixa"></tbody>
+
+                <tfoot><tr class="table-total-row"><td colspan="6"><div class="table-total-content"><span class="table-total-label">Total Renda Fixa</span><strong id="totalTabelaRendaFixa">R$ 0,00</strong></div></td></tr></tfoot>
 
             </table>
 
@@ -2279,52 +2677,71 @@ tbody tr:hover td{
 
     <div class="info-card">
 
-        <strong>
-            Fonte dos dados
-        </strong>
+        <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v14.5A2.5 2.5 0 0 0 17.5 15H4z"/>
+                <path d="M4 5.5V19a2 2 0 0 0 2 2h11.5A2.5 2.5 0 0 0 20 18.5V17"/>
+                <path d="M8 7h8M8 10h6"/>
+            </svg>
+        </div>
 
-        <p>
-            Dados carregados diretamente do Supabase.
-        </p>
-
-    </div>
-
-
-    <div class="info-card">
-
-        <strong>
-            Somente leitura
-        </strong>
-
-        <p>
-            Este painel não altera os dados da carteira.
-        </p>
+        <div class="info-content">
+            <strong>Fonte dos dados</strong>
+            <p>Dados carregados diretamente do Supabase.</p>
+        </div>
 
     </div>
 
 
     <div class="info-card">
 
-        <strong>
-            Atualização
-        </strong>
+        <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="3.5" width="14" height="17" rx="2.2"/>
+                <path d="M9 3.5h6v3H9z"/>
+                <path d="m9 14 2 2 4-4"/>
+            </svg>
+        </div>
 
-        <p>
-            Os dados são atualizados automaticamente a cada 60 segundos.
-        </p>
+        <div class="info-content">
+            <strong>Somente leitura</strong>
+            <p>Este painel não altera os dados da carteira.</p>
+        </div>
 
     </div>
 
 
     <div class="info-card">
 
-        <strong>
-            Responsivo
-        </strong>
+        <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 11a8 8 0 1 0 1 4"/>
+                <path d="M20 5v6h-6"/>
+                <path d="M12 7v5l3 2"/>
+            </svg>
+        </div>
 
-        <p>
-            Layout adaptado para computador, tablet e celular.
-        </p>
+        <div class="info-content">
+            <strong>Atualização</strong>
+            <p>Os dados são atualizados automaticamente a cada 60 segundos.</p>
+        </div>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <div class="info-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="3" width="16" height="18" rx="2"/>
+                <path d="M8 7h8M8 12h3M13 12h3M8 16h3M13 16h3"/>
+            </svg>
+        </div>
+
+        <div class="info-content">
+            <strong>Responsivo</strong>
+            <p>Layout adaptado para computador, tablet e celular.</p>
+        </div>
 
     </div>
 
@@ -2418,26 +2835,42 @@ function criarIconeAtivo(
     corTexto
 ){
 
-    const div =
+    const fallback =
         document.createElement('div');
 
-    div.className =
-        'asset-icon';
+    fallback.className =
+        'asset-logo-fallback';
 
-    div.style.background =
+    fallback.style.background =
         cor || '#12304d';
 
-    div.style.color =
+    fallback.style.color =
         corTexto || '#ffffff';
 
-    div.textContent =
+    fallback.textContent =
         String(codigo || '')
         .replace(/\d/g,'')
         .substring(0,4);
 
-    return div;
-}
+    const img =
+        document.createElement('img');
 
+    img.className = 'asset-logo';
+    img.alt = String(codigo || '');
+    img.title = String(codigo || '');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+
+    // A brapi disponibiliza logos oficiais dos ativos brasileiros.
+    img.src =
+        `https://icons.brapi.dev/icons/${encodeURIComponent(String(codigo || '').toUpperCase())}.svg`;
+
+    img.onerror = function(){
+        this.replaceWith(fallback);
+    };
+
+    return img;
+}
 
 function iconeSegmento(segmento){
 
@@ -2679,6 +3112,31 @@ function renderizarTabela(
 
 
     tbody.innerHTML = '';
+
+
+    const totalTabela =
+        ativos.reduce(
+            (soma, ativo) =>
+                soma + valorAtivo(ativo),
+            0
+        );
+
+
+    const totalId =
+        elementoId === 'tabelaFiis'
+            ? 'totalTabelaFiis'
+            : elementoId === 'tabelaAcoes'
+                ? 'totalTabelaAcoes'
+                : 'totalTabelaRendaFixa';
+
+
+    const totalElemento =
+        document.getElementById(totalId);
+
+    if(totalElemento){
+        totalElemento.textContent =
+            moeda(totalTabela);
+    }
 
 
     if(!ativos.length){
