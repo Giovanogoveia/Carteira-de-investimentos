@@ -2437,7 +2437,7 @@ tbody tr:hover td{
 
 
     <!-- =====================================================
-         6 - MAIOR POSIÇÃO
+         6 - PREVISÃO DE RECEBIMENTO DE DY
     ====================================================== -->
 
     <div class="summary-card">
@@ -2446,7 +2446,8 @@ tbody tr:hover td{
 
             <svg viewBox="0 0 24 24">
 
-                <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"></path>
+                <path d="M12 3v18"></path>
+                <path d="M17 7h-7.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H7"></path>
 
             </svg>
 
@@ -2455,11 +2456,15 @@ tbody tr:hover td{
         <div class="summary-content">
 
             <div class="summary-label">
-                Maior posição
+                Previsão de Receb. DY
             </div>
 
-            <div class="summary-value" id="maiorPosicao">
-                -
+            <div class="summary-value" id="previsaoDy">
+                R$ 0,00
+            </div>
+
+            <div class="summary-sub">
+                Baseado no último DY informado
             </div>
 
         </div>
@@ -3116,6 +3121,10 @@ function converterLinhaSupabase(row){
         dy:
             Number(row.dy) || 0,
 
+        /* ÚLTIMO DY EM R$ POR COTA */
+        ultimoDy:
+            Number(row.ultimo_dy) || 0,
+
         /* VALOR EM R$ recebido em dividendos */
         dyRecebido:
             Number(row.dy_recebido) || 0,
@@ -3461,13 +3470,23 @@ function atualizarResumo(){
         );
 
 
-    const maior =
-        [...carteira]
-        .sort(
-            (a,b) =>
-                valorAtivo(b) -
-                valorAtivo(a)
-        )[0];
+    /*
+       PREVISÃO TOTAL DE RECEBIMENTO DE DY
+
+       Soma:
+       quantidade de cada FII × último DY em R$/cota.
+
+       Exemplo:
+       80 HGLG11 × R$ 1,17 = R$ 93,60
+    */
+    const previsaoDy =
+        fiis.reduce(
+            (soma, ativo) =>
+                soma +
+                (Number(ativo.quantidade) || 0) *
+                (Number(ativo.ultimoDy) || 0),
+            0
+        );
 
 
     document
@@ -3512,15 +3531,9 @@ function atualizarResumo(){
 
 
     document
-        .getElementById('maiorPosicao')
+        .getElementById('previsaoDy')
         .textContent =
-        maior
-        ? `${maior.codigo} ${percentual(
-            total > 0
-                ? valorAtivo(maior) / total * 100
-                : 0
-        )}`
-        : '-';
+        moeda(previsaoDy);
 
 
     document
@@ -4095,4 +4108,3 @@ setInterval(
 </body>
 
 </html>
-
