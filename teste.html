@@ -1,6 +1,3 @@
-
-
-<br>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -234,6 +231,7 @@ body{
     min-width:0;
     position:relative;
     z-index:2;
+    flex:1;
 }
 
 .summary-label{
@@ -995,51 +993,124 @@ tbody tr:hover td{
 
 
     /* =====================================================
-       RESUMO
+       RESUMO — 5 CARDS SEMPRE LADO A LADO
     ===================================================== */
 
     .summary{
-        grid-template-columns:repeat(5,minmax(0,1fr));
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,minmax(0,1fr));
+
         gap:2px;
+
+        width:100%;
+
         margin-bottom:5px;
     }
 
     .summary-card{
-        padding:5px 3px;
-        min-height:52px;
+        width:100%;
+        min-width:0;
+
+        min-height:55px;
+
+        padding:4px 2px;
+
         border-radius:6px;
-        gap:3px;
+
+        gap:2px;
+
+        overflow:hidden;
+
+        display:flex;
+        align-items:center;
     }
 
+    /*
+       O ícone ocupa pouco espaço.
+       Isso deixa mais espaço para o número.
+    */
+
     .summary-icon{
-        width:22px;
-        height:34px;
-        min-width:22px;
-        border-radius:6px;
+        width:18px;
+        height:27px;
+
+        min-width:18px;
+
+        border-radius:5px;
     }
 
     .summary-icon svg{
-        width:15px;
-        height:15px;
+        width:12px;
+        height:12px;
+    }
+
+    .summary-content{
+        min-width:0;
+
+        width:100%;
+
+        flex:1;
+
+        overflow:visible;
     }
 
     .summary-label{
-        font-size:6px;
+        font-size:5px;
+
         font-weight:800;
-        line-height:1.1;
+
+        line-height:1;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:clip;
     }
 
+    /*
+       O tamanho do número se adapta à largura
+       disponível da tela.
+    */
+
     .summary-value{
-        font-size:9px;
+        font-size:clamp(6.5px,2.25vw,11px);
+
         font-weight:900;
+
         margin-top:3px;
-        line-height:1.1;
+
+        line-height:1;
+
+        white-space:nowrap;
+
+        overflow:visible;
+
+        text-overflow:clip;
+
+        letter-spacing:-0.65px;
+
+        width:max-content;
+
+        max-width:none;
     }
 
     .summary-sub{
-        font-size:5px;
+        font-size:4px;
+
         margin-top:2px;
-        line-height:1.05;
+
+        line-height:1;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:clip;
+
+        letter-spacing:-0.15px;
     }
 
 
@@ -1140,7 +1211,6 @@ tbody tr:hover td{
 
     /* =====================================================
        FIIs / AÇÕES
-       ATIVO | SEGMENTO | QTD | TOTAL
     ===================================================== */
 
     .fii-card .col-nome,
@@ -1166,9 +1236,6 @@ tbody tr:hover td{
     .acao-card th.col-pm{
         display:none !important;
     }
-
-
-    /* 31 + 20 + 15 + 34 = 100% */
 
     .fii-card .col-ativo,
     .acao-card .col-ativo{
@@ -1198,7 +1265,6 @@ tbody tr:hover td{
 
     /* =====================================================
        RENDA FIXA
-       ATIVO | TIPO | QTD | TOTAL
     ===================================================== */
 
     .renda-fixa-card .col-nome,
@@ -1239,7 +1305,7 @@ tbody tr:hover td{
 
 
     /* =====================================================
-       TOTAL — MAIS ESPAÇO NO CELULAR
+       TOTAL
     ===================================================== */
 
     .fii-card td.col-total,
@@ -1257,7 +1323,6 @@ tbody tr:hover td{
 
         letter-spacing:-0.15px;
     }
-
 
     .fii-card th.col-total,
     .acao-card th.col-total,
@@ -1541,33 +1606,72 @@ tbody tr:hover td{
         font-size:7px;
     }
 
+
+    /* =====================================================
+       RESUMO — CONTINUA COM OS 5 LADO A LADO
+    ===================================================== */
+
+    .summary{
+        grid-template-columns:
+            repeat(5,minmax(0,1fr));
+
+        gap:1px;
+    }
+
     .summary-card{
-        min-height:46px;
-        gap:2px;
-        padding:4px 2px;
+        min-height:49px;
+
+        gap:1px;
+
+        padding:3px 1px;
+
+        border-radius:5px;
     }
 
     .summary-icon{
-        width:19px;
-        height:29px;
-        min-width:19px;
+        width:15px;
+        height:24px;
+
+        min-width:15px;
+
+        border-radius:4px;
     }
 
     .summary-icon svg{
-        width:12px;
-        height:12px;
+        width:10px;
+        height:10px;
     }
 
     .summary-label{
-        font-size:5px;
+        font-size:4.3px;
+
+        line-height:1;
     }
 
     .summary-value{
-        font-size:8px;
+        font-size:clamp(6px,2vw,9px);
+
+        letter-spacing:-0.7px;
+
+        line-height:1;
+
+        margin-top:2px;
+
+        white-space:nowrap;
+
+        overflow:visible;
+
+        text-overflow:clip;
     }
 
     .summary-sub{
-        font-size:4.5px;
+        font-size:3.5px;
+
+        margin-top:1px;
+
+        line-height:1;
+
+        letter-spacing:-0.2px;
     }
 
 
@@ -1718,10 +1822,6 @@ tbody tr:hover td{
 <div class="page">
 
 
-<!-- =====================================================
-     HEADER
-====================================================== -->
-
 <header class="header">
 
     <div class="title-area">
@@ -1744,10 +1844,6 @@ tbody tr:hover td{
 
 </header>
 
-
-<!-- =====================================================
-     RESUMO
-====================================================== -->
 
 <section class="summary">
 
@@ -1921,14 +2017,8 @@ tbody tr:hover td{
 </section>
 
 
-<!-- =====================================================
-     TABELAS
-====================================================== -->
-
 <section class="tables-container">
 
-
-    <!-- FIIs -->
 
     <div class="table-card fii-card">
 
@@ -1987,8 +2077,6 @@ tbody tr:hover td{
     </div>
 
 
-    <!-- AÇÕES -->
-
     <div class="table-card acao-card">
 
         <div class="table-title">
@@ -2045,8 +2133,6 @@ tbody tr:hover td{
 
     </div>
 
-
-    <!-- RENDA FIXA -->
 
     <div class="table-card renda-fixa-card">
 
@@ -2106,10 +2192,6 @@ tbody tr:hover td{
 
 </section>
 
-
-<!-- =====================================================
-     GRÁFICOS
-====================================================== -->
 
 <section class="charts">
 
@@ -2173,10 +2255,6 @@ tbody tr:hover td{
 </section>
 
 
-<!-- =====================================================
-     SEGMENTOS
-====================================================== -->
-
 <section class="sectors">
 
     <div class="section-title">
@@ -2195,10 +2273,6 @@ tbody tr:hover td{
 
 </section>
 
-
-<!-- =====================================================
-     INFORMAÇÕES
-====================================================== -->
 
 <section class="info">
 
@@ -2267,15 +2341,11 @@ tbody tr:hover td{
 
 <script>
 
-/* =========================================================
-   SUPABASE
-========================================================= */
-
 const SUPABASE_URL =
-    'https://dylziaqkyavkfwjepqkp.supabase.co';
+    'https://pajxqphtoaufldptaldh.supabase.co';
 
 const SUPABASE_KEY =
-    'sb_publishable_-j6U29W2jS3Rn2YcKxe2Ow_-1x7MfCv';
+    'sb_publishable_kyymk01GtvAVJvWCQRJu0Q_WW8RBsKR';
 
 const supabaseClient =
     window.supabase.createClient(
@@ -2283,17 +2353,8 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
-
-/* =========================================================
-   DADOS
-========================================================= */
-
 let carteira = [];
 
-
-/* =========================================================
-   FORMATADORES
-========================================================= */
 
 const moeda = valor => {
 
@@ -2350,10 +2411,6 @@ const formatarDY = valor => {
 };
 
 
-/* =========================================================
-   ÍCONE DO ATIVO
-========================================================= */
-
 function criarIconeAtivo(
     codigo,
     cor,
@@ -2380,10 +2437,6 @@ function criarIconeAtivo(
     return div;
 }
 
-
-/* =========================================================
-   ÍCONE DO SEGMENTO
-========================================================= */
 
 function iconeSegmento(segmento){
 
@@ -2501,10 +2554,6 @@ function iconeSegmento(segmento){
 }
 
 
-/* =========================================================
-   CONVERSÃO DO SUPABASE
-========================================================= */
-
 function converterLinhaSupabase(row){
 
     return {
@@ -2546,10 +2595,6 @@ function converterLinhaSupabase(row){
 }
 
 
-/* =========================================================
-   VALOR DO ATIVO
-========================================================= */
-
 function valorAtivo(ativo){
 
     return (
@@ -2558,10 +2603,6 @@ function valorAtivo(ativo){
     ) || 0;
 }
 
-
-/* =========================================================
-   CARREGAR SUPABASE
-========================================================= */
 
 async function carregarDoSupabase(){
 
@@ -2625,10 +2666,6 @@ async function carregarDoSupabase(){
 }
 
 
-/* =========================================================
-   RENDERIZAR TABELA
-========================================================= */
-
 function renderizarTabela(
     ativos,
     elementoId
@@ -2683,8 +2720,6 @@ function renderizarTabela(
             valorAtivo(ativo);
 
 
-        /* ATIVO */
-
         const tdAtivo =
             document.createElement('td');
 
@@ -2736,8 +2771,6 @@ function renderizarTabela(
         );
 
 
-        /* NOME */
-
         const tdNome =
             document.createElement('td');
 
@@ -2747,8 +2780,6 @@ function renderizarTabela(
         tdNome.textContent =
             ativo.nome;
 
-
-        /* SEGMENTO */
 
         const tdSegmento =
             document.createElement('td');
@@ -2760,8 +2791,6 @@ function renderizarTabela(
             ativo.segmento;
 
 
-        /* QUANTIDADE */
-
         const tdQtd =
             document.createElement('td');
 
@@ -2772,8 +2801,6 @@ function renderizarTabela(
             numero(ativo.quantidade);
 
 
-        /* PREÇO MÉDIO / TAXA */
-
         const tdPm =
             document.createElement('td');
 
@@ -2783,8 +2810,6 @@ function renderizarTabela(
         tdPm.textContent =
             moeda(ativo.precoMedio);
 
-
-        /* TOTAL */
 
         const tdTotal =
             document.createElement('td');
@@ -2815,10 +2840,6 @@ function renderizarTabela(
 
 }
 
-
-/* =========================================================
-   RESUMO
-========================================================= */
 
 function atualizarResumo(){
 
@@ -2928,10 +2949,6 @@ function atualizarResumo(){
 
 }
 
-
-/* =========================================================
-   DONUTS
-========================================================= */
 
 function atualizarDonuts(){
 
@@ -3079,10 +3096,6 @@ function atualizarDonuts(){
         `;
 
 
-    /* =====================================================
-       SEGMENTOS
-    ===================================================== */
-
     const segmentos = {};
 
 
@@ -3213,10 +3226,6 @@ function atualizarDonuts(){
 }
 
 
-/* =========================================================
-   TOP DIVIDENDOS
-========================================================= */
-
 function renderizarTopPosicoes(){
 
     const container =
@@ -3319,10 +3328,6 @@ function renderizarTopPosicoes(){
 
 }
 
-
-/* =========================================================
-   SEGMENTOS
-========================================================= */
 
 function renderizarSetores(){
 
@@ -3428,10 +3433,6 @@ function renderizarSetores(){
 }
 
 
-/* =========================================================
-   ATUALIZAR TELA
-========================================================= */
-
 function atualizarTela(){
 
     const fiis =
@@ -3487,10 +3488,6 @@ function atualizarTela(){
 }
 
 
-/* =========================================================
-   INICIAR
-========================================================= */
-
 async function iniciarAplicacao(){
 
     await carregarDoSupabase();
@@ -3498,16 +3495,8 @@ async function iniciarAplicacao(){
 }
 
 
-/* =========================================================
-   PRIMEIRA CARGA
-========================================================= */
-
 iniciarAplicacao();
 
-
-/* =========================================================
-   ATUALIZAÇÃO AUTOMÁTICA
-========================================================= */
 
 setInterval(
     carregarDoSupabase,
@@ -3519,5 +3508,3 @@ setInterval(
 </body>
 
 </html>
-
-
