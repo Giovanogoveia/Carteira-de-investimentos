@@ -50,7 +50,6 @@ body{
         var(--bg-main);
 
     color:var(--text);
-
     font-size:12px;
 }
 
@@ -72,7 +71,6 @@ body{
     align-items:center;
 
     padding:7px 10px;
-
     margin-bottom:7px;
 
     border:1px solid var(--border);
@@ -95,6 +93,10 @@ body{
     color:var(--muted);
     font-size:10px;
     margin-top:2px;
+}
+
+.title-green{
+    color:var(--green);
 }
 
 .status{
@@ -127,7 +129,7 @@ body{
 .summary{
     display:grid;
 
-    grid-template-columns:repeat(5,1fr);
+    grid-template-columns:repeat(6,1fr);
 
     gap:8px;
 
@@ -559,10 +561,6 @@ tbody tr:hover td{
     background:linear-gradient(90deg,#11834b,#19a866);
 }
 
-.table-total-label{
-    text-transform:uppercase;
-}
-
 .asset-logo{
     width:27px;
     height:27px;
@@ -589,6 +587,7 @@ tbody tr:hover td{
 }
 
 @media(max-width:600px){
+
     .table-total-row td{
         height:25px;
         padding:0 4px;
@@ -614,6 +613,7 @@ tbody tr:hover td{
 }
 
 @media(max-width:380px){
+
     .table-total-row td{
         height:24px;
         padding:0 3px;
@@ -636,6 +636,7 @@ tbody tr:hover td{
         border-radius:4px;
     }
 }
+
 
 /* =========================================================
    GRÁFICOS
@@ -1098,7 +1099,7 @@ tbody tr:hover td{
 @media(max-width:1100px){
 
     .summary{
-        grid-template-columns:repeat(5,minmax(0,1fr));
+        grid-template-columns:repeat(6,minmax(0,1fr));
     }
 
     .summary-card{
@@ -1169,14 +1170,14 @@ tbody tr:hover td{
 
 
     /* =====================================================
-       RESUMO — 5 CARDS SEMPRE LADO A LADO
+       RESUMO — 6 CARDS SEMPRE LADO A LADO
     ===================================================== */
 
     .summary{
         display:grid;
 
         grid-template-columns:
-            repeat(5,minmax(0,1fr));
+            repeat(6,minmax(0,1fr));
 
         gap:2px;
 
@@ -1202,11 +1203,6 @@ tbody tr:hover td{
         display:flex;
         align-items:center;
     }
-
-    /*
-       O ícone ocupa pouco espaço.
-       Isso deixa mais espaço para o número.
-    */
 
     .summary-icon{
         width:18px;
@@ -1246,13 +1242,8 @@ tbody tr:hover td{
         text-overflow:clip;
     }
 
-    /*
-       O tamanho do número se adapta à largura
-       disponível da tela.
-    */
-
     .summary-value{
-        font-size:clamp(6.5px,2.25vw,11px);
+        font-size:clamp(6px,2vw,10px);
 
         font-weight:900;
 
@@ -1798,12 +1789,12 @@ tbody tr:hover td{
 
 
     /* =====================================================
-       RESUMO — CONTINUA COM OS 5 LADO A LADO
+       RESUMO — 6 CARDS LADO A LADO
     ===================================================== */
 
     .summary{
         grid-template-columns:
-            repeat(5,minmax(0,1fr));
+            repeat(6,minmax(0,1fr));
 
         gap:1px;
     }
@@ -1833,13 +1824,13 @@ tbody tr:hover td{
     }
 
     .summary-label{
-        font-size:4.3px;
+        font-size:4px;
 
         line-height:1;
     }
 
     .summary-value{
-        font-size:clamp(6px,2vw,9px);
+        font-size:clamp(5.5px,1.8vw,8px);
 
         letter-spacing:-0.7px;
 
@@ -2004,8 +1995,7 @@ tbody tr:hover td{
 
 
 /* =========================================================
-   PALETA VISUAL — baseada na referência enviada
-   Os gráficos permanecem com as cores originais.
+   PALETA VISUAL
 ========================================================= */
 
 :root{
@@ -2038,10 +2028,6 @@ body{
     color:#f4f4f4;
 }
 
-.title-green{
-    color:var(--theme-green);
-}
-
 .title-area p{
     color:#a8b7c1;
 }
@@ -2072,12 +2058,31 @@ body{
     color:#91a5b1;
 }
 
-/* Ícones dos 5 cards superiores */
-.summary-card:nth-child(1) .summary-icon{color:var(--theme-green) !important;}
-.summary-card:nth-child(2) .summary-icon{color:#38a9ff !important;}
-.summary-card:nth-child(3) .summary-icon{color:var(--theme-green) !important;}
-.summary-card:nth-child(4) .summary-icon{color:var(--theme-orange) !important;}
-.summary-card:nth-child(5) .summary-icon{color:#ffd54f !important;}
+
+/* ÍCONES DOS 6 CARDS */
+.summary-card:nth-child(1) .summary-icon{
+    color:var(--theme-green) !important;
+}
+
+.summary-card:nth-child(2) .summary-icon{
+    color:#38a9ff !important;
+}
+
+.summary-card:nth-child(3) .summary-icon{
+    color:var(--theme-green) !important;
+}
+
+.summary-card:nth-child(4) .summary-icon{
+    color:var(--theme-orange) !important;
+}
+
+.summary-card:nth-child(5) .summary-icon{
+    color:#27d17f !important;
+}
+
+.summary-card:nth-child(6) .summary-icon{
+    color:#ffd54f !important;
+}
 
 .table-card{
     background:linear-gradient(145deg,#0c202d,#081821);
@@ -2142,8 +2147,6 @@ tbody tr:hover td{
     color:#f1f5f7;
 }
 
-/* Cards dos gráficos: apenas o fundo/borda muda.
-   As cores dos gráficos continuam as originais. */
 .chart-card{
     background:linear-gradient(145deg,#0c202d,#081821);
     border-color:var(--theme-border);
@@ -2219,7 +2222,10 @@ tbody tr:hover td{
 
     <div class="title-area">
 
-        <h1>CARTEIRA DE <span class="title-green">INVESTIMENTOS</span></h1>
+        <h1>
+            CARTEIRA DE
+            <span class="title-green">INVESTIMENTOS</span>
+        </h1>
 
         <p id="dataAtualizacao">
             Carregando dados...
@@ -2241,9 +2247,13 @@ tbody tr:hover td{
 <section class="summary">
 
 
+    <!-- =====================================================
+         1 - PATRIMÔNIO
+    ====================================================== -->
+
     <div class="summary-card">
 
-        <div class="summary-icon" style="color:#42a5f5;">
+        <div class="summary-icon">
 
             <svg viewBox="0 0 24 24">
 
@@ -2276,9 +2286,13 @@ tbody tr:hover td{
     </div>
 
 
+    <!-- =====================================================
+         2 - ATIVOS
+    ====================================================== -->
+
     <div class="summary-card">
 
-        <div class="summary-icon" style="color:#27d17f;">
+        <div class="summary-icon">
 
             <svg viewBox="0 0 24 24">
 
@@ -2311,9 +2325,13 @@ tbody tr:hover td{
     </div>
 
 
+    <!-- =====================================================
+         3 - TOTAL AÇÕES
+    ====================================================== -->
+
     <div class="summary-card">
 
-        <div class="summary-icon" style="color:#ffae42;">
+        <div class="summary-icon">
 
             <svg viewBox="0 0 24 24">
 
@@ -2346,9 +2364,13 @@ tbody tr:hover td{
     </div>
 
 
+    <!-- =====================================================
+         4 - TOTAL FIIs
+    ====================================================== -->
+
     <div class="summary-card">
 
-        <div class="summary-icon" style="color:#a879ff;">
+        <div class="summary-icon">
 
             <svg viewBox="0 0 24 24">
 
@@ -2381,9 +2403,46 @@ tbody tr:hover td{
     </div>
 
 
+    <!-- =====================================================
+         5 - DY RECEBIDO
+    ====================================================== -->
+
     <div class="summary-card">
 
-        <div class="summary-icon" style="color:#ffd54f;">
+        <div class="summary-icon">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M12 3v18"></path>
+
+                <path d="M17 7h-7.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H7"></path>
+
+            </svg>
+
+        </div>
+
+        <div class="summary-content">
+
+            <div class="summary-label">
+                DY Recebido
+            </div>
+
+            <div class="summary-value" id="totalDyRecebido">
+                R$ 0,00
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         6 - MAIOR POSIÇÃO
+    ====================================================== -->
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
 
             <svg viewBox="0 0 24 24">
 
@@ -2463,7 +2522,20 @@ tbody tr:hover td{
 
                 <tbody id="tabelaFiis"></tbody>
 
-                <tfoot><tr class="table-total-row"><td colspan="6"><div class="table-total-content"><span class="table-total-label">Total FIIs</span><strong id="totalTabelaFiis">R$ 0,00</strong></div></td></tr></tfoot>
+                <tfoot>
+                    <tr class="table-total-row">
+                        <td colspan="6">
+                            <div class="table-total-content">
+                                <span class="table-total-label">
+                                    Total FIIs
+                                </span>
+                                <strong id="totalTabelaFiis">
+                                    R$ 0,00
+                                </strong>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
 
             </table>
 
@@ -2522,7 +2594,20 @@ tbody tr:hover td{
 
                 <tbody id="tabelaAcoes"></tbody>
 
-                <tfoot><tr class="table-total-row"><td colspan="6"><div class="table-total-content"><span class="table-total-label">Total Ações</span><strong id="totalTabelaAcoes">R$ 0,00</strong></div></td></tr></tfoot>
+                <tfoot>
+                    <tr class="table-total-row">
+                        <td colspan="6">
+                            <div class="table-total-content">
+                                <span class="table-total-label">
+                                    Total Ações
+                                </span>
+                                <strong id="totalTabelaAcoes">
+                                    R$ 0,00
+                                </strong>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
 
             </table>
 
@@ -2581,7 +2666,20 @@ tbody tr:hover td{
 
                 <tbody id="tabelaRendaFixa"></tbody>
 
-                <tfoot><tr class="table-total-row"><td colspan="6"><div class="table-total-content"><span class="table-total-label">Total Renda Fixa</span><strong id="totalTabelaRendaFixa">R$ 0,00</strong></div></td></tr></tfoot>
+                <tfoot>
+                    <tr class="table-total-row">
+                        <td colspan="6">
+                            <div class="table-total-content">
+                                <span class="table-total-label">
+                                    Total Renda Fixa
+                                </span>
+                                <strong id="totalTabelaRendaFixa">
+                                    R$ 0,00
+                                </strong>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
 
             </table>
 
@@ -2861,7 +2959,6 @@ function criarIconeAtivo(
     img.loading = 'lazy';
     img.decoding = 'async';
 
-    // A brapi disponibiliza logos oficiais dos ativos brasileiros.
     img.src =
         `https://icons.brapi.dev/icons/${encodeURIComponent(String(codigo || '').toUpperCase())}.svg`;
 
@@ -2871,6 +2968,7 @@ function criarIconeAtivo(
 
     return img;
 }
+
 
 function iconeSegmento(segmento){
 
@@ -3014,8 +3112,13 @@ function converterLinhaSupabase(row){
         precoMedio:
             Number(row.preco_medio) || 0,
 
+        /* DY percentual usado no Top Dividendos */
         dy:
             Number(row.dy) || 0,
+
+        /* VALOR EM R$ recebido em dividendos */
+        dyRecebido:
+            Number(row.dy_recebido) || 0,
 
         cor:
             row.cor || '#12304d',
@@ -3134,8 +3237,10 @@ function renderizarTabela(
         document.getElementById(totalId);
 
     if(totalElemento){
+
         totalElemento.textContent =
             moeda(totalTabela);
+
     }
 
 
@@ -3281,15 +3386,10 @@ function renderizarTabela(
 
 
         tr.appendChild(tdAtivo);
-
         tr.appendChild(tdNome);
-
         tr.appendChild(tdSegmento);
-
         tr.appendChild(tdQtd);
-
         tr.appendChild(tdPm);
-
         tr.appendChild(tdTotal);
 
 
@@ -3344,6 +3444,23 @@ function atualizarResumo(){
         );
 
 
+    /*
+       SOMA TOTAL DO DY RECEBIDO
+
+       Usa diretamente a coluna:
+       dy_recebido
+
+       de todos os ativos da carteira.
+    */
+
+    const totalDyRecebido =
+        carteira.reduce(
+            (soma, ativo) =>
+                soma + Number(ativo.dyRecebido || 0),
+            0
+        );
+
+
     const maior =
         [...carteira]
         .sort(
@@ -3381,6 +3498,17 @@ function atualizarResumo(){
         .getElementById('totalFiis')
         .textContent =
         moeda(totalFiis);
+
+
+    /*
+       NOVO CARD:
+       DY RECEBIDO
+    */
+
+    document
+        .getElementById('totalDyRecebido')
+        .textContent =
+        moeda(totalDyRecebido);
 
 
     document
@@ -3967,3 +4095,4 @@ setInterval(
 </body>
 
 </html>
+
