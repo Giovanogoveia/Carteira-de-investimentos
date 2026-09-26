@@ -2325,6 +2325,76 @@ tbody tr:hover td{
     color:#607985;
 }
 
+
+
+/* AJUSTE — RENDA FIXA: coluna Aplicado com espaço suficiente para o valor completo */
+.renda-fixa-card .col-ativo{
+    width:28%;
+}
+
+.renda-fixa-card .col-segmento{
+    width:18%;
+}
+
+.renda-fixa-card .col-qtd{
+    width:22%;
+    text-align:right;
+    white-space:nowrap;
+    overflow:visible;
+    text-overflow:clip;
+    letter-spacing:-0.25px;
+}
+
+.renda-fixa-card .col-total{
+    width:32%;
+    text-align:right;
+    white-space:nowrap;
+    overflow:visible;
+    text-overflow:clip;
+    letter-spacing:-0.25px;
+}
+
+@media(max-width:600px){
+    .renda-fixa-card .col-ativo{
+        width:27%;
+    }
+
+    .renda-fixa-card .col-segmento{
+        width:18%;
+    }
+
+    .renda-fixa-card .col-qtd{
+        width:23%;
+        font-size:6.5px;
+        letter-spacing:-0.35px;
+    }
+
+    .renda-fixa-card .col-total{
+        width:32%;
+        font-size:6.5px;
+        letter-spacing:-0.35px;
+    }
+}
+
+@media(max-width:380px){
+    .renda-fixa-card .col-ativo{
+        width:26%;
+    }
+
+    .renda-fixa-card .col-segmento{
+        width:17%;
+    }
+
+    .renda-fixa-card .col-qtd{
+        width:25%;
+        font-size:6.2px;
+    }
+
+    .renda-fixa-card .col-total{
+        width:32%;
+        font-size:6.2px;
+    }
+}
 </style>
 
 </head>
