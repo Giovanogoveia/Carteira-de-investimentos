@@ -291,9 +291,7 @@ body{
 
 /* =========================================================
    TOTAL MENSAL PREVISTO
-
-   Bloco adicional sem alterar a estrutura dos 6 cards.
-========================================================= */
+   ========================================================= */
 
 .total-mensal-previsto{
     width:100%;
@@ -316,7 +314,10 @@ body{
 
 .total-mensal-valor{
     margin-top:2px;
-    color:var(--theme-green,#9be33c);
+    
+    /* MESMA COR VERDE DA RENDA FIXA */
+    color:#19a866 !important;
+    
     font-size:22px;
     line-height:1.05;
     font-weight:900;
@@ -344,6 +345,10 @@ body{
     .total-mensal-valor{
         margin-top:2px;
         font-size:clamp(9px,3vw,14px);
+
+        /* GARANTE A COR NO CELULAR */
+        color:#19a866 !important;
+
         line-height:1;
     }
 
@@ -366,14 +371,15 @@ body{
 
     .total-mensal-valor{
         font-size:clamp(8px,2.7vw,12px);
+
+        /* GARANTE A COR EM TELAS PEQUENAS */
+        color:#19a866 !important;
     }
 
     .total-mensal-subtitulo{
         font-size:3.5px;
     }
 }
-
-
 /* =========================================================
    TABELAS
 ========================================================= */
