@@ -3104,11 +3104,19 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     'sb_publishable_kyymk01GtvAVJvWCQRJu0Q_WW8RBsKR';
 
-const supabaseClient =
-    window.supabase.createClient(
+let supabaseClient = null;
+
+/*
+   Safari / iPhone: o HTML pode ser aberto diretamente como arquivo (file://).
+   Nesse caso o SDK pode não conseguir inicializar corretamente.
+   Mantemos o SDK para GitHub Pages/PWA e usamos REST como fallback.
+*/
+if (window.supabase && typeof window.supabase.createClient === 'function') {
+    supabaseClient = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
+}
 
 let carteira = [];
 
@@ -3403,74 +3411,78 @@ function valorAtivo(ativo){
 async function carregarDoSupabase(){
 
     try{
+        let data = null;
+        let error = null;
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient
-        .from('carteira_ativos')
-        .select('*')
-        .order('tipo')
-        .order('codigo');
+        /* Primeiro tenta o cliente oficial do Supabase. */
+        if (supabaseClient) {
+            const resposta = await supabaseClient
+                .from('carteira_ativos')
+                .select('*')
+                .order('tipo')
+                .order('codigo');
 
-
-        if(error){
-
-            console.error(
-                'Erro Supabase:',
-                error
-            );
-
-            throw error;
+            data = resposta.data;
+            error = resposta.error;
+        } else {
+            error = new Error('SDK do Supabase não foi carregado');
         }
 
+        /*
+           Fallback REST: útil principalmente no Safari quando o SDK/CDN
+           não carregou ou quando o HTML foi aberto diretamente.
+        */
+        if (error || !Array.isArray(data)) {
+            const url = SUPABASE_URL +
+                '/rest/v1/carteira_ativos?select=*&order=tipo.asc,codigo.asc';
+
+            const respostaRest = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY,
+                    'Accept': 'application/json'
+                },
+                cache: 'no-store'
+            });
+
+            if (!respostaRest.ok) {
+                const texto = await respostaRest.text();
+                throw new Error('Supabase REST ' + respostaRest.status + ': ' + texto);
+            }
+
+            data = await respostaRest.json();
+            error = null;
+        }
 
         carteira =
             (data || [])
             .map(converterLinhaSupabase);
 
-
         atualizarTela();
 
-
-        const agora =
-            new Date();
-
+        const agora = new Date();
 
         document
             .getElementById('dataAtualizacao')
             .textContent =
             'Última atualização: ' +
-            agora.toLocaleString(
-                'pt-BR'
-            );
-
+            agora.toLocaleString('pt-BR');
 
     }catch(error){
 
-        console.error(error);
-
+        console.error('Erro ao carregar Supabase:', error);
 
         document
             .getElementById('dataAtualizacao')
             .textContent =
-            'Erro ao carregar dados';
+            'Erro Supabase: ' + (error?.message || 'não foi possível carregar');
 
+        /* Mantém a tela funcionando e deixa o erro visível no console. */
+        carteira = [];
+        atualizarTela();
     }
-
 }
-
-
-/* =========================================================
-   RENDA FIXA — CÁLCULO DOS JUROS MENSAIS
-
-   Para CDB indexado ao CDI:
-   valor aplicado × (CDI × %CDI) / 100 / 12
-
-   Para CDB com taxa anual fixa:
-   valor aplicado × taxa anual / 100 / 12
-========================================================= */
 
 function jurosMensaisCDB(ativo){
 
