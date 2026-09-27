@@ -5,17 +5,23 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Carteira de Investimentos</title>
 
+<!-- PWA -->
 <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#050b14">
+<meta name="theme-color" content="#06121c">
+
+<!-- iPhone / iOS -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Carteira Investimentos">
-<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<meta name="apple-mobile-web-app-title" content="Carteira">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+
+<!-- Ícones do navegador -->
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -4469,13 +4475,19 @@ setInterval(
 
 </script>
 
-
+<!-- =====================================================
+     SERVICE WORKER / PWA
+====================================================== -->
 <script>
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
-            .then(() => console.log('PWA: Service Worker registrado'))
-            .catch(err => console.error('PWA: erro ao registrar Service Worker', err));
+            .then(registration => {
+                console.log('PWA: Service Worker registrado', registration.scope);
+            })
+            .catch(error => {
+                console.error('PWA: erro ao registrar Service Worker', error);
+            });
     });
 }
 </script>
