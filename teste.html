@@ -3,7 +3,6 @@
 <br>
 <br>
 <br>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -24,7 +23,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Carteira">
 <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png?v=2">
-
 
 <!-- Ícones do navegador -->
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
@@ -146,11 +144,8 @@ body{
 
 .summary{
     display:grid;
-
     grid-template-columns:repeat(6,1fr);
-
     gap:8px;
-
     margin-bottom:10px;
 }
 
@@ -290,7 +285,7 @@ body{
 
 /* =========================================================
    TOTAL MENSAL PREVISTO
-   ========================================================= */
+========================================================= */
 
 .total-mensal-previsto{
     width:100%;
@@ -313,10 +308,7 @@ body{
 
 .total-mensal-valor{
     margin-top:2px;
-    
-    /* MESMA COR VERDE DA RENDA FIXA */
     color:#19a866 !important;
-    
     font-size:22px;
     line-height:1.05;
     font-weight:900;
@@ -330,6 +322,7 @@ body{
 }
 
 @media(max-width:600px){
+
     .total-mensal-previsto{
         margin:0 0 5px 0;
         padding:5px 6px;
@@ -344,10 +337,7 @@ body{
     .total-mensal-valor{
         margin-top:2px;
         font-size:clamp(9px,3vw,14px);
-
-        /* GARANTE A COR NO CELULAR */
         color:#19a866 !important;
-
         line-height:1;
     }
 
@@ -359,6 +349,7 @@ body{
 }
 
 @media(max-width:380px){
+
     .total-mensal-previsto{
         margin-bottom:4px;
         padding:4px 4px;
@@ -370,8 +361,6 @@ body{
 
     .total-mensal-valor{
         font-size:clamp(8px,2.7vw,12px);
-
-        /* GARANTE A COR EM TELAS PEQUENAS */
         color:#19a866 !important;
     }
 
@@ -379,6 +368,8 @@ body{
         font-size:3.5px;
     }
 }
+
+
 /* =========================================================
    TABELAS
 ========================================================= */
@@ -548,6 +539,11 @@ tbody tr:hover td{
 
 .col-pm{
     width:10%;
+    text-align:right;
+}
+
+.col-previsao-dy{
+    width:12%;
     text-align:right;
 }
 
@@ -759,23 +755,9 @@ tbody tr:hover td{
     }
 }
 
-/* =========================================================
-   RENDA FIXA — PREVISÃO MENSAL
-========================================================= */
-
-.renda-fixa-prev-row td{
-    background:linear-gradient(90deg,#0d5fa9,#1685e5);
-    color:#ffffff;
-    border-top:1px solid rgba(255,255,255,.10);
-    border-bottom:none;
-}
-
-.renda-fixa-prev-row .table-total-label{
-    color:#ffffff;
-}
 
 /* =========================================================
-   RENDA FIXA — TOTAL A RECEBER MENSAL
+   RENDA FIXA
 ========================================================= */
 
 .renda-fixa-prev-row td{
@@ -797,6 +779,7 @@ tbody tr:hover td{
 }
 
 @media(max-width:600px){
+
     .renda-fixa-prev-row td{
         height:25px;
         padding:0 4px;
@@ -810,17 +793,15 @@ tbody tr:hover td{
     }
 }
 
+
 /* =========================================================
    GRÁFICOS
 ========================================================= */
 
 .charts{
     display:grid;
-
     grid-template-columns:repeat(3,minmax(0,1fr));
-
     gap:8px;
-
     margin-top:8px;
 }
 
@@ -829,22 +810,16 @@ tbody tr:hover td{
         linear-gradient(145deg,#0b192b,#07111f);
 
     border:1px solid var(--border);
-
     border-radius:9px;
-
     padding:8px;
-
     min-width:0;
-
     overflow:hidden;
 }
 
 .chart-title{
     font-size:10px;
     font-weight:800;
-
     color:#dbe7f2;
-
     margin-bottom:6px;
 }
 
@@ -852,18 +827,14 @@ tbody tr:hover td{
     display:flex;
     align-items:center;
     justify-content:center;
-
     gap:10px;
-
     min-height:120px;
 }
 
 .donut{
     width:100px;
     height:100px;
-
     border-radius:50%;
-
     position:relative;
 
     background:
@@ -910,31 +881,23 @@ tbody tr:hover td{
 
 .legend{
     display:flex;
-
     flex-direction:column;
-
     gap:4px;
-
     min-width:0;
 }
 
 .legend-item{
     display:flex;
     align-items:center;
-
     gap:4px;
-
     font-size:7px;
-
     color:#a9bacb;
 }
 
 .legend-dot{
     width:6px;
     height:6px;
-
     border-radius:50%;
-
     flex-shrink:0;
 }
 
@@ -946,7 +909,6 @@ tbody tr:hover td{
 .position-list{
     display:flex;
     flex-direction:column;
-
     gap:4px;
 }
 
@@ -968,7 +930,6 @@ tbody tr:hover td{
 .position-name{
     font-size:7px;
     font-weight:800;
-
     color:#dce7f1;
 
     white-space:nowrap;
@@ -1033,7 +994,6 @@ tbody tr:hover td{
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:7px;
 }
 
@@ -1091,9 +1051,7 @@ tbody tr:hover td{
 
 .sector-top{
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
     justify-content:center;
 
@@ -1341,20 +1299,15 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       RESUMO — 6 CARDS SEMPRE LADO A LADO
-    ===================================================== */
+    /* RESUMO */
 
     .summary{
         display:grid;
-
         grid-template-columns:
             repeat(6,minmax(0,1fr));
 
         gap:2px;
-
         width:100%;
-
         margin-bottom:5px;
     }
 
@@ -1392,47 +1345,35 @@ tbody tr:hover td{
 
     .summary-content{
         min-width:0;
-
         width:100%;
-
         flex:1;
-
         overflow:visible;
     }
 
     .summary-label{
         font-size:5px;
-
         font-weight:800;
-
         line-height:1;
 
         white-space:nowrap;
-
         overflow:hidden;
-
         text-overflow:clip;
     }
 
     .summary-value{
         font-size:clamp(6px,2vw,10px);
-
         font-weight:900;
 
         margin-top:3px;
-
         line-height:1;
 
         white-space:nowrap;
-
         overflow:visible;
-
         text-overflow:clip;
 
         letter-spacing:-0.65px;
 
         width:max-content;
-
         max-width:none;
     }
 
@@ -1440,22 +1381,17 @@ tbody tr:hover td{
         font-size:4px;
 
         margin-top:2px;
-
         line-height:1;
 
         white-space:nowrap;
-
         overflow:hidden;
-
         text-overflow:clip;
 
         letter-spacing:-0.15px;
     }
 
 
-    /* =====================================================
-       TABELAS
-    ===================================================== */
+    /* TABELAS */
 
     .tables-container{
         grid-template-columns:
@@ -1531,8 +1467,10 @@ tbody tr:hover td{
         text-overflow:clip !important;
         line-height:1.05 !important;
         vertical-align:middle;
+
         word-break:normal;
         overflow-wrap:break-word;
+
         height:auto;
         min-height:28px;
     }
@@ -1563,9 +1501,7 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       FIIs / AÇÕES
-    ===================================================== */
+    /* FIIs / AÇÕES */
 
     .fii-card .col-nome,
     .acao-card .col-nome,
@@ -1589,6 +1525,16 @@ tbody tr:hover td{
     .fii-card th.col-pm,
     .acao-card th.col-pm{
         display:none !important;
+    }
+
+    /* NOVA COLUNA PREVISÃO DY */
+
+    .fii-card .col-previsao-dy,
+    .fii-card th.col-previsao-dy{
+        display:table-cell !important;
+        width:20%;
+        text-align:right;
+        white-space:nowrap;
     }
 
     .fii-card .col-ativo,
@@ -1617,9 +1563,7 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       RENDA FIXA
-    ===================================================== */
+    /* RENDA FIXA */
 
     .renda-fixa-card .col-nome,
     .renda-fixa-card th.col-nome{
@@ -1637,30 +1581,28 @@ tbody tr:hover td{
     }
 
     .renda-fixa-card .col-ativo{
-        width:31%;
+        width:27%;
     }
 
     .renda-fixa-card .col-segmento{
-        width:20%;
+        width:18%;
         text-align:left;
     }
 
     .renda-fixa-card .col-qtd{
-        width:15%;
+        width:23%;
         text-align:right;
         white-space:nowrap;
     }
 
     .renda-fixa-card .col-total{
-        width:34%;
+        width:32%;
         text-align:right;
         white-space:nowrap;
     }
 
 
-    /* =====================================================
-       TOTAL
-    ===================================================== */
+    /* TOTAL */
 
     .fii-card td.col-total,
     .acao-card td.col-total,
@@ -1685,9 +1627,27 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       ATIVO
-    ===================================================== */
+    /* PREVISÃO DY */
+
+    .fii-card td.col-previsao-dy{
+        font-size:6.5px;
+        font-weight:900;
+        color:#9be33c;
+
+        white-space:nowrap;
+        overflow:visible;
+        text-overflow:clip;
+
+        letter-spacing:-0.2px;
+    }
+
+    .fii-card th.col-previsao-dy{
+        font-size:5.5px !important;
+        text-align:right;
+    }
+
+
+    /* ATIVO */
 
     .asset-cell{
         gap:3px;
@@ -1733,9 +1693,7 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       GRÁFICOS
-    ===================================================== */
+    /* GRÁFICOS */
 
     .charts{
         grid-template-columns:repeat(3,minmax(0,1fr));
@@ -1798,9 +1756,7 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       TOP DIVIDENDOS
-    ===================================================== */
+    /* TOP DIVIDENDOS */
 
     .position-list{
         gap:2px;
@@ -1834,9 +1790,7 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       SEGMENTOS
-    ===================================================== */
+    /* SEGMENTOS */
 
     .sectors{
         margin-top:4px;
@@ -1906,9 +1860,7 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       INFORMAÇÕES
-    ===================================================== */
+    /* INFORMAÇÕES */
 
     .info{
         grid-template-columns:repeat(4,minmax(0,1fr));
@@ -1975,9 +1927,7 @@ tbody tr:hover td{
     }
 
 
-    /* =====================================================
-       RESUMO — 6 CARDS LADO A LADO
-    ===================================================== */
+    /* RESUMO */
 
     .summary{
         grid-template-columns:
@@ -2012,7 +1962,6 @@ tbody tr:hover td{
 
     .summary-label{
         font-size:4px;
-
         line-height:1;
     }
 
@@ -2043,7 +1992,7 @@ tbody tr:hover td{
     }
 
 
-    /* TABELAS PEQUENAS */
+    /* TABELAS */
 
     th{
         font-size:5.5px;
@@ -2057,29 +2006,54 @@ tbody tr:hover td{
     }
 
 
-    /* Mais espaço para o TOTAL */
+    /* FIIs */
 
-    .fii-card .col-ativo,
-    .acao-card .col-ativo,
-    .renda-fixa-card .col-ativo{
+    .fii-card .col-ativo{
+        width:25%;
+    }
+
+    .fii-card .col-segmento{
+        width:17%;
+    }
+
+    .fii-card .col-qtd{
+        width:12%;
+    }
+
+    .fii-card .col-previsao-dy{
+        width:20%;
+    }
+
+    .fii-card .col-total{
+        width:26%;
+        font-size:6.5px;
+        letter-spacing:-0.2px;
+        white-space:nowrap;
+        overflow:visible;
+        text-overflow:clip;
+    }
+
+    .fii-card td.col-previsao-dy{
+        font-size:5.8px;
+        letter-spacing:-0.25px;
+    }
+
+
+    /* AÇÕES */
+
+    .acao-card .col-ativo{
         width:29%;
     }
 
-    .fii-card .col-segmento,
-    .acao-card .col-segmento,
-    .renda-fixa-card .col-segmento{
+    .acao-card .col-segmento{
         width:18%;
     }
 
-    .fii-card .col-qtd,
-    .acao-card .col-qtd,
-    .renda-fixa-card .col-qtd{
+    .acao-card .col-qtd{
         width:13%;
     }
 
-    .fii-card .col-total,
-    .acao-card .col-total,
-    .renda-fixa-card .col-total{
+    .acao-card .col-total{
         width:40%;
         font-size:6.5px;
         letter-spacing:-0.2px;
@@ -2088,10 +2062,25 @@ tbody tr:hover td{
         text-overflow:clip;
     }
 
-    .fii-card td.col-total,
-    .acao-card td.col-total,
-    .renda-fixa-card td.col-total{
-        font-size:6.5px;
+
+    /* RENDA FIXA */
+
+    .renda-fixa-card .col-ativo{
+        width:26%;
+    }
+
+    .renda-fixa-card .col-segmento{
+        width:17%;
+    }
+
+    .renda-fixa-card .col-qtd{
+        width:25%;
+        font-size:6.2px;
+    }
+
+    .renda-fixa-card .col-total{
+        width:32%;
+        font-size:6.2px;
     }
 
 
@@ -2247,6 +2236,7 @@ body{
 
 
 /* ÍCONES DOS 6 CARDS */
+
 .summary-card:nth-child(1) .summary-icon{
     color:var(--theme-green) !important;
 }
@@ -2396,8 +2386,10 @@ tbody tr:hover td{
 }
 
 
+/* =========================================================
+   RENDA FIXA — ESPAÇO PARA VALORES
+========================================================= */
 
-/* AJUSTE — RENDA FIXA: coluna Aplicado com espaço suficiente para o valor completo */
 .renda-fixa-card .col-ativo{
     width:28%;
 }
@@ -2425,6 +2417,7 @@ tbody tr:hover td{
 }
 
 @media(max-width:600px){
+
     .renda-fixa-card .col-ativo{
         width:27%;
     }
@@ -2447,6 +2440,7 @@ tbody tr:hover td{
 }
 
 @media(max-width:380px){
+
     .renda-fixa-card .col-ativo{
         width:26%;
     }
@@ -2465,6 +2459,7 @@ tbody tr:hover td{
         font-size:6.2px;
     }
 }
+
 </style>
 
 </head>
@@ -2504,9 +2499,7 @@ tbody tr:hover td{
 <section class="summary">
 
 
-    <!-- =====================================================
-         1 - PATRIMÔNIO
-    ====================================================== -->
+    <!-- 1 - PATRIMÔNIO -->
 
     <div class="summary-card">
 
@@ -2543,9 +2536,7 @@ tbody tr:hover td{
     </div>
 
 
-    <!-- =====================================================
-         2 - ATIVOS
-    ====================================================== -->
+    <!-- 2 - ATIVOS -->
 
     <div class="summary-card">
 
@@ -2582,9 +2573,7 @@ tbody tr:hover td{
     </div>
 
 
-    <!-- =====================================================
-         3 - TOTAL AÇÕES
-    ====================================================== -->
+    <!-- 3 - TOTAL AÇÕES -->
 
     <div class="summary-card">
 
@@ -2621,9 +2610,7 @@ tbody tr:hover td{
     </div>
 
 
-    <!-- =====================================================
-         4 - TOTAL FIIs
-    ====================================================== -->
+    <!-- 4 - TOTAL FIIs -->
 
     <div class="summary-card">
 
@@ -2660,9 +2647,7 @@ tbody tr:hover td{
     </div>
 
 
-    <!-- =====================================================
-         5 - DY RECEBIDO
-    ====================================================== -->
+    <!-- 5 - DY RECEBIDO -->
 
     <div class="summary-card">
 
@@ -2693,9 +2678,7 @@ tbody tr:hover td{
     </div>
 
 
-    <!-- =====================================================
-         6 - PREVISÃO DE RECEBIMENTO DE DY
-    ====================================================== -->
+    <!-- 6 - PREVISÃO DE RECEBIMENTO DE DY -->
 
     <div class="summary-card">
 
@@ -2704,6 +2687,7 @@ tbody tr:hover td{
             <svg viewBox="0 0 24 24">
 
                 <path d="M12 3v18"></path>
+
                 <path d="M17 7h-7.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H7"></path>
 
             </svg>
@@ -2731,11 +2715,7 @@ tbody tr:hover td{
 </section>
 
 
-<!-- =====================================================
-     TOTAL MENSAL PREVISTO
-     Soma somente as previsões mensais:
-     DY previsto dos FIIs + juros mensais da Renda Fixa.
-====================================================== -->
+<!-- TOTAL MENSAL PREVISTO -->
 
 <div class="total-mensal-previsto">
 
@@ -2756,6 +2736,10 @@ tbody tr:hover td{
 
 <section class="tables-container">
 
+
+    <!-- =====================================================
+         FIIs
+    ====================================================== -->
 
     <div class="table-card fii-card">
 
@@ -2797,6 +2781,11 @@ tbody tr:hover td{
                             PM
                         </th>
 
+                        <!-- NOVA COLUNA -->
+                        <th class="col-previsao-dy">
+                            Prev. DY
+                        </th>
+
                         <th class="col-total">
                             Total
                         </th>
@@ -2808,18 +2797,27 @@ tbody tr:hover td{
                 <tbody id="tabelaFiis"></tbody>
 
                 <tfoot>
+
                     <tr class="table-total-row">
-                        <td colspan="6">
+
+                        <td colspan="7">
+
                             <div class="table-total-content">
+
                                 <span class="table-total-label">
                                     Total FIIs
                                 </span>
+
                                 <strong id="totalTabelaFiis">
                                     R$ 0,00
                                 </strong>
+
                             </div>
+
                         </td>
+
                     </tr>
+
                 </tfoot>
 
             </table>
@@ -2828,6 +2826,10 @@ tbody tr:hover td{
 
     </div>
 
+
+    <!-- =====================================================
+         AÇÕES
+    ====================================================== -->
 
     <div class="table-card acao-card">
 
@@ -2880,18 +2882,27 @@ tbody tr:hover td{
                 <tbody id="tabelaAcoes"></tbody>
 
                 <tfoot>
+
                     <tr class="table-total-row">
+
                         <td colspan="6">
+
                             <div class="table-total-content">
+
                                 <span class="table-total-label">
                                     Total Ações
                                 </span>
+
                                 <strong id="totalTabelaAcoes">
                                     R$ 0,00
                                 </strong>
+
                             </div>
+
                         </td>
+
                     </tr>
+
                 </tfoot>
 
             </table>
@@ -2900,6 +2911,10 @@ tbody tr:hover td{
 
     </div>
 
+
+    <!-- =====================================================
+         RENDA FIXA
+    ====================================================== -->
 
     <div class="table-card renda-fixa-card">
 
@@ -2952,30 +2967,47 @@ tbody tr:hover td{
                 <tbody id="tabelaRendaFixa"></tbody>
 
                 <tfoot>
+
                     <tr class="table-total-row">
+
                         <td colspan="6">
+
                             <div class="table-total-content">
+
                                 <span class="table-total-label">
                                     Total Renda Fixa
                                 </span>
+
                                 <strong id="totalTabelaRendaFixa">
                                     R$ 0,00
                                 </strong>
+
                             </div>
+
                         </td>
+
                     </tr>
+
                     <tr class="renda-fixa-prev-row">
+
                         <td colspan="6">
+
                             <div class="table-total-content">
+
                                 <span class="table-total-label">
                                     Total a receber mensal
                                 </span>
+
                                 <strong id="previsaoJurosRendaFixa">
                                     R$ 0,00
                                 </strong>
+
                             </div>
+
                         </td>
+
                     </tr>
+
                 </tfoot>
 
             </table>
@@ -3073,16 +3105,32 @@ tbody tr:hover td{
     <div class="info-card">
 
         <div class="info-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
                 <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v14.5A2.5 2.5 0 0 0 17.5 15H4z"/>
+
                 <path d="M4 5.5V19a2 2 0 0 0 2 2h11.5A2.5 2.5 0 0 0 20 18.5V17"/>
+
                 <path d="M8 7h8M8 10h6"/>
+
             </svg>
+
         </div>
 
         <div class="info-content">
+
             <strong>Fonte dos dados</strong>
-            <p>Dados carregados diretamente do Supabase.</p>
+
+            <p>
+                Dados carregados diretamente do Supabase.
+            </p>
+
         </div>
 
     </div>
@@ -3091,16 +3139,32 @@ tbody tr:hover td{
     <div class="info-card">
 
         <div class="info-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
                 <rect x="5" y="3.5" width="14" height="17" rx="2.2"/>
+
                 <path d="M9 3.5h6v3H9z"/>
+
                 <path d="m9 14 2 2 4-4"/>
+
             </svg>
+
         </div>
 
         <div class="info-content">
+
             <strong>Somente leitura</strong>
-            <p>Este painel não altera os dados da carteira.</p>
+
+            <p>
+                Este painel não altera os dados da carteira.
+            </p>
+
         </div>
 
     </div>
@@ -3109,16 +3173,32 @@ tbody tr:hover td{
     <div class="info-card">
 
         <div class="info-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
                 <path d="M20 11a8 8 0 1 0 1 4"/>
+
                 <path d="M20 5v6h-6"/>
+
                 <path d="M12 7v5l3 2"/>
+
             </svg>
+
         </div>
 
         <div class="info-content">
+
             <strong>Atualização</strong>
-            <p>Os dados são atualizados automaticamente a cada 60 segundos.</p>
+
+            <p>
+                Os dados são atualizados automaticamente a cada 60 segundos.
+            </p>
+
         </div>
 
     </div>
@@ -3127,15 +3207,30 @@ tbody tr:hover td{
     <div class="info-card">
 
         <div class="info-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
                 <rect x="4" y="3" width="16" height="18" rx="2"/>
+
                 <path d="M8 7h8M8 12h3M13 12h3M8 16h3M13 16h3"/>
+
             </svg>
+
         </div>
 
         <div class="info-content">
+
             <strong>Responsivo</strong>
-            <p>Layout adaptado para computador, tablet e celular.</p>
+
+            <p>
+                Layout adaptado para computador, tablet e celular.
+            </p>
+
         </div>
 
     </div>
@@ -3162,17 +3257,25 @@ const SUPABASE_KEY =
 
 let supabaseClient = null;
 
+
 /*
-   Safari / iPhone: o HTML pode ser aberto diretamente como arquivo (file://).
-   Nesse caso o SDK pode não conseguir inicializar corretamente.
-   Mantemos o SDK para GitHub Pages/PWA e usamos REST como fallback.
+   Safari / iPhone:
+   REST continua sendo usado como fallback.
 */
-if (window.supabase && typeof window.supabase.createClient === 'function') {
-    supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+
+if (
+    window.supabase &&
+    typeof window.supabase.createClient === 'function'
+) {
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
 }
+
 
 let carteira = [];
 
@@ -3189,6 +3292,7 @@ const moeda = valor => {
             currency:'BRL'
         }
     );
+
 };
 
 
@@ -3201,6 +3305,7 @@ const numero = valor => {
                 maximumFractionDigits:0
             }
         );
+
 };
 
 
@@ -3215,6 +3320,7 @@ const percentual = valor => {
             maximumFractionDigits:1
         }
     )}%`;
+
 };
 
 
@@ -3229,6 +3335,7 @@ const formatarDY = valor => {
             maximumFractionDigits:2
         }
     )}%`;
+
 };
 
 
@@ -3259,19 +3366,28 @@ function criarIconeAtivo(
         document.createElement('img');
 
     img.className = 'asset-logo';
-    img.alt = String(codigo || '');
-    img.title = String(codigo || '');
+
+    img.alt =
+        String(codigo || '');
+
+    img.title =
+        String(codigo || '');
+
     img.loading = 'lazy';
+
     img.decoding = 'async';
 
     img.src =
         `https://icons.brapi.dev/icons/${encodeURIComponent(String(codigo || '').toUpperCase())}.svg`;
 
     img.onerror = function(){
+
         this.replaceWith(fallback);
+
     };
 
     return img;
+
 }
 
 
@@ -3281,6 +3397,7 @@ function iconeSegmento(segmento){
         String(segmento || '')
         .toLowerCase();
 
+
     if(
         s.includes('shopping') ||
         s.includes('varejo')
@@ -3288,12 +3405,14 @@ function iconeSegmento(segmento){
         return '🛍️';
     }
 
+
     if(
         s.includes('logíst') ||
         s.includes('logist')
     ){
         return '📦';
     }
+
 
     if(
         s.includes('industrial') ||
@@ -3303,12 +3422,14 @@ function iconeSegmento(segmento){
         return '🏭';
     }
 
+
     if(
         s.includes('laje') ||
         s.includes('escrit')
     ){
         return '🏢';
     }
+
 
     if(
         s.includes('papel') ||
@@ -3317,6 +3438,7 @@ function iconeSegmento(segmento){
         return '📄';
     }
 
+
     if(
         s.includes('agro') ||
         s.includes('rural')
@@ -3324,12 +3446,14 @@ function iconeSegmento(segmento){
         return '🌱';
     }
 
+
     if(
         s.includes('renda') ||
         s.includes('urbano')
     ){
         return '🏠';
     }
+
 
     if(
         s.includes('energia') ||
@@ -3339,12 +3463,14 @@ function iconeSegmento(segmento){
         return '⚡';
     }
 
+
     if(
         s.includes('banco') ||
         s.includes('financ')
     ){
         return '🏦';
     }
+
 
     if(
         s.includes('petróleo') ||
@@ -3355,11 +3481,13 @@ function iconeSegmento(segmento){
         return '🛢️';
     }
 
+
     if(
         s.includes('minera')
     ){
         return '⛏️';
     }
+
 
     if(
         s.includes('tecnologia') ||
@@ -3368,11 +3496,13 @@ function iconeSegmento(segmento){
         return '💻';
     }
 
+
     if(
         s.includes('telecom')
     ){
         return '📡';
     }
+
 
     if(
         s.includes('saúde') ||
@@ -3381,13 +3511,16 @@ function iconeSegmento(segmento){
         return '🏥';
     }
 
+
     if(
         s.includes('educa')
     ){
         return '🎓';
     }
 
+
     return '📊';
+
 }
 
 
@@ -3418,6 +3551,7 @@ function converterLinhaSupabase(row){
             Number(row.preco_medio) || 0,
 
         /* Renda Fixa / CDB */
+
         percentualCdi:
             Number(row.percentual_cdi) || 0,
 
@@ -3427,19 +3561,23 @@ function converterLinhaSupabase(row){
         taxaAnual:
             Number(row.taxa_anual) || 0,
 
-        /* JUROS MENSAIS CALCULADOS NO SUPABASE */
+        /* JUROS MENSAIS */
+
         jurosMensais:
             Number(row.juros_mensais) || 0,
 
-        /* DY percentual usado no Top Dividendos */
+        /* DY percentual */
+
         dy:
             Number(row.dy) || 0,
 
         /* ÚLTIMO DY EM R$ POR COTA */
+
         ultimoDy:
             Number(row.ultimo_dy) || 0,
 
-        /* VALOR EM R$ recebido em dividendos */
+        /* DY RECEBIDO */
+
         dyRecebido:
             Number(row.dy_recebido) || 0,
 
@@ -3451,7 +3589,9 @@ function converterLinhaSupabase(row){
 
         dataAtualizacao:
             row.data_atualizacao || null
+
     };
+
 }
 
 
@@ -3461,63 +3601,121 @@ function valorAtivo(ativo){
         Number(ativo.quantidade) *
         Number(ativo.precoMedio)
     ) || 0;
+
+}
+
+
+function previsaoDyAtivo(ativo){
+
+    return (
+        (Number(ativo.quantidade) || 0) *
+        (Number(ativo.ultimoDy) || 0)
+    ) || 0;
+
 }
 
 
 async function carregarDoSupabase(){
 
     try{
+
         let data = null;
         let error = null;
 
-        /* Primeiro tenta o cliente oficial do Supabase. */
-        if (supabaseClient) {
-            const resposta = await supabaseClient
+
+        /* Cliente oficial */
+
+        if(supabaseClient){
+
+            const resposta =
+                await supabaseClient
                 .from('carteira_ativos')
                 .select('*')
                 .order('tipo')
                 .order('codigo');
 
-            data = resposta.data;
-            error = resposta.error;
-        } else {
-            error = new Error('SDK do Supabase não foi carregado');
+            data =
+                resposta.data;
+
+            error =
+                resposta.error;
+
+        }else{
+
+            error =
+                new Error(
+                    'SDK do Supabase não foi carregado'
+                );
+
         }
+
 
         /*
-           Fallback REST: útil principalmente no Safari quando o SDK/CDN
-           não carregou ou quando o HTML foi aberto diretamente.
+           Fallback REST
         */
-        if (error || !Array.isArray(data)) {
-            const url = SUPABASE_URL +
+
+        if(
+            error ||
+            !Array.isArray(data)
+        ){
+
+            const url =
+                SUPABASE_URL +
                 '/rest/v1/carteira_ativos?select=*&order=tipo.asc,codigo.asc';
 
-            const respostaRest = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': 'Bearer ' + SUPABASE_KEY,
-                    'Accept': 'application/json'
-                },
-                cache: 'no-store'
-            });
 
-            if (!respostaRest.ok) {
-                const texto = await respostaRest.text();
-                throw new Error('Supabase REST ' + respostaRest.status + ': ' + texto);
+            const respostaRest =
+                await fetch(
+                    url,
+                    {
+                        method:'GET',
+
+                        headers:{
+                            'apikey':SUPABASE_KEY,
+                            'Authorization':
+                                'Bearer ' + SUPABASE_KEY,
+                            'Accept':'application/json'
+                        },
+
+                        cache:'no-store'
+                    }
+                );
+
+
+            if(!respostaRest.ok){
+
+                const texto =
+                    await respostaRest.text();
+
+                throw new Error(
+                    'Supabase REST ' +
+                    respostaRest.status +
+                    ': ' +
+                    texto
+                );
+
             }
 
-            data = await respostaRest.json();
+
+            data =
+                await respostaRest.json();
+
             error = null;
+
         }
+
 
         carteira =
             (data || [])
             .map(converterLinhaSupabase);
 
+
         atualizarTela();
 
-        const agora = new Date();
+
+        const agora =
+            new Date();
+
 
         document
             .getElementById('dataAtualizacao')
@@ -3525,34 +3723,41 @@ async function carregarDoSupabase(){
             'Última atualização: ' +
             agora.toLocaleString('pt-BR');
 
+
     }catch(error){
 
-        console.error('Erro ao carregar Supabase:', error);
+        console.error(
+            'Erro ao carregar Supabase:',
+            error
+        );
+
 
         document
             .getElementById('dataAtualizacao')
             .textContent =
-            'Erro Supabase: ' + (error?.message || 'não foi possível carregar');
+            'Erro Supabase: ' +
+            (
+                error?.message ||
+                'não foi possível carregar'
+            );
 
-        /* Mantém a tela funcionando e deixa o erro visível no console. */
+
         carteira = [];
+
         atualizarTela();
+
     }
+
 }
+
 
 function jurosMensaisCDB(ativo){
 
-    /*
-       O valor vem diretamente da coluna
-       juros_mensais do Supabase.
+    return Number(
+        ativo.jurosMensais
+    ) || 0;
 
-       O cálculo dos CDBs é feito no banco de dados.
-       O HTML apenas exibe o resultado.
-    */
-
-    return Number(ativo.jurosMensais) || 0;
 }
-
 
 
 function formatarTaxaRendaFixa(ativo){
@@ -3566,15 +3771,37 @@ function formatarTaxaRendaFixa(ativo){
     const taxaAnual =
         Number(ativo.taxaAnual) || 0;
 
-    if(percentualCdi > 0 && taxaCdi > 0){
-        return `${percentualCdi.toLocaleString('pt-BR',{maximumFractionDigits:2})}% CDI`;
+
+    if(
+        percentualCdi > 0 &&
+        taxaCdi > 0
+    ){
+
+        return `${percentualCdi.toLocaleString(
+            'pt-BR',
+            {
+                maximumFractionDigits:2
+            }
+        )}% CDI`;
+
     }
+
 
     if(taxaAnual > 0){
-        return `${taxaAnual.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}% a.a.`;
+
+        return `${taxaAnual.toLocaleString(
+            'pt-BR',
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        )}% a.a.`;
+
     }
 
+
     return '-';
+
 }
 
 
@@ -3583,7 +3810,17 @@ function taxaCdiReferencia(ativo){
     const taxa =
         Number(ativo.taxaCdi) || 0;
 
-    return taxa > 0 ? `${taxa.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}% a.a.` : '';
+
+    return taxa > 0
+        ? `${taxa.toLocaleString(
+            'pt-BR',
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        )}% a.a.`
+        : '';
+
 }
 
 
@@ -3597,17 +3834,25 @@ function renderizarTabela(
             elementoId
         );
 
+
     tbody.innerHTML = '';
+
 
     const ehRendaFixa =
         elementoId === 'tabelaRendaFixa';
 
+
+    const ehFii =
+        elementoId === 'tabelaFiis';
+
+
     const totalTabela =
         ativos.reduce(
-            (soma, ativo) =>
+            (soma,ativo) =>
                 soma + valorAtivo(ativo),
             0
         );
+
 
     const totalId =
         elementoId === 'tabelaFiis'
@@ -3616,53 +3861,76 @@ function renderizarTabela(
                 ? 'totalTabelaAcoes'
                 : 'totalTabelaRendaFixa';
 
+
     const totalElemento =
-        document.getElementById(totalId);
+        document.getElementById(
+            totalId
+        );
+
 
     if(totalElemento){
+
         totalElemento.textContent =
             moeda(totalTabela);
+
     }
+
 
     if(ehRendaFixa){
 
         const previsao =
             ativos.reduce(
-                (soma, ativo) =>
-                    soma + jurosMensaisCDB(ativo),
+                (soma,ativo) =>
+                    soma +
+                    jurosMensaisCDB(ativo),
                 0
             );
+
 
         const previsaoElemento =
             document.getElementById(
                 'previsaoJurosRendaFixa'
             );
 
+
         if(previsaoElemento){
+
             previsaoElemento.textContent =
                 moeda(previsao);
+
         }
+
     }
+
 
     if(!ativos.length){
 
         const tr =
             document.createElement('tr');
 
+
         tr.innerHTML = `
-            <td colspan="6"
+
+            <td colspan="${ehFii ? 7 : 6}"
                 style="
                     text-align:center;
                     color:#7189a0;
                     padding:15px;
                 ">
+
                 Nenhum ativo encontrado
+
             </td>
+
         `;
 
+
         tbody.appendChild(tr);
+
         return;
+
     }
+
 
     [...ativos]
     .sort(
@@ -3672,23 +3940,34 @@ function renderizarTabela(
     )
     .forEach(ativo => {
 
+
         const tr =
             document.createElement('tr');
+
 
         const valor =
             valorAtivo(ativo);
 
+
+        /* =========================
+           ATIVO
+        ========================= */
+
         const tdAtivo =
             document.createElement('td');
+
 
         tdAtivo.className =
             'col-ativo';
 
+
         const assetCell =
             document.createElement('div');
 
+
         assetCell.className =
             'asset-cell';
+
 
         assetCell.appendChild(
             criarIconeAtivo(
@@ -3698,13 +3977,17 @@ function renderizarTabela(
             )
         );
 
+
         const assetInfo =
             document.createElement('div');
+
 
         assetInfo.className =
             'asset-info';
 
+
         assetInfo.innerHTML = `
+
             <div class="asset-code">
                 ${ativo.codigo}
             </div>
@@ -3712,175 +3995,319 @@ function renderizarTabela(
             <div class="asset-name">
                 ${ativo.nome}
             </div>
+
         `;
+
 
         assetCell.appendChild(
             assetInfo
         );
 
+
         tdAtivo.appendChild(
             assetCell
         );
 
+
+        /* =========================
+           NOME
+        ========================= */
+
         const tdNome =
             document.createElement('td');
+
 
         tdNome.className =
             'col-nome';
 
+
         tdNome.textContent =
             ativo.nome;
+
+
+        /* =========================
+           SEGMENTO
+        ========================= */
 
         const tdSegmento =
             document.createElement('td');
 
+
         tdSegmento.className =
             'col-segmento';
+
 
         tdSegmento.textContent =
             ativo.segmento;
 
+
+        /* =========================
+           QUANTIDADE
+        ========================= */
+
         const tdQtd =
             document.createElement('td');
+
 
         tdQtd.className =
             'col-qtd value';
 
+
         if(ehRendaFixa){
+
             tdQtd.textContent =
                 moeda(valor);
+
             tdQtd.title =
                 'Valor aplicado';
+
         }else{
+
             tdQtd.textContent =
                 numero(ativo.quantidade);
+
         }
+
+
+        /* =========================
+           PREÇO MÉDIO / TAXA
+        ========================= */
 
         const tdPm =
             document.createElement('td');
 
+
         tdPm.className =
             'col-pm value';
 
+
         if(ehRendaFixa){
+
             tdPm.textContent =
-                formatarTaxaRendaFixa(ativo);
+                formatarTaxaRendaFixa(
+                    ativo
+                );
+
 
             const referencia =
-                taxaCdiReferencia(ativo);
+                taxaCdiReferencia(
+                    ativo
+                );
+
 
             if(referencia){
+
                 tdPm.title =
                     `Referência CDI: ${referencia}`;
+
             }
+
         }else{
+
             tdPm.textContent =
-                moeda(ativo.precoMedio);
+                moeda(
+                    ativo.precoMedio
+                );
+
         }
+
+
+        /* =================================================
+           NOVA COLUNA — PREVISÃO DY
+           
+           Fórmula:
+           quantidade × último DY
+           
+           Exemplo:
+           80 × R$ 1,17 = R$ 93,60
+        ================================================= */
+
+        let tdPrevisaoDy = null;
+
+
+        if(ehFii){
+
+            tdPrevisaoDy =
+                document.createElement('td');
+
+
+            tdPrevisaoDy.className =
+                'col-previsao-dy value';
+
+
+            const previsao =
+                previsaoDyAtivo(
+                    ativo
+                );
+
+
+            tdPrevisaoDy.textContent =
+                moeda(previsao);
+
+
+            tdPrevisaoDy.title =
+                `Quantidade: ${numero(ativo.quantidade)} × Último DY: ${moeda(ativo.ultimoDy)}`;
+
+        }
+
+
+        /* =========================
+           TOTAL
+        ========================= */
 
         const tdTotal =
             document.createElement('td');
 
+
         tdTotal.className =
             'col-total value';
 
+
         if(ehRendaFixa){
+
             tdTotal.textContent =
-                moeda(jurosMensaisCDB(ativo));
+                moeda(
+                    jurosMensaisCDB(
+                        ativo
+                    )
+                );
+
+
             tdTotal.title =
                 'Previsão mensal de juros';
+
         }else{
+
             tdTotal.textContent =
                 moeda(valor);
+
         }
 
-        tr.appendChild(tdAtivo);
-        tr.appendChild(tdNome);
-        tr.appendChild(tdSegmento);
-        tr.appendChild(tdQtd);
-        tr.appendChild(tdPm);
-        tr.appendChild(tdTotal);
 
-        tbody.appendChild(tr);
+        /* =========================
+           MONTA A LINHA
+        ========================= */
+
+        tr.appendChild(
+            tdAtivo
+        );
+
+
+        tr.appendChild(
+            tdNome
+        );
+
+
+        tr.appendChild(
+            tdSegmento
+        );
+
+
+        tr.appendChild(
+            tdQtd
+        );
+
+
+        tr.appendChild(
+            tdPm
+        );
+
+
+        if(ehFii){
+
+            tr.appendChild(
+                tdPrevisaoDy
+            );
+
+        }
+
+
+        tr.appendChild(
+            tdTotal
+        );
+
+
+        tbody.appendChild(
+            tr
+        );
+
     });
+
 }
+
 
 function atualizarResumo(){
 
     const total =
         carteira.reduce(
-            (soma, ativo) =>
-                soma + valorAtivo(ativo),
+            (soma,ativo) =>
+                soma +
+                valorAtivo(ativo),
             0
         );
 
 
     const acoes =
         carteira.filter(
-            a => a.tipo === 'acoes'
+            a =>
+                a.tipo === 'acoes'
         );
 
 
     const fiis =
         carteira.filter(
-            a => a.tipo === 'fiis'
+            a =>
+                a.tipo === 'fiis'
         );
 
 
     const rendaFixa =
         carteira.filter(
-            a => a.tipo === 'renda_fixa'
+            a =>
+                a.tipo === 'renda_fixa'
         );
 
 
     const totalAcoes =
         acoes.reduce(
-            (soma, ativo) =>
-                soma + valorAtivo(ativo),
+            (soma,ativo) =>
+                soma +
+                valorAtivo(ativo),
             0
         );
 
 
     const totalFiis =
         fiis.reduce(
-            (soma, ativo) =>
-                soma + valorAtivo(ativo),
+            (soma,ativo) =>
+                soma +
+                valorAtivo(ativo),
             0
         );
 
 
-    /*
-       SOMA TOTAL DO DY RECEBIDO
-
-       Usa diretamente a coluna:
-       dy_recebido
-
-       de todos os ativos da carteira.
-    */
+    /* DY RECEBIDO */
 
     const totalDyRecebido =
         carteira.reduce(
-            (soma, ativo) =>
-                soma + Number(ativo.dyRecebido || 0),
+            (soma,ativo) =>
+                soma +
+                Number(
+                    ativo.dyRecebido || 0
+                ),
             0
         );
 
 
-    /*
-       PREVISÃO TOTAL DE RECEBIMENTO DE DY
+    /* PREVISÃO DE DY */
 
-       Soma:
-       quantidade de cada FII × último DY em R$/cota.
-
-       Exemplo:
-       80 HGLG11 × R$ 1,17 = R$ 93,60
-    */
     const previsaoDy =
         fiis.reduce(
-            (soma, ativo) =>
+            (soma,ativo) =>
                 soma +
-                (Number(ativo.quantidade) || 0) *
-                (Number(ativo.ultimoDy) || 0),
+                previsaoDyAtivo(
+                    ativo
+                ),
             0
         );
 
@@ -3915,11 +4342,6 @@ function atualizarResumo(){
         moeda(totalFiis);
 
 
-    /*
-       NOVO CARD:
-       DY RECEBIDO
-    */
-
     document
         .getElementById('totalDyRecebido')
         .textContent =
@@ -3934,8 +4356,11 @@ function atualizarResumo(){
 
     const previsaoRendaFixa =
         rendaFixa.reduce(
-            (soma, ativo) =>
-                soma + jurosMensaisCDB(ativo),
+            (soma,ativo) =>
+                soma +
+                jurosMensaisCDB(
+                    ativo
+                ),
             0
         );
 
@@ -3945,32 +4370,37 @@ function atualizarResumo(){
             'previsaoJurosRendaFixa'
         );
 
+
     if(previsaoRendaFixaElemento){
+
         previsaoRendaFixaElemento.textContent =
-            moeda(previsaoRendaFixa);
+            moeda(
+                previsaoRendaFixa
+            );
+
     }
 
 
-    /*
-       TOTAL MENSAL PREVISTO
+    /* TOTAL MENSAL */
 
-       Não usa o DY RECEBIDO histórico.
-       Soma apenas as duas previsões mensais:
-       - previsão de DY dos FIIs
-       - juros mensais da Renda Fixa
-    */
     const totalMensalPrevisto =
         previsaoDy +
         previsaoRendaFixa;
+
 
     const totalMensalPrevistoElemento =
         document.getElementById(
             'totalMensalPrevisto'
         );
 
+
     if(totalMensalPrevistoElemento){
+
         totalMensalPrevistoElemento.textContent =
-            moeda(totalMensalPrevisto);
+            moeda(
+                totalMensalPrevisto
+            );
+
     }
 
 
@@ -3993,7 +4423,8 @@ function atualizarDonuts(){
     const total =
         carteira.reduce(
             (soma,a) =>
-                soma + valorAtivo(a),
+                soma +
+                valorAtivo(a),
             0
         );
 
@@ -4001,11 +4432,13 @@ function atualizarDonuts(){
     const acoes =
         carteira
         .filter(
-            a => a.tipo === 'acoes'
+            a =>
+                a.tipo === 'acoes'
         )
         .reduce(
             (soma,a) =>
-                soma + valorAtivo(a),
+                soma +
+                valorAtivo(a),
             0
         );
 
@@ -4013,11 +4446,13 @@ function atualizarDonuts(){
     const fiis =
         carteira
         .filter(
-            a => a.tipo === 'fiis'
+            a =>
+                a.tipo === 'fiis'
         )
         .reduce(
             (soma,a) =>
-                soma + valorAtivo(a),
+                soma +
+                valorAtivo(a),
             0
         );
 
@@ -4025,11 +4460,13 @@ function atualizarDonuts(){
     const rendaFixa =
         carteira
         .filter(
-            a => a.tipo === 'renda_fixa'
+            a =>
+                a.tipo === 'renda_fixa'
         )
         .reduce(
             (soma,a) =>
-                soma + valorAtivo(a),
+                soma +
+                valorAtivo(a),
             0
         );
 
@@ -4061,17 +4498,22 @@ function atualizarDonuts(){
     const fimAcoes =
         pAcoes;
 
+
     const inicioFiis =
         fimAcoes;
+
 
     const fimFiis =
         inicioFiis + pFiis;
 
+
     const inicioRendaFixa =
         fimFiis;
 
+
     const fimRendaFixa =
-        inicioRendaFixa + pRendaFixa;
+        inicioRendaFixa +
+        pRendaFixa;
 
 
     donut.style.background =
@@ -4137,24 +4579,29 @@ function atualizarDonuts(){
     const segmentos = {};
 
 
-    carteira.forEach(ativo => {
+    carteira.forEach(
+        ativo => {
 
-        const segmento =
-            ativo.segmento ||
-            'Outros';
+            const segmento =
+                ativo.segmento ||
+                'Outros';
 
 
-        segmentos[segmento] =
-            (
-                segmentos[segmento] || 0
-            ) +
-            valorAtivo(ativo);
+            segmentos[segmento] =
+                (
+                    segmentos[segmento] ||
+                    0
+                ) +
+                valorAtivo(ativo);
 
-    });
+        }
+    );
 
 
     const lista =
-        Object.entries(segmentos)
+        Object.entries(
+            segmentos
+        )
         .sort(
             (a,b) =>
                 b[1] - a[1]
@@ -4185,7 +4632,9 @@ function atualizarDonuts(){
                 inicio +
                 (
                     total > 0
-                        ? valor / total * 100
+                        ? valor /
+                          total *
+                          100
                         : 0
                 );
 
@@ -4235,7 +4684,9 @@ function atualizarDonuts(){
 
                 const p =
                     total > 0
-                        ? valor / total * 100
+                        ? valor /
+                          total *
+                          100
                         : 0;
 
 
@@ -4292,6 +4743,7 @@ function renderizarTopPosicoes(){
     if(!ativos.length){
 
         container.innerHTML = `
+
             <div
                 style="
                     text-align:center;
@@ -4299,11 +4751,15 @@ function renderizarTopPosicoes(){
                     font-size:7px;
                     padding:15px 0;
                 ">
+
                 Nenhum DY informado
+
             </div>
+
         `;
 
         return;
+
     }
 
 
@@ -4311,58 +4767,74 @@ function renderizarTopPosicoes(){
         Math.max(
             ...ativos.map(
                 ativo =>
-                    Number(ativo.dy) || 0
+                    Number(
+                        ativo.dy
+                    ) || 0
             )
         );
 
 
-    ativos.forEach(ativo => {
+    ativos.forEach(
+        ativo => {
 
-        const dy =
-            Number(ativo.dy) || 0;
-
-
-        const p =
-            maiorDY > 0
-                ? dy / maiorDY * 100
-                : 0;
+            const dy =
+                Number(
+                    ativo.dy
+                ) || 0;
 
 
-        const div =
-            document.createElement('div');
+            const p =
+                maiorDY > 0
+                    ? dy /
+                      maiorDY *
+                      100
+                    : 0;
 
 
-        div.className =
-            'position';
+            const div =
+                document.createElement(
+                    'div'
+                );
 
 
-        div.innerHTML = `
+            div.className =
+                'position';
 
-            <div
-                class="position-name"
-                title="${ativo.nome}">
-                ${ativo.codigo}
-            </div>
 
-            <div class="position-bar">
+            div.innerHTML = `
 
                 <div
-                    class="position-fill"
-                    style="width:${p}%">
+                    class="position-name"
+                    title="${ativo.nome}">
+
+                    ${ativo.codigo}
+
                 </div>
 
-            </div>
+                <div class="position-bar">
 
-            <div class="position-dy">
-                DY ${formatarDY(dy)}
-            </div>
+                    <div
+                        class="position-fill"
+                        style="width:${p}%">
+                    </div>
 
-        `;
+                </div>
+
+                <div class="position-dy">
+
+                    DY ${formatarDY(dy)}
+
+                </div>
+
+            `;
 
 
-        container.appendChild(div);
+            container.appendChild(
+                div
+            );
 
-    });
+        }
+    );
 
 }
 
@@ -4381,32 +4853,40 @@ function renderizarSetores(){
     const segmentos = {};
 
 
-    carteira.forEach(ativo => {
+    carteira.forEach(
+        ativo => {
 
-        const segmento =
-            ativo.segmento ||
-            'Outros';
+            const segmento =
+                ativo.segmento ||
+                'Outros';
 
 
-        segmentos[segmento] =
-            (
-                segmentos[segmento] || 0
-            ) +
-            valorAtivo(ativo);
+            segmentos[segmento] =
+                (
+                    segmentos[segmento] ||
+                    0
+                ) +
+                valorAtivo(ativo);
 
-    });
+        }
+    );
 
 
     const total =
-        Object.values(segmentos)
+        Object.values(
+            segmentos
+        )
         .reduce(
-            (a,b) => a+b,
+            (a,b) =>
+                a + b,
             0
         );
 
 
     const lista =
-        Object.entries(segmentos)
+        Object.entries(
+            segmentos
+        )
         .sort(
             (a,b) =>
                 b[1] - a[1]
@@ -4414,7 +4894,9 @@ function renderizarSetores(){
 
 
     document
-        .getElementById('totalSegmentos')
+        .getElementById(
+            'totalSegmentos'
+        )
         .textContent =
         `${lista.length} segmentos`;
 
@@ -4424,12 +4906,16 @@ function renderizarSetores(){
 
             const p =
                 total > 0
-                    ? valor / total * 100
+                    ? valor /
+                      total *
+                      100
                     : 0;
 
 
             const div =
-                document.createElement('div');
+                document.createElement(
+                    'div'
+                );
 
 
             div.className =
@@ -4441,7 +4927,11 @@ function renderizarSetores(){
                 <div class="sector-top">
 
                     <div class="sector-icon">
-                        ${iconeSegmento(segmento)}
+
+                        ${iconeSegmento(
+                            segmento
+                        )}
+
                     </div>
 
                     <div class="sector-info">
@@ -4449,11 +4939,15 @@ function renderizarSetores(){
                         <div
                             class="sector-name"
                             title="${segmento}">
+
                             ${segmento}
+
                         </div>
 
                         <div class="sector-value">
+
                             ${percentual(p)}
+
                         </div>
 
                     </div>
@@ -4463,7 +4957,9 @@ function renderizarSetores(){
             `;
 
 
-            container.appendChild(div);
+            container.appendChild(
+                div
+            );
 
         }
     );
@@ -4475,19 +4971,22 @@ function atualizarTela(){
 
     const fiis =
         carteira.filter(
-            a => a.tipo === 'fiis'
+            a =>
+                a.tipo === 'fiis'
         );
 
 
     const acoes =
         carteira.filter(
-            a => a.tipo === 'acoes'
+            a =>
+                a.tipo === 'acoes'
         );
 
 
     const rendaFixa =
         carteira.filter(
-            a => a.tipo === 'renda_fixa'
+            a =>
+                a.tipo === 'renda_fixa'
         );
 
 
@@ -4510,7 +5009,9 @@ function atualizarTela(){
 
 
     document
-        .getElementById('qtdRendaFixa')
+        .getElementById(
+            'qtdRendaFixa'
+        )
         .textContent =
         `${rendaFixa.length} ativos`;
 
@@ -4543,34 +5044,55 @@ setInterval(
 
 </script>
 
+
 <!-- =====================================================
      SERVICE WORKER / PWA
 ====================================================== -->
 
 <script>
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-        try {
-            const registration = await navigator.serviceWorker.register('./service-worker.js');
 
-            console.log(
-                'PWA: Service Worker registrado:',
-                registration.scope
-            );
+if(
+    'serviceWorker' in navigator
+){
 
-            // Verifica se existe uma nova versão
-            registration.update();
+    window.addEventListener(
+        'load',
+        async () => {
 
-        } catch (error) {
-            console.error(
-                'PWA: erro ao registrar Service Worker:',
-                error
-            );
+            try{
+
+                const registration =
+                    await navigator.serviceWorker.register(
+                        './service-worker.js'
+                    );
+
+
+                console.log(
+                    'PWA: Service Worker registrado:',
+                    registration.scope
+                );
+
+
+                registration.update();
+
+
+            }catch(error){
+
+                console.error(
+                    'PWA: erro ao registrar Service Worker:',
+                    error
+                );
+
+            }
+
         }
-    });
+    );
+
 }
+
 </script>
 
 </body>
 
 </html>
+
