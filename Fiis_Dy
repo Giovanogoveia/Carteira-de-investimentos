@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050b14">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Painel de monitoramento de FIIs com cotações, últimos rendimentos e DY por cota.">
+<title>FII Nexus · Minha Carteira</title>
+<style>
+:root{color-scheme:dark;--bg:#050311;--panel:rgba(14,10,36,.94);--panel2:#191044;--border:rgba(0,245,255,.34);--text:#f7f4ff;--muted:#c0b6e8;--blue:#268bff;--cyan:#00f5ff;--green:#39ff88;--red:#ff3d9a;--yellow:#ffe600;--shadow:0 18px 55px rgba(0,0,0,.45)}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg);scroll-behavior:smooth}body{margin:0;min-height:100vh;padding:clamp(14px,2.5vw,34px);background:radial-gradient(ellipse at 8% 0%,rgba(37,111,219,.19),transparent 34%),radial-gradient(ellipse at 95% 12%,rgba(30,213,199,.10),transparent 28%),linear-gradient(150deg,#050b14 0%,#071321 55%,#08101b 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.01em}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:linear-gradient(rgba(130,170,210,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(130,170,210,.07) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+.container{position:relative;z-index:1;max-width:1580px;margin:auto}header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px;padding:22px 24px;border:1px solid var(--border);border-radius:22px;background:linear-gradient(120deg,rgba(17,35,57,.94),rgba(8,19,32,.82));box-shadow:var(--shadow);backdrop-filter:blur(18px)}header>div{display:flex;flex-direction:column;gap:9px}h1{margin:0;font-size:clamp(23px,3vw,34px);font-weight:780;letter-spacing:-.045em;line-height:1.15}h1:before{content:"◈";display:inline-grid;place-items:center;width:42px;height:42px;margin-right:12px;border-radius:13px;color:var(--cyan);font-size:25px;vertical-align:middle;background:linear-gradient(135deg,rgba(75,156,255,.2),rgba(72,225,210,.1));border:1px solid rgba(72,225,210,.22);box-shadow:inset 0 0 22px rgba(72,225,210,.08)}.subtitle{color:var(--muted);font-size:13px;letter-spacing:.04em}.subtitle:before{content:"●";font-size:9px;color:var(--green);margin-right:8px;text-shadow:0 0 12px var(--green)}
+button{border:1px solid transparent;border-radius:12px;padding:12px 17px;font:inherit;font-size:13px;font-weight:700;letter-spacing:.01em;cursor:pointer;transition:transform .2s ease,border-color .2s ease,filter .2s ease}button:hover{transform:translateY(-2px);filter:brightness(1.08)}button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.primary{background:linear-gradient(120deg,#2f7df4,#3bbed4);color:#fff;box-shadow:0 8px 24px rgba(48,132,240,.22)}.secondary{background:rgba(19,39,62,.9);color:var(--text);border-color:var(--border)}button:disabled{opacity:.6;cursor:wait;transform:none}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:22px}.card,.panel{background:var(--panel);border:1px solid var(--border);border-radius:19px;box-shadow:var(--shadow);backdrop-filter:blur(16px)}.card{position:relative;isolation:isolate;overflow:hidden;padding:22px;min-width:0;transition:transform .22s ease,border-color .22s ease}.card:before{content:"";position:absolute;z-index:-1;width:115px;height:115px;right:-48px;top:-53px;border-radius:50%;background:radial-gradient(circle,rgba(72,225,210,.16),transparent 70%)}.card:hover{transform:translateY(-3px);border-color:rgba(72,225,210,.32)}.card-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:14px}.card-value{font-size:clamp(21px,2vw,29px);font-weight:780;letter-spacing:-.04em;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}.card-description{color:var(--muted);font-size:11px;margin-top:10px}.panel{margin-bottom:20px;overflow:hidden}.panel-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:19px 22px;border-bottom:1px solid var(--border);background:linear-gradient(90deg,rgba(21,43,68,.55),rgba(12,23,39,.1))}.panel-header h2{font-size:15px;font-weight:750;letter-spacing:-.01em;margin:0}.table-wrap{overflow-x:auto;scrollbar-color:#31516f #091421;scrollbar-width:thin}table{width:100%;min-width:850px;border-collapse:separate;border-spacing:0}th,td{padding:15px 18px;text-align:left;border-bottom:1px solid rgba(124,164,205,.12);white-space:nowrap}th{position:sticky;top:0;z-index:1;font-size:10px;text-transform:uppercase;color:#a8bfd8;letter-spacing:.1em;background:#0c1929}td{font-size:13px;font-variant-numeric:tabular-nums}tbody tr{transition:background .18s ease}tbody tr:hover{background:rgba(57,145,255,.085)}tbody tr:last-child td{border-bottom:0}.ticker{font-weight:800;color:#8acbff;letter-spacing:.035em}.money{font-variant-numeric:tabular-nums}.positive{color:var(--green);font-weight:750}.negative{color:var(--red)}.status{color:var(--muted);font-size:12px;padding:15px 22px;line-height:1.7;overflow-wrap:anywhere;background:rgba(4,12,21,.25)}.status.error{color:var(--red)}.status.success{color:var(--green)}.settings{padding:22px}.settings label{display:block;color:#b6c9dd;font-size:12px;font-weight:700;margin-bottom:10px}.settings-row{display:flex;gap:10px;flex-wrap:wrap}input{flex:1;min-width:220px;padding:13px 14px;border:1px solid var(--border);border-radius:11px;background:rgba(4,13,23,.85);color:white;outline:none;font:inherit;transition:border-color .2s ease,box-shadow .2s ease}input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(75,156,255,.12)}.help{color:var(--muted);font-size:12px;line-height:1.8;margin-top:12px}.help p{margin:0 0 10px}.badge{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid rgba(72,225,210,.18);border-radius:999px;background:rgba(26,67,76,.3);color:#9cebe2;font-size:10px;font-weight:700;letter-spacing:.03em}.badge:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}footer{text-align:center;padding:20px 10px;font-size:11px;line-height:1.8;color:#7188a2}a{color:#8acbff;text-decoration:none}a:hover{text-decoration:underline}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}body{padding:16px}header{padding:20px}.card{padding:18px}}
+@media(max-width:560px){body{padding:10px}.cards{gap:9px;margin-bottom:14px}.card{padding:14px;border-radius:15px}.card-label{font-size:9px;line-height:1.4;letter-spacing:.08em;margin-bottom:10px}.card-value{font-size:19px}.card-description{font-size:10px;line-height:1.45}header{padding:17px;border-radius:17px;margin-bottom:15px;align-items:stretch}header .primary{width:100%}h1{font-size:22px}h1:before{width:34px;height:34px;font-size:20px;margin-right:8px}.subtitle{font-size:11px}.panel{border-radius:15px;margin-bottom:14px}.panel-header{padding:15px}.panel-header h2{font-size:13px}.badge{font-size:9px}th,td{padding:13px 14px}.settings{padding:15px}.settings-row{display:grid;grid-template-columns:1fr 1fr}.settings-row input{grid-column:1/-1;min-width:0}.settings-row button{width:100%}.status{padding:13px 15px;font-size:11px}}
+
+/* PALETA NEON INTENSA: cyberpunk, ciano, violeta, magenta e verde-laser */
+body{background:radial-gradient(ellipse at 4% 0%,rgba(255,0,153,.28),transparent 34%),radial-gradient(ellipse at 96% 8%,rgba(0,245,255,.25),transparent 32%),radial-gradient(ellipse at 50% 100%,rgba(112,0,255,.24),transparent 42%),linear-gradient(135deg,#050311 0%,#100726 48%,#03131f 100%)}
+body:before{opacity:.28;background-image:linear-gradient(rgba(0,245,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,153,.10) 1px,transparent 1px);background-size:34px 34px}
+header{border-color:rgba(0,245,255,.55);background:linear-gradient(115deg,rgba(48,12,78,.96),rgba(5,23,49,.94) 55%,rgba(8,49,62,.92));box-shadow:0 0 0 1px rgba(255,0,153,.12),0 0 32px rgba(0,245,255,.15),0 18px 55px rgba(0,0,0,.4)}
+h1:before{color:#00f5ff;background:linear-gradient(135deg,rgba(255,0,153,.34),rgba(0,245,255,.24));border-color:#ff00b8;box-shadow:0 0 20px rgba(255,0,184,.35),inset 0 0 22px rgba(0,245,255,.2)}
+.subtitle:before{color:#39ff88;text-shadow:0 0 14px #39ff88}
+.primary{background:linear-gradient(115deg,#ff00a8 0%,#8b2bff 48%,#007dff 100%);border:1px solid rgba(255,255,255,.3);box-shadow:0 0 22px rgba(255,0,168,.38),0 0 32px rgba(0,125,255,.2)}
+.secondary{background:linear-gradient(120deg,rgba(255,0,168,.18),rgba(0,245,255,.12));border-color:rgba(0,245,255,.5)}
+.card{border-color:rgba(0,245,255,.38);background:linear-gradient(145deg,rgba(25,15,59,.96),rgba(7,24,46,.96));box-shadow:0 0 0 1px rgba(139,43,255,.12),0 0 24px rgba(0,245,255,.08),var(--shadow)}
+.card:before{width:170px;height:170px;right:-65px;top:-90px;background:radial-gradient(circle,rgba(255,0,184,.42),rgba(0,245,255,.12) 40%,transparent 72%)}
+.card:nth-child(1){border-top:3px solid #00f5ff}.card:nth-child(1) .card-value{color:#00f5ff;text-shadow:0 0 18px rgba(0,245,255,.35)}
+.card:nth-child(2){border-top:3px solid #a855ff}.card:nth-child(2) .card-value{color:#c084ff;text-shadow:0 0 18px rgba(168,85,255,.4)}
+.card:nth-child(3){border-top:3px solid #39ff88}.card:nth-child(3) .card-value{color:#39ff88;text-shadow:0 0 18px rgba(57,255,136,.35)}
+.card:nth-child(4){border-top:3px solid #ff3dba}.card:nth-child(4) .card-value{color:#ff69d2;text-shadow:0 0 18px rgba(255,61,186,.35)}
+.panel{border-color:rgba(139,43,255,.48);background:linear-gradient(145deg,rgba(17,10,43,.97),rgba(4,20,37,.97));box-shadow:0 0 25px rgba(139,43,255,.11),var(--shadow)}
+.panel-header{background:linear-gradient(90deg,rgba(255,0,168,.16),rgba(139,43,255,.14),rgba(0,245,255,.1));border-bottom-color:rgba(0,245,255,.28)}
+.panel-header h2{color:#f4eaff;text-shadow:0 0 12px rgba(168,85,255,.3)}
+.badge{background:linear-gradient(100deg,rgba(255,0,168,.2),rgba(0,245,255,.14));border-color:rgba(0,245,255,.48);color:#70fbff;box-shadow:0 0 16px rgba(0,245,255,.09)}
+.badge:before{background:#39ff88;box-shadow:0 0 12px #39ff88}
+th{color:#e4d9ff;background:linear-gradient(90deg,#211044,#102c48,#321044);border-bottom:1px solid rgba(0,245,255,.42)}
+td{border-bottom-color:rgba(168,85,255,.22)}tbody tr:nth-child(4n+1){background:rgba(0,245,255,.035)}tbody tr:nth-child(4n+2){background:rgba(255,0,168,.035)}tbody tr:hover{background:linear-gradient(90deg,rgba(0,245,255,.14),rgba(139,43,255,.16),rgba(255,0,168,.12));box-shadow:inset 3px 0 #00f5ff}
+.ticker{color:#5ff7ff;text-shadow:0 0 12px rgba(0,245,255,.28)}.positive{color:#39ff88;text-shadow:0 0 12px rgba(57,255,136,.24)}.negative{color:#ff4fa3;text-shadow:0 0 12px rgba(255,61,154,.2)}
+.status{background:linear-gradient(90deg,rgba(0,245,255,.06),rgba(255,0,168,.06));border-top:1px solid rgba(0,245,255,.18)}.status.success{color:#39ff88}.status.error{color:#ff4fa3}
+input{background:rgba(7,8,28,.95);border-color:rgba(0,245,255,.35)}input:focus{border-color:#ff00b8;box-shadow:0 0 0 3px rgba(255,0,184,.18),0 0 18px rgba(0,245,255,.12)}a{color:#52f7ff}
+@keyframes neonPulse{0%,100%{box-shadow:0 0 16px rgba(0,245,255,.10)}50%{box-shadow:0 0 25px rgba(255,0,184,.18)}}.card{animation:neonPulse 5s ease-in-out infinite}.card:nth-child(2){animation-delay:.8s}.card:nth-child(3){animation-delay:1.6s}.card:nth-child(4){animation-delay:2.4s}
+@media(prefers-reduced-motion:reduce){.card{animation:none!important}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* TEMA REVISADO: financeiro elegante, sem roxo/violeta nem rosa/magenta */
+body{background:radial-gradient(ellipse at 8% 0%,rgba(0,190,210,.10),transparent 34%),radial-gradient(ellipse at 92% 8%,rgba(20,150,110,.08),transparent 32%),linear-gradient(135deg,#07111b 0%,#0a1722 52%,#08121b 100%);color:#e7f0f5}
+body:before{opacity:.12;background-image:linear-gradient(rgba(73,190,205,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(73,190,205,.08) 1px,transparent 1px);background-size:36px 36px}
+header{border-color:rgba(40,190,205,.34);background:linear-gradient(115deg,rgba(12,31,43,.98),rgba(9,25,37,.97) 58%,rgba(8,39,43,.94));box-shadow:0 12px 35px rgba(0,0,0,.28)}
+h1:before{color:#67e8f9;background:linear-gradient(135deg,rgba(17,119,145,.22),rgba(16,120,103,.16));border-color:rgba(61,204,215,.55);box-shadow:0 0 12px rgba(22,180,195,.10)}
+.subtitle:before{color:#53d6a0;text-shadow:none}
+.primary{background:linear-gradient(115deg,#087f9b 0%,#087f75 100%);border:1px solid rgba(125,226,231,.25);box-shadow:0 5px 16px rgba(0,128,145,.17)}
+.secondary{background:rgba(19,91,104,.18);border-color:rgba(62,190,202,.32)}
+.card{border-color:rgba(66,173,188,.24);background:linear-gradient(145deg,rgba(15,35,48,.98),rgba(10,27,39,.98));box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.card:before{width:150px;height:150px;right:-65px;top:-90px;background:radial-gradient(circle,rgba(42,183,190,.12),transparent 70%)}
+.card:nth-child(1),.card:nth-child(2),.card:nth-child(3),.card:nth-child(4){border-top:3px solid #2bb6c4}
+.card:nth-child(2){border-top-color:#35b8a0}.card:nth-child(3){border-top-color:#6db8d4}.card:nth-child(4){border-top-color:#78c7a5}
+.panel{border-color:rgba(66,173,188,.20);background:rgba(10,25,36,.94);box-shadow:0 8px 25px rgba(0,0,0,.16)}
+.panel-header{border-bottom-color:rgba(66,173,188,.17)}
+.badge{color:#8bdde3;border-color:rgba(66,190,200,.27);background:rgba(19,91,104,.15)}
+th{color:#9ccbd3;background:rgba(19,65,78,.35)}
+tbody tr:hover{background:rgba(28,124,137,.10)}
+.ticker{color:#67dce5}.positive{color:#5bdaa5}
+.status.success{border-color:rgba(65,200,145,.30);background:rgba(21,110,76,.12);color:#8be4ba}
+.status.error{border-color:rgba(225,164,80,.3);background:rgba(135,88,24,.12);color:#f0c27b}
+.settings{border-color:rgba(66,173,188,.18);background:rgba(9,24,35,.65)}
+footer{color:#78929f}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* VISUALIZAÇÃO MOBILE: mostrar somente as quatro colunas principais */
+@media(max-width:560px){
+  .table-wrap{overflow-x:hidden}
+  table{width:100%;min-width:0;table-layout:fixed}
+  th,td{padding:10px 5px;font-size:11px;white-space:normal;overflow-wrap:anywhere}
+  th{font-size:9px;letter-spacing:0;text-transform:none;line-height:1.25}
+  th:nth-child(2),td:nth-child(2),th:nth-child(6),td:nth-child(6){display:none}
+  th:nth-child(1),td:nth-child(1){width:20%}
+  th:nth-child(3),td:nth-child(3){width:22%}
+  th:nth-child(4),td:nth-child(4){width:14%}
+  th:nth-child(5),td:nth-child(5){width:22%}
+  th:nth-child(7),td:nth-child(7){width:22%}
+  td.ticker{font-size:11px}
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+<header><div><h1>Minha Carteira de FIIs</h1><div class="subtitle">Fundos imobiliários · Cotações e rendimentos</div></div><button class="primary" id="refreshBtn">↻ Atualizar dados</button></header>
+<section class="cards">
+<div class="card"><div class="card-label">Fundos monitorados</div><div class="card-value" id="totalFundos">16</div><div class="card-description">FIIs na carteira</div></div>
+<div class="card"><div class="card-label">Cotações recebidas</div><div class="card-value" id="cotacoesRecebidas">0/16</div><div class="card-description">Dados recebidos da API</div></div>
+<div class="card"><div class="card-label">Últimos rendimentos</div><div class="card-value" id="rendimentosRecebidos">0/16</div><div class="card-description">Fundos com rendimento identificado</div></div>
+<div class="card"><div class="card-label">Última consulta</div><div class="card-value" id="horaAtualizacao" style="font-size:18px">Ainda não consultado</div><div class="card-description">Horário local do navegador</div></div>
+</section>
+<section class="panel"><div class="panel-header"><h2>Cotações e dividendos</h2><span class="badge">Fonte: carteira_ativos</span></div><div class="table-wrap"><table><thead><tr><th>FII</th><th>Cotas</th><th>Última cotação</th><th>P/VP</th><th>Dividendo/cota</th><th>Dividendo total estimado</th><th>DY do último dividendo</th></tr></thead><tbody id="tabelaFIIs"></tbody></table></div><div class="status" id="status">Conectando ao Supabase para carregar os dados salvos no banco.</div></section>
+<section class="panel"><div class="panel-header"><h2>Conexão com o banco</h2><span class="badge">Somente leitura</span></div><div class="settings help"><p>Este painel consulta somente <strong>carteira_ativos</strong> para obter os FIIs, quantidade de cotas, última cotação, P/VP, último dividendo por cota e data de atualização. Não consulta <strong>historico_fii</strong> nem APIs externas.</p><p>O dividendo total estimado é calculado pela quantidade de cotas multiplicada pelo último dividendo por cota. A cotação e o dividendo são os valores salvos no banco.</p></div></section>
+<section class="panel"><div class="panel-header"><h2>Como interpretar o DY</h2></div><div class="settings help"><p>DY do último rendimento = (último rendimento por cota ÷ última cotação) × 100.</p><p>O indicador é calculado com os campos <strong>ultimo_dy</strong> e <strong>ultima_cotacao</strong> retornados pelo Supabase. O P/VP é carregado do campo <strong>p_vp</strong> em <strong>carteira_ativos</strong> e exibido em múltiplos (por exemplo, 0,98x). O P/VP compara o preço da cota com o valor patrimonial por cota; não é um indicador de dividendos.</p><p>O painel exibe os dados que já existem no banco. Valores ausentes aparecem como indisponíveis; nenhuma cotação ou distribuição é inventada.</p></div></section>
+<footer>Dashboard pessoal de investimentos · HTML, CSS e JavaScript<br>Confira a data de cada informação antes de tomar decisões.</footer>
+</div>
+<script>
+'use strict';
+const SUPABASE_URL='https://pajxqphtoaufldptaldh.supabase.co';
+const SUPABASE_KEY='sb_publishable_kyymk01GtvAVJvWCQRJu0Q_WW8RBsKR';
+const STORAGE_DATA='dashboard_fii_supabase_cache_v1';
+let dadosFIIs={};
+const $=id=>document.getElementById(id);
+const FIIS_PADRAO=['RURA11','TRXF11','GARE11','GGRC11','HGLG11','XPML11','MXRF11','XPLG11','CPTS11','KNCR11','BRCR11','SNAG11','VISC11','XPCI11','RBRX11','PSEC11'];
+function ordenarCodigos(codes){return [...codes].sort((a,b)=>{const x=dadosFIIs[a]||{},y=dadosFIIs[b]||{};const dx=Number(x.preco)>0&&Number(x.dividendo)>=0?Number(x.dividendo)/Number(x.preco):-1;const dy=Number(y.preco)>0&&Number(y.dividendo)>=0?Number(y.dividendo)/Number(y.preco):-1;if(dx<0&&dy>=0)return 1;if(dy<0&&dx>=0)return -1;return dy-dx||a.localeCompare(b);});}
+function moeda(v){return v===null||v===undefined||v===''||!Number.isFinite(Number(v))?'—':Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function numero(v){return v===null||v===undefined||v===''||!Number.isFinite(Number(v))?'—':Number(v).toLocaleString('pt-BR',{maximumFractionDigits:4});}
+function percentual(v){return v===null||v===undefined||!Number.isFinite(Number(v))?'—':Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';}
+function dataBR(v){if(!v)return 'Não informada';const d=new Date(v);return Number.isNaN(d.getTime())?'Não informada':d.toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'});}
+function status(msg,tipo=''){ $('status').textContent=msg;$('status').className='status '+tipo; }
+function criarTabela(codigos=FIIS_PADRAO){$('tabelaFIIs').innerHTML=codigos.map(t=>`<tr><td class="ticker">${t}</td><td class="money" id="qtd-${t}">—</td><td class="money" id="preco-${t}">—</td><td class="money" id="pvp-${t}">—</td><td class="money" id="dividendo-${t}">—</td><td class="money" id="totaldiv-${t}">—</td><td class="money" id="dy-${t}">—</td></tr>`).join('');}
+function atualizarLinha(t){const x=dadosFIIs[t]||{};const el=id=>$(id+'-'+t);if(!el('preco'))return;el('qtd').textContent=numero(x.quantidade);el('preco').textContent=moeda(x.preco);el('pvp').textContent=x.pvp===null||x.pvp===undefined||!Number.isFinite(Number(x.pvp))?'—':Number(x.pvp).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'x';el('dividendo').textContent=moeda(x.dividendo);el('totaldiv').textContent=x.quantidade!==null&&x.quantidade!==undefined&&x.dividendo!==null&&x.dividendo!==undefined?moeda(Number(x.quantidade)*Number(x.dividendo)):'—';const e=el('dy');if(Number(x.preco)>0&&x.dividendo!==null&&x.dividendo!==undefined&&Number.isFinite(Number(x.dividendo))&&Number(x.dividendo)>=0){e.textContent=percentual(Number(x.dividendo)/Number(x.preco)*100);e.className='positive';}else{e.textContent='—';e.className='';}}
+function atualizarResumo(){const keys=Object.keys(dadosFIIs);$('totalFundos').textContent=keys.length;$('cotacoesRecebidas').textContent=keys.filter(t=>Number(dadosFIIs[t]?.preco)>0).length+'/'+keys.length;$('rendimentosRecebidos').textContent=keys.filter(t=>dadosFIIs[t]?.dividendo!==null&&dadosFIIs[t]?.dividendo!==undefined&&Number.isFinite(Number(dadosFIIs[t]?.dividendo))).length+'/'+keys.length;}
+function normalizar(row){return {quantidade:row.quantidade===null?null:Number(row.quantidade),preco:row.ultima_cotacao===null?null:Number(row.ultima_cotacao),pvp:row.p_vp===null||row.p_vp===undefined?null:Number(row.p_vp),dividendo:row.ultimo_dy===null?null:Number(row.ultimo_dy),atualizado:dataBR(row.data_atualizacao)};}
+function salvarCache(){try{localStorage.setItem(STORAGE_DATA,JSON.stringify({dados:dadosFIIs,salvoEm:new Date().toISOString()}));}catch(e){}}
+function carregarCache(){try{const c=JSON.parse(localStorage.getItem(STORAGE_DATA)||'null');if(c?.dados&&Object.keys(c.dados).length){dadosFIIs=c.dados;const codes=ordenarCodigos(Object.keys(dadosFIIs));criarTabela(codes);codes.forEach(atualizarLinha);atualizarResumo();if(c.salvoEm)$('horaAtualizacao').textContent=new Date(c.salvoEm).toLocaleTimeString('pt-BR');status('Exibindo os últimos dados salvos neste navegador enquanto consulta o banco…');}}catch(e){}}
+async function atualizarDados(){const b=$('refreshBtn');b.disabled=true;b.textContent='Conectando…';status('Buscando FIIs, cotações e últimos dividendos em carteira_ativos…');const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);try{const url=SUPABASE_URL+'/rest/v1/carteira_ativos?select=codigo,tipo,quantidade,ultima_cotacao,p_vp,ultimo_dy,data_atualizacao&order=codigo.asc';const r=await fetch(url,{method:'GET',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+SUPABASE_KEY,Accept:'application/json'},signal:controller.signal,cache:'no-store'});let body;try{body=await r.json();}catch{throw new Error('O banco retornou uma resposta inválida.');}if(!r.ok)throw new Error(body?.message||body?.hint||('Erro HTTP '+r.status));if(!Array.isArray(body))throw new Error('Formato de dados inesperado recebido do Supabase.');const novo={};for(const row of body){const codigo=String(row.codigo||'').trim().toUpperCase();const tipo=String(row.tipo||'').toLowerCase();if(!codigo)continue;if(!(tipo.includes('fii')||FIIS_PADRAO.includes(codigo)))continue;novo[codigo]=normalizar(row);}if(!Object.keys(novo).length)throw new Error('Nenhum FII encontrado em carteira_ativos. Verifique as permissões de leitura (RLS) da tabela.');dadosFIIs=novo;const codes=ordenarCodigos(Object.keys(dadosFIIs));criarTabela(codes);codes.forEach(atualizarLinha);atualizarResumo();const now=new Date();$('horaAtualizacao').textContent=now.toLocaleTimeString('pt-BR');salvarCache();status('Conectado: '+codes.length+' FIIs carregados de carteira_ativos. Cotação, quantidade e último dividendo por cota vêm do banco; o dividendo total e o DY são calculados no painel.','success');}catch(e){const msg=e.name==='AbortError'?'A consulta ao Supabase excedeu 12 segundos. Verifique a conexão ou as permissões de leitura (RLS).':e.message;status(msg,'error');if(!Object.keys(dadosFIIs).length)status(msg+' Nenhum dado em cache disponível.','error');}finally{clearTimeout(timeout);b.disabled=false;b.textContent='↻ Atualizar dados';}}
+$('refreshBtn').addEventListener('click',atualizarDados);
+criarTabela();carregarCache();atualizarDados();
+</script>
+</body>
+</html>
